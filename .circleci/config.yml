@@ -42,7 +42,7 @@ jobs: # 一連のステップ
             - ~/.cache/yarn
       - run:
           name: DBの待機
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+          command: sleep 30
       - run:
           name: DBのセットアップ
           command: bundle exec rails db:setup
