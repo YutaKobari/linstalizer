@@ -1,15 +1,56 @@
-version: 2.1
-orbs:
-  ruby: circleci/ruby@0.1.2
-
-jobs:
-  build:
-    docker:
-      - image: circleci/ruby:2.6.3-stretch-node
-    executor: ruby/default
-    steps:
-      - checkout
+version: 2
+jobs: # 一連のステップ
+  build: # ワークフローを使用しない実行では、エントリポイントとして `build` ジョブが必要です
+    working_directory: ~/linstalizer
+    docker: # Docker でステップを実行します
+      - image: rooterdev/rspec_ruby2.7.2
+        environment:
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          RAILS_ENV: test
+      - image: kazaoki/mariadb-mroonga:10.4
+        environment:
+          MYSQL_DATABASE: 'linstalizer_test'
+          MYSQL_PASSWORD: 'test'
+          MYSQL_ROOT_PASSWORD: 'test'
+    steps: # 実行可能コマンドの集合
+      - checkout # ソース コードを作業ディレクトリにチェックアウトする特別なステップ
+      - restore_cache:
+          keys:
+            - linstalizer-bundle-v1-{{ checksum "Gemfile.lock" }}
+            - linstalizer-bundle-v1-
       - run:
-          name: Which bundler?
-          command: bundle -v
-      - ruby/bundle-install
+          name: Bundlerをインストール
+          command: gem install bundler -v 2.1.4
+      - run:
+          name: Bundle Install
+          command: bundle check --path vendor/bundle || bundle install
+      - save_cache:
+          key: linstalizer-bundle-v1-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - restore_cache:
+          keys:
+            - linstalizer-yarn-{{ checksum "yarn.lock" }}
+            - linstalizer-yarn-
+      - run:
+          name: Yarn Install
+          command: yarn install --cache-folder ~/.cache/yarn
+      - save_cache:
+          key: linstalizer-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: DBの待機
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run:
+          name: DBのセットアップ
+          command: bundle exec rails db:setup
+      - run:
+          name: webpackerによるコンパイル実行
+          command: bundle exec rake webpacker:compile
+      - run:
+          name: RSpecの実行
+          command: bundle exec rspec
+      - store_test_results:
+          path: /tmp/test-results
