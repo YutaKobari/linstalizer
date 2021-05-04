@@ -45,12 +45,12 @@ jobs: # 一連のステップ
           command: sleep 30
       - run:
           name: DBのセットアップ
-          command: bundle exec rails db:setup
+          command: bundle exec rails db:setup DB_HOST=127.0.0.1
       - run:
           name: webpackerによるコンパイル実行
           command: bundle exec rake webpacker:compile
       - run:
           name: RSpecの実行
-          command: bundle exec rspec
+          command: DB_HOST=127.0.0.1 bundle exec rspec
       - store_test_results:
           path: /tmp/test-results
