@@ -1,0 +1,43 @@
+<%# ローカル変数 redirect_path, media(アカウント詳細画面時のみ渡す) %>
+<%= form_with url: redirect_path, method: :get do |form| %>
+  <%= hidden_field_tag :filter_form_open, true %>
+  <div class="container accordion mt-3" id="accordionExample">
+    <div class="card">
+      <div class="card-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="<%= @filter_form_open %>" aria-controls="collapseTwo">
+        <span class="d-inline-block px-4 h3 mb-0">絞り込みフォーム</span>
+      </div>
+        <%= content_tag(:div, id: 'collapseTwo', class: "collapse #{'show' if @filter_form_open}", aria: {labelledby: 'headingTwo'}, data: {parent: '#accordionExample'}) do %>
+        <div class="card-body">
+          <div class="row pr-4">
+            <div class="col pl-0">
+              <%= render "filter_elements/keyword", form: form %>
+              <%= render "filter_elements/account", form: form if controller.controller_name == 'posts' %>
+              <%= render "filter_elements/hashtag", form: form %>
+              <%= render "filter_elements/url",     form: form unless controller.controller_name == 'landing_pages'%>
+              <% if defined? media %>
+                <%= render "filter_elements/post_type", form: form, post_type_list: get_post_type_option_hash_by_media(media) %>
+              <% else %>
+                <%= render "filter_elements/post_type", form: form, post_type_list: get_post_type_option_hash_by_media(params[:media]) %>
+              <% end %>
+            </div>
+            <div class="col pl-0">
+              <%= render "filter_elements/posted_at", form: form %>
+              <%= render "filter_elements/media",   form: form, media_list: %w(LINE Instagram Twitter Facebook) unless controller.controller_name == 'accounts' %>
+              <%= render "filter_elements/market", form: form, market_list: fetch_market_list if controller.controller_name == 'posts' %>
+              <% if defined? media %>
+                <%= render "filter_elements/sort", form: form, sort_list: get_sort_option_hash_by_media(media) %>
+              <% else %>
+                <%= render "filter_elements/sort", form: form, sort_list: get_sort_option_hash_by_media(params[:media]) %>
+              <% end %>
+              <%= render "filter_elements/is_favorites", form: form if controller.controller_name == 'posts' %>
+            </div>
+          </div>
+          <div class="row px-4 justify-content-end">
+            <%= form.submit "絞り込み", class: "btn btn-primary btn-filter-form mr-3", name: nil %>
+          </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <%= javascript_pack_tag 'filter_form_dynamic_option' unless controller.controller_name == 'accounts' %>

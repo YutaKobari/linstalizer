@@ -1,0 +1,21 @@
+<%= render "filter_form"%>
+<div class="card">
+  <div class="table-responsive table-hover">
+    <table class="table align-items-center table-flash" style="table-layout: fixed;">
+      <thead>
+        <tr>
+          <th scope="col" style="width:15%">ブランド名</th>
+          <th scope="col" style="width:35%">サムネイル</th>
+          <th scope="col" style="width:20%">タイトル</th>
+          <th scope="col" style="width:20%">ディスクリプション</th>
+          <th scope="col" style="width:10%;">リンク元投稿数</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @landing_pages %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/pagination_link', records: @landing_pages %>

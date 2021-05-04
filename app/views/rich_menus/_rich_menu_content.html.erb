@@ -1,0 +1,16 @@
+<tr>
+  <td>
+    <div style="" class="overflow-auto text-center">
+      <div class="d-inline m-1">
+        <%= image_tag rich_menu_content.content_url || 'https://picsum.photos/250/250' , class: 'rounded' ,
+            style: 'max-height: 250px; max-width: 600px;' %>
+      </div>
+    </div>
+  </td>
+  <td>
+    <%= display_action rich_menu_content %>
+  </td>
+  <td>
+    <%= display_description rich_menu_content %>
+  </td>
+</tr>

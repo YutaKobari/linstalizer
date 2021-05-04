@@ -1,0 +1,39 @@
+<%# ローカル変数 content_array(talk_post_contentsの配列), carousel_hash(複数のカルーセルを区別するhash) %>
+<%#= javascript_pack_tag 'talk_posts/carousel_size_arrange' %>
+
+<div id='carouselIndicators<%= carousel_hash %>' class="carousel slide" data-ride="carousel">
+    <!-- 下部コントロール -->
+    <ol class="carousel-indicators bg-default opacity-7 rounded">
+        <% content_array.each_with_index do |content,index| %>
+            <%= content_tag(:li, '', data: {target: "#carouselIndicators#{ carousel_hash }", slide_to: index},class: (if index==0 then 'active' end)) %>
+        <% end %>
+    </ol>
+    <!-- カルーセル -->
+    <div class="carousel-inner">
+        <% content_array.each_with_index do |content,index| %>
+            <%= content_tag(:div,'',class: (if index==0 then 'carousel-item active' else 'carousel-item' end)) do%>
+                <div class="row">
+                    <!-- 左画像 -->
+                    <div class="col-6">
+                        <div class="card">
+                            <%= image_tag content.content_url||'https://picsum.photos/100/200', {class: "d-block w-100 card-img", style: ''}%>
+                        </div>
+                    </div>
+                    <!-- 右詳細 -->
+                    <div class="col-6">
+                        <%= render 'detail', content: content %>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+    <!-- サイドコントロール -->
+    <a class="carousel-control-prev rounded" href="#carouselIndicators<%= carousel_hash %>" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next rounded" href="#carouselIndicators<%= carousel_hash %>" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>

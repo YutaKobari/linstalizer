@@ -1,0 +1,21 @@
+<%= render "filter_form", redirect_path: posts_path %>
+<div class="card">
+  <div class="table-responsive table-hover">
+    <table class="table align-items-center", style="table-layout: fixed;" style="table-layout: fixed;">
+      <thead>
+        <tr>
+          <th scope="col" style="width:20%">アカウント名</th>
+          <th scope="col" style="width:10%">メディア</th>
+          <th scope="col" style="width:35%">コンテンツ</th>
+          <th scope="col" style="width:20%;">テキスト</th>
+          <th scope="col" style="width:15%">詳細情報</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @posts %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/pagination_link', records: @posts %>

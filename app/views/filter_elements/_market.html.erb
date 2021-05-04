@@ -1,0 +1,4 @@
+<div class="form-group row mx-0 d-flex align-items-center">
+  <%= form.label :market_id, '業種', class:"col-3 pr-2 filter_form_labels" %>
+  <%= form.select :market_id, options_for_select(market_list, selected: params[:market_id]), {include_blank:'全業種'}, class: 'col-9 form-control form-control-sm  filter_form_values' %>
+</div>

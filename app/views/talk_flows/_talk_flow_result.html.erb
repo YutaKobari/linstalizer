@@ -1,0 +1,17 @@
+<%# ローカル変数 talk_flow_results %>
+
+<hr class="m-3" id="talk_flow_result">
+<% talk_flow_results.each do |result| %>
+  <div class="card card-body card-text m-3">
+    <% case result.post_type %>
+    <% when 'text' %>
+    <%= result.text %>
+    <% when 'image' %>
+    <%= image_tag result.content_url||'' %>
+    <% when 'video' %>
+    <%= video_tag result.video_url, controls: true, autoplay: true, muted: true, preload: 'none' %>
+    <%# TODO: イメージマップ、カルーセルを追加する %>
+    <%# TODO: こういった場合分けの処理は基本的に各詳細で同一なため、ヘルパーなどにまとめるほうが良いが、レイアウトが確定しないとめんどう %>
+  <% end %>
+</div>
+<% end %>

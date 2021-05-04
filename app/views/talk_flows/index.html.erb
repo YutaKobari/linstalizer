@@ -1,0 +1,36 @@
+<div class="mt-3">
+  <div class="card card-body">
+    <h3 class="card-title mb-0"> <%= @rich_menu.brand.name %> </h3>
+  </div>
+</div>
+<div class="row mb-4 align-items-end"> <%#ToDo:レイアウトの修正。修正の際、align-items-endは消す。%>
+  <div class="col-lg-7">
+    <%= render 'rich_menus/account_card', rich_menu: @rich_menu %>
+     <div class="card">
+      <%= image_tag @rich_menu.content_url, class: 'card-img'%>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="card">
+      <%= image_tag @parent_rich_menu_content.content_url, class: 'card-img' %>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-lg-3"> </div>
+  <div class="col-lg-6">
+    <div class="card my-4 bg-talk">
+      <div class="card-header bg-default shadow">
+        <h3 class="text-white mb-0"><%= @account.name %></h3>
+      </div>
+      <div class="card-body">
+        <%#% 最初の選択肢 以下順に次の項目がネストしていく %>
+        <%= render 'talk_flow', talk_flow_box: @talk_flow_box %>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3"> </div>
+</div>
+
+<%= javascript_pack_tag 'talk_flows/flow_ajax' %>

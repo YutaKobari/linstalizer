@@ -1,0 +1,115 @@
+.d-flex .chart {
+  position: relative;
+  margin-bottom: 40px;
+  padding: 0;
+  width: 600px !important;
+  canvas {
+    width: 600px !important;
+    height: 300px !important;
+  }
+}
+
+.brandlift-row {
+  &-0 {
+    position: absolute;
+    top: 300px;
+    border-radius: 50%;
+    text-align: center;
+    width: 15px;
+    height: 15px;
+    white-space: nowrap;
+    span {
+      display: block;
+      font-weight: bold;
+      height: 100%;
+      width: 100%;
+      line-height: 15px;
+      margin-bottom: 5px;
+    }
+  }
+  &-1 {
+    position: absolute;
+    top: 323px;
+    border-radius: 50%;
+    text-align: center;
+    width: 15px;
+    height: 15px;
+    white-space: nowrap;
+    span {
+      font-weight: bold;
+      display: block;
+      height: 100%;
+      width: 100%;
+      line-height: 15px;
+    }
+  }
+  &-2 {
+    position: absolute;
+    top: 346px;
+    border-radius: 50%;
+    text-align: center;
+    min-width: 15px;
+    min-height: 15px;
+    max-width: 15px;
+    max-height: 15px;
+    white-space: nowrap;
+    span {
+      font-weight: bold;
+      display: block;
+      height: 100%;
+      width: 100%;
+      line-height: 15px;
+    }
+  }
+  &-3 {
+    position: absolute;
+    top: 369px;
+    border-radius: 50%;
+    text-align: center;
+    min-width: 15px;
+    min-height: 15px;
+    max-width: 15px;
+    max-height: 15px;
+    white-space: nowrap;
+    span {
+      font-weight: bold;
+      display: block;
+      height: 100%;
+      width: 100%;
+      line-height: 15px;
+    }
+  }
+}
+
+.LINE_circle_icon {
+  background-color: #2dce89;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  line-height: 15px;
+  padding: 0 2px;
+}
+.Instagram_circle_icon {
+  background-color: #fb6340;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  line-height: 15px;
+  padding: 0 2px;
+}
+.Twitter_circle_icon {
+  background-color: #11cdef;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  line-height: 15px;
+  padding: 0 2px;
+}
+.Facebook_circle_icon {
+  background-color: #5e72e4;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  line-height: 15px;
+  padding: 0 2px;
+}

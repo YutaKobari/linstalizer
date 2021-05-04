@@ -1,0 +1,32 @@
+<div class="row mt-3">
+  <div class="card card-body">
+    <h3 class="card-title mb-0"> <%= @rich_menu.brand.name %> </h3>
+  </div>
+</div>
+<div class="row mb-4">
+  <div class="col-lg-4">
+    <%= render 'account_card', rich_menu: @rich_menu %>
+  </div>
+  <div class="col-lg-8">
+    <div class="card">
+      <%= image_tag @rich_menu.content_url, class: 'card-img'%>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table align-items-center" style="table-layout: fixed;">
+      <thead>
+        <tr>
+          <th scope="col" style="width:60%">タイル</th>
+          <th scope="col" style="width:20%;">アクション</th>
+          <th scope="col" style="width:20%">詳細</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'rich_menu_content', collection: @rich_menu_contents %>
+      </tbody>
+    </table>
+  </div>
+</div>

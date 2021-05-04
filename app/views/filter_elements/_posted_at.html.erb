@@ -1,0 +1,28 @@
+<%= javascript_pack_tag 'datepicker_customize' %>
+
+<div class="form-group row mx-0 d-flex align-items-center">
+  <%= form.label :posted_at, "投稿日", class: "col-3 pr-2 filter_form_labels" %>
+  <div class="col-9 p-0", style="border: none;">
+    <div>
+      <button id="this_month_filter" class="btn btn-secondary btn-sm" type="button">今月</button>
+      <button id="30_days_filter" class="btn btn-secondary btn-sm" type="button">30日間</button>
+      <button id="one_week_filter" class="btn btn-secondary btn-sm" type="button">１週間</button>
+      <button id="three_days_filter" class="btn btn-secondary btn-sm" type="button">3日間</button>
+      <button id="yesterday_filter" class="btn btn-secondary btn-sm" type="button">昨日</button>
+    </div>
+  </div>
+</div>
+
+<div class="form-group row mx-0">
+  <div class="offset-3 col-9 p-0">
+    <div class="input-daterange datepicker filter_form_values row p-0 mt-0">
+      <div class="col-5 p-0">
+        <%= form.text_field :start_date, placeholder: '2021/02/01', class: "form-control form-control-sm filter_form_values", value: params[:start_date] %>
+      </div>
+      <div class="col-2 d-flex align-items-center justify-content-center">〜</div>
+      <div class="col-5 p-0">
+          <%= form.text_field :end_date, placeholder: '2021/03/31', class: "form-control form-control-sm filter_form_values", value: params[:end_date] %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<%# ローカル変数 redirect_path, brand, posts %>
+<%= render "/posts/filter_form", redirect_path: brand_path(brand.id, anchor: 'tab-navigation_brand') %>
+
+<div class="card">
+  <div class="table-responsive table-hover">
+    <table class="table align-items-center table-flash">
+      <thead>
+        <tr>
+          <th scope="col" style="width:10%">メディア</th>
+          <th scope="col" style="width:30%">コンテンツ</th>
+          <th scope="col" style="width:50%">テキスト</th>
+          <th scope="col" style="width:10%">詳細情報</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%= render posts %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/pagination_link', records: posts %>

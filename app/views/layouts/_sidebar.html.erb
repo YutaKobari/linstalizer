@@ -1,0 +1,178 @@
+<!-- Sidenav -->
+<nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+  <div class="scrollbar-inner">
+    <!-- Brand -->
+    <div class="sidenav-header  d-flex  align-items-center">
+      <a class="navbar-brand" href="./pages/dashboards/dashboard.html">
+        <%# <img src="/assets/img/brand/blue.png" class="navbar-brand-img" alt="..."> %>
+      </a>
+      <div class=" ml-auto ">
+        <!-- Sidenav toggler -->
+        <div class="sidenav-toggler d-none d-xl-block" data-action="sidenav-unpin" data-target="#sidenav-main">
+          <div class="sidenav-toggler-inner">
+            <i class="sidenav-toggler-line"></i>
+            <i class="sidenav-toggler-line"></i>
+            <i class="sidenav-toggler-line"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-inner">
+      <!-- Collapse -->
+      <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+        <!-- Nav items -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
+              <i class="fas fa-user-circle fa-fw fa-lg mr-3 text-warning"></i>
+              <span class="nav-link-text">アカウント検索</span>
+            </a>
+            <div class="collapse" id="navbar-dashboards">
+              <ul class="nav nav-sm flex-column">
+                <li class="nav-item">
+                  <a href="/accounts" class="nav-link">
+                    <span class="sidenav-mini-icon"> ALL </span>
+                    <span class="sidenav-normal"> 全メディア </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/accounts?media=LINE" class="nav-link">
+                    <span class="sidenav-mini-icon LINE_color"> L </span>
+                    <span class="sidenav-normal LINE_color"> LINE </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/accounts?media=Instagram" class="nav-link">
+                    <span class="sidenav-mini-icon Instagram_color"> I </span>
+                    <span class="sidenav-normal Instagram_color"> Instagram </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/accounts?media=Twitter" class="nav-link">
+                    <span class="sidenav-mini-icon Twitter_color"> T </span>
+                    <span class="sidenav-normal Twitter_color"> Twitter </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/accounts?media=Facebook" class="nav-link">
+                    <span class="sidenav-mini-icon Facebook_color"> F </span>
+                    <span class="sidenav-normal Facebook_color"> Facebook </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-examples">
+              <i class="fas fa-mail-bulk fa-fw fa-lg mr-3 text-success"></i>
+              <span class="nav-link-text">投稿検索</span>
+            </a>
+            <div class="collapse" id="navbar-examples">
+              <ul class="nav nav-sm flex-column">
+                <li class="nav-item">
+                  <a href="/posts" class="nav-link">
+                    <span class="sidenav-mini-icon"> ALL </span>
+                    <span class="sidenav-normal"> 全メディア </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/posts?media=LINE" class="nav-link">
+                    <span class="sidenav-mini-icon LINE_color"> L </span>
+                    <span class="sidenav-normal LINE_color"> LINE </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/posts?media=Instagram" class="nav-link">
+                    <span class="sidenav-mini-icon Instagram_color"> I </span>
+                    <span class="sidenav-normal Instagram_color"> Instagram </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/posts?media=Twitter" class="nav-link">
+                    <span class="sidenav-mini-icon Twitter_color"> T </span>
+                    <span class="sidenav-normal Twitter_color"> Twitter </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/posts?media=Facebook" class="nav-link">
+                    <span class="sidenav-mini-icon Facebook_color"> F </span>
+                    <span class="sidenav-normal Facebook_color"> Facebook </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#navbar-components" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-components">
+              <i class="fas fa-newspaper fa-fw fa-lg mr-3 text-warning"></i>
+              <span class="nav-link-text">LP検索</span>
+            </a>
+            <div class="collapse" id="navbar-components">
+              <ul class="nav nav-sm flex-column">
+                <li class="nav-item">
+                  <a href="/landing_pages" class="nav-link">
+                    <span class="sidenav-mini-icon"> <i class="far fa-images"></i> </span>
+                    <span class="sidenav-normal"> LP検索 </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#navbar-forms" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-forms">
+              <i class="fas fa-comments fa-fw fa-lg mr-3 LINE_color"></i>
+              <span class="nav-link-text">LINE投稿</span>
+            </a>
+            <div class="collapse" id="navbar-forms">
+              <ul class="nav nav-sm flex-column">
+                <li class="nav-item">
+                  <a href="/talk_posts" class="nav-link">
+                    <span class="sidenav-mini-icon"> <i class="fas fa-comment-dots"></i> </span>
+                    <span class="sidenav-normal"> トーク投稿検索 </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/rich_menus" class="nav-link">
+                    <span class="sidenav-mini-icon"> <i class="fas fa-table"></i> </span>
+                    <span class="sidenav-normal"> リッチメニュー検索 </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#navbar-hashtag" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-hashtag">
+              <i class="fas fa-hashtag fa-fw fa-lg mr-3 Instagram_color"></i>
+              <span class="nav-link-text">ハッシュタグ一覧</span>
+            </a>
+            <div class="collapse" id="navbar-hashtag">
+              <ul class="nav nav-sm flex-column">
+                <li class="nav-item">
+                  <a href="/hash_tags" class="nav-link">
+                    <span class="sidenav-mini-icon"> <i class="fas fa-hashtag"></i> </span>
+                    <span class="sidenav-normal"> ハッシュタグ一覧 </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <!-- Divider -->
+        <hr class="my-3">
+        <!-- Heading -->
+        <h6 class="navbar-heading p-0 text-muted">
+          <span class="docs-normal">Documentation</span>
+          <span class="docs-mini">D</span>
+        </h6>
+        <!-- Navigation -->
+        <ul class="navbar-nav mb-md-3">
+          <li class="nav-item">
+            <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard-pro/docs/foundation/colors.html" target="_blank">
+              <span class="nav-link-text">リリースノート</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

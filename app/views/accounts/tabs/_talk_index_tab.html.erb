@@ -1,0 +1,19 @@
+<%# ローカル変数 redirect_path, account, talk_post_contents %>
+<%= render "/talk_posts/filter_form", redirect_path: account_path(account.id, anchor: 'tab-navigation_account') %>
+<div class="card">
+  <div class="table-responsive table-hover">
+    <table class="table align-items-center table-flash" id="talk_content_table" style="table-layout: fixed;">
+      <thead>
+        <tr>
+          <th scope="col" style="width:85%">コンテンツ</th>
+          <th scope="col" style="width:15%">詳細情報</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render 'talk_posts/talk_post_content', talk_post_contents: talk_post_contents %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/pagination_link_in_tab', param_name: 'talk_post_page', records: talk_post_contents %>

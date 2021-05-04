@@ -1,0 +1,4 @@
+<div class="form-group row mx-0 d-flex align-items-center">
+  <%= form.label :sort, "並べ替え", class: "col-3 pr-2 filter_form_labels"%>
+  <%= form.select :sort, options_for_select(sort_list, selected: params[:sort]), {include_blank:'選択してください'},  class: 'col-9 form-control form-control-sm  filter_form_values' %>
+</div>

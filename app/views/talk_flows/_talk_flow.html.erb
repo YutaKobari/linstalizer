@@ -1,0 +1,18 @@
+<%# ローカル変数 talk_flow_box %>
+
+<div class="" id="flow-<%= talk_flow_box.id %>">
+  <%= display_talk_flow_box talk_flow_box %>
+</div>
+<div class="d-flex justify-content-around m-3">
+  <% talk_flow_box.talk_flow_options.each do |option| %>
+    <div>
+      <div class="card card-body talk-flow-option" style="cursor: pointer;" data-talk-flow-option-id = "<%= option.id%>">
+        <%= display_talk_flow_option option, talk_flow_box.box_type %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%# ここに次のTalkFlowBoxが描写される（ネスト） %>
+<div id="canvas-<%= talk_flow_box.id %>">
+</div>

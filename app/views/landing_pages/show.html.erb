@@ -1,0 +1,62 @@
+<div class="card my-3">
+    <div class="card-body">
+        <h2 class="mb-0"><%= @lp.brand_name %></h2>
+    </div>
+</div>
+
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-5">
+      <%= image_tag @lp.thumbnail_s3 || 'https://picsum.photos/250/250', class: 'card-img-top'  %>
+    </div>
+    <div class="col-md-7">
+      <div class="card-body">
+        <h3 class="card-title">詳細情報</h3>
+        <div class="card-text">
+            <dl>
+                <dt>タイトル</dt>
+                <dd><%= @lp.title %></dd>
+                <dt>ディスクリプション</dt>
+                <dd><%= @lp.description %></dd>
+                <dt>リンク元投稿数</dt>
+                <dd><%= @lp.posts.size.to_s(:delimited) %></dd>
+                <% if @lp.redirect_url&.include?('http') %>
+                <dt>URL</dt>
+                <dd><%= external_link_to @lp.redirect_url, @lp.redirect_url, class: 'external-link' %></dd>
+                <dt>
+                <% end %>
+                <% if @lp.landing_page_url&.include?('http') %>
+                <dt>URL(リダイレクト先)</dt>
+                <dd><%= external_link_to @lp.landing_page_url, @lp.landing_page_url, class: 'external-link' %></dd>
+                <dt>
+                <% end %>
+            </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="row">
+    <div class="card-body">
+      <%= render "/posts/filter_form", redirect_path: landing_page_path %>
+      <div class="table-responsive table-hover">
+        <table id="lp_posts_table" class="table align-items-center", style="table-layout: fixed;">
+          <thead>
+            <tr>
+              <th scope="col" style="width:20%">アカウント名</th>
+              <th scope="col" style="width:10%">メディア</th>
+              <th scope="col" style="width:35%">コンテンツ</th>
+              <th scope="col" style="width:20%;">テキスト</th>
+              <th scope="col" style="width:15%">詳細情報</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render @posts %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

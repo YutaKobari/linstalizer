@@ -1,0 +1,47 @@
+<!-- 詳細情報 -->
+
+<%# 引数として post を受け取る  %>
+<div class="card">
+  <div class="card-body">
+    <!-- Avatar -->
+    <%= link_to (image_tag post.account.icon_s3 || 'https://picsum.photos/250/250'), account_path(post.account), class: 'avatar avatar-lg rounded-circle mr-3 mb-3' %>
+    <div>
+      <dl>
+        <dt>アカウント名</dt>
+        <dd><%= post.account.name %></dd>
+        <dt>企業名</dt>
+        <dd><%= post.account.company.name %></dd>
+        <dt>メディア</dt>
+        <dd><%= link_to post.media, posts_path(media: post.media), class: "#{post.media}_btn btn btn-sm" %></dd>
+        <dt>投稿タイプ</dt>
+        <dd><%= display_post_type post.post_type, posts_path(post_type: post.post_type) %></dd>
+        <dt>いいね数</dt>
+        <dd><%= post.like_count %></dd>
+        <% if post.media=="Twitter" then %>
+        <dt>リツイート数</dt>
+        <dd><%= post.retweet_count %></dd>
+        <% end %>
+        <dt>投稿日時</dt>
+        <dd><%= l(post.posted_at) %></dd>
+        <% if post.redirect_url&.include?('http') %>
+        <dt>URL</dt>
+        <dd><%= external_link_to post.redirect_url, post.redirect_url, class: 'external-link' %></dd>
+        <% end %>
+        <% if post.landing_page_url&.include?('http') %>
+        <dt>URL(リダイレクト先)</dt>
+        <dd>
+          <%= external_link_to post.landing_page_url, post.landing_page_url, class: 'external-link' %>
+        </dd>
+        <% end %>
+        <% if post.hash_tags.present? %>
+        <dt>ハッシュタグ</dt>
+        <dd>
+          <% post.hash_tags.each do |hash_tag| %>
+          <%= external_link_to hash_tag.name, posts_path(search_hash_tag: hash_tag.name, media: hash_tag.media), {class: 'badge badge-pill badge-lg badge-primary my-1'} %>
+          <% end %>
+        </dd>
+        <% end %>
+      </dl>
+    </div>
+  </div>
+</div>

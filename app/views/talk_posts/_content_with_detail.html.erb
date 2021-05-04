@@ -1,0 +1,23 @@
+<%# ローカル変数 content(talk_post_content) %>
+<div class="row">
+    <!-- 左画像 -->
+    <div class="col-6">
+        <div class="card bg-lighter">
+            <% if content.post_type == 'video' %>
+                <video controls class="card-img d-block w-100">
+                    <source src="<%= content.video_url %>" type="video/mp4">
+                </video>
+            <% elsif content.post_type == 'text' %>
+                <div class="card-body text-default">
+                    <%== text_url_to_link simple_format content.text %>
+                </div>
+            <% else %>
+                <%= image_tag content.content_url||'https://picsum.photos/100/200', {class: "d-block w-100 card-img", style: ''}%>
+            <% end %>
+        </div>
+    </div>
+    <!-- 右詳細 -->
+    <div class="col-6">
+        <%= render 'detail', content: content %>
+    </div>
+</div>

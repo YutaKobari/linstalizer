@@ -1,0 +1,47 @@
+<div class="container accordion">
+  <div class="row hour-heatmap-wrapper">
+    <div class="col-1 hours-wrapper">
+      <% 25.times do |n| %>
+        <div class="hour"><span><%= n %>:00</span></div>
+      <% end %>
+    </div>
+    <div class="col-11 heatmap-wrapper">
+      <table cellpadding="0" cellspacing="0" border="0" class="heatmap-tbl">
+        <thead>
+        <tr>
+          <th class="th-first"></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th><th>日</th>
+        </tr>
+        </thead>
+        <tbody>
+          <% 24.times do |n| %>
+            <tr>
+              <td class="stats-title"></td>
+              <% 7.times do |i|%>
+                <% data = heatmap.post_data_per_hour(day: i, hour: n) %>
+                <% sum_post_count = data&.pop || 0 %>
+                <td
+                  class="hour-<%= n %> day-<%= i %> heatmap-td
+                  <%= bg_color_by_value(sum_post_count, heatmap.max_post_count_per_hour)%> ">
+                  <% if data %>
+                    <% data.each do |d| %>
+                      <%= link_to append_modal_path(day: i, hour: n, media: d[:media], post_type: d[:post_type], posted_on: d[:posted_on], brand_id: @brand.id),
+                                  method: :post, remote: true do %>
+                        <%= post_type_icon(d[:post_type], d[:media])%> <%= d[:post_count] %>
+                      <% end %>
+                    <% end %>
+                    
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%# モーダルを表示するためのボタン、append_modal.js.erbでクリックしている %>
+<span hidden data-toggle='modal' data-target='#heatmap-modal' id="modal-open"></span>
+<div class="modal fade" id="heatmap-modal" tabindex="-1" role="dialog" aria-labelledby="heatmap-modal-label" aria-hidden="true">
+</div>

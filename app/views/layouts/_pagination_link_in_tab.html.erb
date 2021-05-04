@@ -1,0 +1,16 @@
+<%# ローカル変数 param_name を指定してタブ毎に別のページ番号を保持する %>
+<nav aria-label="Page navigation">
+    <ul class="pagination pagination-lg justify-content-center">
+        <li class="page-item">
+            <%= link_to_prev_page records, content_tag(:i, '' , class: 'fa fa-angle-left' ),{class: 'page-link' , params:
+                params, param_name: param_name } %>
+        </li>
+        <li class="page-item active">
+            <%= link_to records.current_page, '#' , class: 'page-link' %>
+        </li>
+        <li class="page-item">
+            <%= link_to_next_page records, content_tag(:i, '' , class: 'fa fa-angle-right' ),{class: 'page-link' ,
+                params: params, param_name: param_name} %>
+        </li>
+    </ul>
+</nav>

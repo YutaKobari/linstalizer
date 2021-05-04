@@ -1,0 +1,25 @@
+<div class="form-group row py-1">
+  <%= form.label :instagram, "Instagram", class: "col-3 col-form-label sns_labels" %>
+  <div class="col-9 d-flex align-items-center">
+    <div class="form-check">
+      <input class="form-check-input Instagram-checkall" type="checkbox">
+      <label class="form-check-label" for="check1a">全選択</label>
+    </div>
+
+    <% post_type_selected = params[:media_post_types]&.include?("Instagram-feed") %>
+    <div class='btn btn-outline-primary btn-sns-form Instagram-feed Instagram-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+      <input type="checkbox" name="media_post_types[]" value='Instagram-feed' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
+      フィード
+    </div>
+    <% post_type_selected = params[:media_post_types]&.include?("Instagram-reel") %>
+    <div class='btn btn-outline-primary btn-sns-form Instagram-reel Instagram-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+      <input type="checkbox" name="media_post_types[]" value='Instagram-reel' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
+      リール
+    </div>
+    <% post_type_selected = params[:media_post_types]&.include?("Instagram-story") %>
+    <div class='btn btn-outline-primary btn-sns-form Instagram-story Instagram-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+      <input type="checkbox" name="media_post_types[]" value='Instagram-story' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
+      ストーリー
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title><%= @title || "SNSクロール" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <link href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" rel="stylesheet"> <%#asset_pipelineでfont_awesome(all.min.css)を読み込むとargon.css内のfont指定が適用されないため、冗長だがここでも読み込んでいる。できれば消したい。%>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+  </head>
+
+  <body>
+    <% if current_user %>
+      <%= render 'layouts/sidebar' %>
+      <div class="main-content" id="panel">
+        <%= render 'layouts/header' %>
+        <%= render 'layouts/flash_messages' %>
+        <div class="container-fluid">
+          <%= yield %>
+        </div>
+      </div>
+    <% else %>
+      <%= render 'layouts/flash_messages' %>
+      <%= yield %>
+    <% end %>
+    <%= javascript_pack_tag 'application' %>
+  </body>
+</html>

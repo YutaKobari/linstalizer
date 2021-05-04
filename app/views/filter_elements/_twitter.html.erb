@@ -1,0 +1,25 @@
+<div class="form-group row py-1">
+  <%= form.label :twitter, "Twitter", class: "col-3 col-form-label sns_labels" %>
+  <div class="col-9 d-flex align-items-center">
+    <div class="form-check">
+      <input class="form-check-input Twitter-checkall" type="checkbox">
+      <label class="form-check-label" for="check1a">全選択</label>
+    </div>
+
+    <% post_type_selected = params[:media_post_types]&.include?("Twitter-tweet") %>
+    <div class='btn btn-outline-primary btn-sns-form Twitter-tweet Twitter-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+      <input type="checkbox" name="media_post_types[]" value='Twitter-tweet' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
+      ツイート
+    </div>
+    <% post_type_selected = params[:media_post_types]&.include?("Twitter-retweet") %>
+    <div class='btn btn-outline-primary btn-sns-form Twitter-retweet Twitter-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+      <input type="checkbox" name="media_post_types[]" value='Twitter-retweet' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
+      リツイート
+    </div>
+    <% post_type_selected = params[:media_post_types]&.include?("Twitter-fleet") %>
+    <div class='btn btn-outline-primary btn-sns-form Twitter-fleet Twitter-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+      <input type="checkbox" name="media_post_types[]" value='Twitter-fleet' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
+      フリート
+    </div>
+  </div>
+</div>

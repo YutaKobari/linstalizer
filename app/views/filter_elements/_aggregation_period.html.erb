@@ -1,0 +1,25 @@
+<%= javascript_pack_tag 'datepicker_customize' %>
+
+<div class="form-group row mx-0 d-flex align-items-center">
+  <%= form.label :aggregation_period, "集計期間", class: "col-3 pr-2 filter_form_labels" %>
+  <div class="col-9 p-0", style="border: none;">
+    <div>
+      <button id="all_periods_aggregation" class="btn btn-secondary btn-sm" type="button">全期間</button>
+      <button id="one_week_aggregation" class="btn btn-secondary btn-sm" type="button">１週間</button>
+    </div>
+  </div>
+</div>
+
+<div class="form-group row mx-0">
+  <div class="offset-3 col-9 p-0">
+    <div class="input-daterange datepicker filter_form_values row p-0 mt-0">
+      <div class="col-5 p-0">
+        <%= form.text_field :aggregated_from, placeholder: "2021/02/01",  class: "form-control form-control-sm filter_form_values", value: params[:aggregated_from] %>
+      </div>
+      <div class="col-2 d-flex align-items-center justify-content-center">〜</div>
+      <div class="col-5 p-0">
+          <%= form.text_field :aggregated_to, placeholder: "2021/03/31",  class: "form-control form-control-sm filter_form_values", value: params[:aggregated_to] %>
+      </div>
+    </div>
+  </div>
+</div>

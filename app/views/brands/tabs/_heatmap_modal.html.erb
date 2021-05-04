@@ -1,0 +1,55 @@
+<!-- Modal -->
+<div class="modal-dialog modal-dialog-centered modal-dialog-fluid" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <% if posts.model_name.human == "Post" %>
+          <div class="table-responsive table-hover">
+            <table class="table align-items-center table-flash">
+              <thead>
+                <tr>
+                  <th scope="col" style="width:10%">メディア</th>
+                  <th scope="col" style="width:30%">コンテンツ</th>
+                  <th scope="col" style="width:50%">テキスト</th>
+                  <th scope="col" style="width:10%">詳細情報</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= render posts %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <% elsif posts.model_name.human == "Talk post" %>
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table align-items-center table-hover" style="table-layout: fixed;">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width:25%">アカウント</th>
+                    <th scope="col" style="width:60%;">コンテンツ</th>
+                    <th scope="col" style="width:15%">投稿日時</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                  <% posts.each do |talk_post| %>
+                    <% talk_post_contents = talk_post.talk_post_contents.group(:talk_group_hash) %>
+                    <%= render 'talk_posts/talk_post_content', talk_post_contents: talk_post_contents %>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% end %>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<!-- 投稿アカウント・企業名 -->
+<%# ローカル変数 talk_post %>
+<div class="card card-body">
+  <!-- Avatar -->
+  <%= link_to (image_tag talk_post.account.icon_s3 || 'https://picsum.photos/250/250'), account_path(talk_post.account), class: 'avatar avatar-lg rounded-circle mr-3 mb-3' %>
+  <div>
+    <dt>アカウント名</dt>
+    <dd>
+      <%= link_to talk_post.account.name, account_path(talk_post.account), class: "h-4" %>
+    </dd>
+    <dt>企業名</dt>
+    <dd>
+      <%= talk_post.account.company.name %>
+    </dd>
+    <dt>投稿日時</dt>
+    <dd>
+      <%= l talk_post.posted_at %>
+    </dd>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<!-- 投稿アカウント・企業名 -->
+<%# ローカル変数 rich_menu %>
+<div class="card card-body">
+  <!-- Avatar -->
+  <%= link_to (image_tag rich_menu.account.icon_s3 || 'https://picsum.photos/250/250'), account_path(rich_menu.account), class: 'avatar avatar-lg rounded-circle mr-3 mb-3' %>
+  <div>
+    <dt>アカウント名</dt>
+    <dd>
+      <%= link_to rich_menu.account.name, account_path(rich_menu.account), class: "h-4" %>
+    </dd>
+    <dt>企業名</dt>
+    <dd>
+      <%= rich_menu.account.company.name %>
+    </dd>
+    <dt>表示期間</dt>
+    <dd>
+        <%= display_rich_menu_term rich_menu, has_title: false %>
+    </dd>
+  </div>
+</div>

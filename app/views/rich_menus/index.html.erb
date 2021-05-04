@@ -1,0 +1,19 @@
+<%= render "filter_form", redirect_path: rich_menus_path %>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table align-items-center table-hover" style="table-layout: fixed;">
+      <thead>
+        <tr>
+          <th scope="col" style="width:25%">アカウント</th>
+          <th scope="col" style="width:45%;">リッチメニュー</th>
+          <th scope="col" style="width:30%">表示期間</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @rich_menus %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/pagination_link', records: @rich_menus %>

@@ -1,0 +1,19 @@
+<%# ローカル変数 redirect_path, account, rich_menus %>
+<%= render "/rich_menus/filter_form", redirect_path: account_path(account.id, anchor: 'tab-navigation_account'), media: account.media %>
+<div class="card">
+  <div class="table-responsive table-hover">
+    <table class="table align-items-center table-flash" id="richmenu_table" style="table-layout: fixed;" >
+      <thead>
+        <tr>
+          <th scope="col">リッチメニュー</th>
+          <th scope="col">表示期間</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'rich_menus/rich_menu', collection: rich_menus %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/pagination_link_in_tab', records: rich_menus, param_name: :rich_menu_page %>

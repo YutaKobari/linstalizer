@@ -1,0 +1,25 @@
+<div class="form-group row py-1">
+  <%= form.label :line, "LINE", class: "col-3 col-form-label sns_labels" %>
+  <div class="col-9 d-flex align-items-center">
+    <div class="form-check">
+      <input class="form-check-input LINE-checkall" type="checkbox">
+      <label class="form-check-label" for="check1a">全選択</label>
+    </div>
+
+    <% post_type_selected = params[:media_post_types]&.include?("LINE-normal_post") %>
+    <div class='btn btn-outline-primary btn-sns-form LINE-normal_post LINE-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+      <input type="checkbox" name="media_post_types[]" value='LINE-normal_post' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
+      投稿
+    </div>
+    <% post_type_selected = params[:media_post_types]&.include?("LINE-talk_post") %>
+    <div class='btn btn-outline-primary btn-sns-form LINE-talk_post LINE-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+      <input type="checkbox" name="media_post_types[]" value='LINE-talk_post' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
+      トーク投稿
+    </div>
+    <% post_type_selected = params[:media_post_types]&.include?("LINE-story") %>
+    <div class='btn btn-outline-primary btn-sns-form LINE-story LINE-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+      <input type="checkbox" name="media_post_types[]" value='LINE-story' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
+      ストーリー
+    </div>
+  </div>
+</div>

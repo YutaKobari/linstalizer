@@ -1,0 +1,28 @@
+<div class="form-group row mx-0 d-flex align-items-center">
+  <%= form.label :aggregation_period, "集計期間", class: "col-3 pr-2 filter_form_labels" %>
+  <div class="offset-1 col-7 p-0", style="border: none;">
+    <div class="">
+      <button id="all_periods_aggregation" class="btn btn-secondary btn-sm" type="button">全期間</button>
+      <button id="last_month_aggregation" class="btn btn-secondary btn-sm" type="button">先月</button>
+      <button id="this_month_aggregation" class="btn btn-secondary btn-sm" type="button">今月</button>
+      <button id="thirty_days_aggregation" class="btn btn-secondary btn-sm" type="button">30日間</button>
+      <button id="last_week_aggregation" class="btn btn-secondary btn-sm" type="button">先週</button>
+      <button id="one_week_aggregation" class="btn btn-secondary btn-sm" type="button">1週間</button>
+      <button id="this_week_aggregation" class="btn btn-secondary btn-sm" type="button">今週</button>
+    </div>
+  </div>
+</div>
+
+<div class="form-group row mx-0">
+  <div class="offset-4 col-9 p-0">
+    <div class="input-daterange datepicker filter_form_values row p-0 mt-0">
+      <div class="col-3 p-0">
+        <%= form.text_field :aggregated_from, value: params[:aggregated_from] || Date.today.beginning_of_month.strftime("%Y/%m/%d"),  class: "form-control form-control-sm filter_form_values" %>
+      </div>
+      <div class="col-2 d-flex align-items-center justify-content-center">〜</div>
+      <div class="col-3 p-0">
+          <%= form.text_field :aggregated_to, value: params[:aggregated_to] || Date.today.strftime("%Y/%m/%d") ,  class: "form-control form-control-sm filter_form_values" %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,134 @@
+heatmap-wrapper {
+  padding-left: 5px;
+}
+
+.heatmap-tbl {
+  margin: 0 auto 20px auto; 
+  width: 100%;
+  height: 900px;
+  margin-top:15px;
+}
+
+.heatmap-tbl thead {
+  border-top: none;
+}
+
+.heatmap-tbl tr th:not(.th-first) {
+  padding-top: 3px;
+  padding-right: 7px;
+  padding-left: 7px;
+  border-right: 1px solid #ccc; 
+  border-bottom: 1px solid #ccc; 
+  border-top: 1px solid #fff; 
+  text-shadow: 0 1px 0 #fff; 
+  font: bold 11px Arial, sans-serif; 
+  text-transform: uppercase; 
+  color: #000;
+  background-color: #F1F1F1;
+  background-image: -moz-linear-gradient(center top , #F9F9F9, #ECECEC);
+  margin-bottom: 0;
+  height: 36px;
+}
+
+.heatmap-tbl tr td:not(.stats-title) {
+  padding-top: 3px;
+  padding-right: 7px;
+  padding-left: 7px;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  text-align: right; 
+  color: #000; 
+  font-size: 11px;
+  height: 36px;
+  width: 165px;
+}
+
+.heatmap-tbl th.th-first {
+  background-color: #F8F9FE;
+  border: none;
+  width: 0;
+}
+
+.heatmap-tbl td.stats-title {
+  background-color: #F8F9FE;
+  border: none;
+  width:1px !important;
+  height:0;
+  padding: 0;
+  margin: 0;
+}
+
+.hours-wrapper {
+  margin-bottom: 19px;
+  padding-right: 0;
+}
+
+.hours-wrapper .hour {
+  height: 36px;
+  font-size: 11px;
+  position: relative;
+}
+
+.hours-wrapper .hour:first-child {
+  margin-top: 22.3px;
+  height: 36px;
+  font-size: 11px;
+}
+
+.hours-wrapper .hour span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+//ヒートマップの色分け 1~10 薄い~濃い
+td.post_count_1 {
+  background-color: rgba(210,255,255,0.6);
+}
+
+td.post_count_2 {
+  background-color: rgba(190,235,255,0.6)
+}
+
+td.post_count_3 {
+  background-color: rgba(170,215,255,0.6)
+}
+
+td.post_count_4 {
+  background-color: rgba(150,195,255,0.6)
+}
+
+td.post_count_5 {
+  background-color: rgba(130,175,255,0.6);
+}
+
+td.post_count_6 {
+  background-color: rgba(110,155,255,0.6);
+}
+
+td.post_count_7 {
+  background-color: rgba(90,135,255,0.6);
+}
+
+td.post_count_8 {
+  background-color: rgba(70,115,255,0.6);
+}
+
+td.post_count_9 {
+  background-color: rgba(50,95,255,0.6);
+}
+
+td.post_count_10 {
+  background-color: rgba(30,75,255,0.6);
+}
+
+/* モーダル */
+
+.modal-body {
+  padding: 0;
+}
+
+.modal-dialog-fluid {
+  max-width: inherit;
+  width: 90%;
+}

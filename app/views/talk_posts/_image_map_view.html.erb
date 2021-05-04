@@ -1,0 +1,14 @@
+<%# ローカル変数 content_array(talk_post_contentsの配列), carousel_hash(複数のカルーセルを区別するhash) %>
+<% image_map = content_array&.first %>
+<% image_map_items = content_array[1..-1] %>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <%= image_tag image_map.content_url ||'https://picsum.photos/100/200', class: 'card-img' %>
+        </div>
+    </div>
+    <div class="col-lg-6">
+       <%= render 'carousel_contains_detail_vertical', content_array: image_map_items, carousel_hash: carousel_hash %>
+    </div>
+</div>

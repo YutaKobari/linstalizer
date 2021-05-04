@@ -1,0 +1,33 @@
+<%= content_tag(:tr,'',onclick: "window.open('#{posts_path(search_hash_tag: hash_tag.name, start_date: @aggregated_from, end_date: @aggregated_to, media: hash_tag.media)}');",style: 'cursor: pointer') do %>
+<td class="text-center">
+  <span><%= link_to hash_tag.media, hash_tags_path(media: hash_tag.media), class: "#{hash_tag.media}_btn btn btn-sm mb-2" %></span>
+  <p><%= hash_tag.name %></p>
+</td>
+
+<td>
+  <div style="overflow-x: scroll;">
+    <% tagged_posts = hash_tag.fetch_tagged_posts(@aggregated_from, @aggregated_to) %>
+    <% tagged_posts.each do |post| %>
+    <div class="d-inline-block m-1">
+      <div class="position-relative">
+        <%= display_thumbnail_link post %>
+        <% if post.is_img == 0 %> <%# FIXME: 投稿タイプのハードコーディング %>
+        <i class="position-absolute m-1 fas fa-play-circle badge badge-warning opacity-8"
+          style="font-size: 2rem; top: 0; left: 0;"></i>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</td>
+
+<td class="text-center">
+  <%= hash_tag.post_increment.to_s(:delimited) %>
+</td>
+
+<td class="text-center">
+  <%= hash_tag.total_reaction_increment.to_s(:delimited) %>
+</td>
+<% end %>
+
+<%= javascript_pack_tag 'table_link_stop_propagation' %>

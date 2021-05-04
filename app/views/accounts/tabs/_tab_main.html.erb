@@ -1,0 +1,34 @@
+<%# ローカル変数 account, post, talk_posts, rich_menus が必要 %>
+<%# LINE以外の場合について %>
+<% current_tab = params[:current_tab] #現在のタブをURLから取得する。パラムが存在しないか空ならデフォルトの動作 %>
+
+<div class="nav-wrapper" id="tab-navigation_account" >
+  <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link mb-sm-3 mb-md-0 <%= current_tab.nil? ? 'active' : ''%>" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true">タイムライン</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link mb-sm-3 mb-md-0 <%= current_tab == 'talk' ? 'active' : ''%>" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false">トーク</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link mb-sm-3 mb-md-0 <%= current_tab == 'rich_menu' ? 'active' : ''%>" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false">リッチメニュー</a>
+    </li>
+  </ul>
+</div>
+
+<div class="card shadow">
+  <div class="card-body">
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade <%= current_tab.nil? ? 'active show' : ''%>" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+        <%= render 'accounts/tabs/post_index_tab', account: account, posts: posts %>
+      </div>
+      <div class="tab-pane fade <%= current_tab == 'talk' ? 'active show' : ''%>" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+        <%= render 'accounts/tabs/talk_index_tab', account: account, talk_post_contents: talk_post_contents %>
+      </div>
+      <div class="tab-pane fade <%= current_tab == 'rich_menu' ? 'active show' : ''%>" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
+        <%= render 'accounts/tabs/rich_menu_index_tab', account: account, rich_menus: rich_menus %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= javascript_pack_tag 'accounts/tab_controll' %>

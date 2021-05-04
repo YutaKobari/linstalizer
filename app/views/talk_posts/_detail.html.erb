@@ -1,0 +1,19 @@
+<%# content (talk_post_content) %>
+<div class="card card-body">
+    <dt>投稿タイプ</dt>
+    <dd>
+        <%= display_talk_post_type content.post_type, talk_posts_path(post_type: content.post_type) %>
+    </dd>
+    <% if content.redirect_url&.include?('http') %>
+    <dt>URL</dt>
+    <dd>
+        <%= external_link_to content.redirect_url, content.redirect_url, class: 'external-link' %>
+    </dd>
+    <% end %>
+    <% if content.landing_page_url&.include?('http') %>
+    <dt>URL(リダイレクト先)</dt>
+    <dd>
+        <%= external_link_to content.landing_page_url, content.landing_page_url, class: 'external-link' %>
+    </dd>
+    <% end %>
+</div>

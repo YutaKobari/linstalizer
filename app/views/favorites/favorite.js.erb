@@ -1,0 +1,1 @@
+document.getElementById('favorite_<%= @account.id %>').innerHTML = "<%= j(render 'accounts/favorite_button', account: @account, is_account_show: @is_account_show) %>";

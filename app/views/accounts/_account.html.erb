@@ -1,0 +1,62 @@
+<tr>
+  <td class="favorite_link">
+    <%= render "favorite_button", account: account, is_account_show: 'false' %>
+  </td>
+
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
+    <%= link_to account.media, accounts_path(media: account.media), class: "#{account.media}_btn btn btn-sm" %>
+  <% end %>
+
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
+    <div class="row">
+      <div class="col-12 text-center">
+        <span class="avatar rounded-circle">
+          <%= image_tag account.icon_s3 || 'https://picsum.photos/250/250' %>
+        </span>
+      </div>
+      <div class="col-12 text-center">
+        <%= content_tag :span, account.name, class: "name text-sm", style: "white-space: normal;" %></div>
+    </div>
+  <% end %>
+
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
+    <%= external_link_to account.brand.name, brand_path(account.brand), class: "name text-sm", style: "white-space: normal;"%>
+  <% end %>
+
+  <%#業種%>
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
+    <%= link_to account.brand.market&.name, accounts_path(market_id: account.brand.market_id), class: "btn btn-sm btn-secondary" %>
+  <% end %>
+
+  <%#企業名%>
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
+    <%= content_tag :p, account.brand.company.name, class: "name text-sm", style: "white-space: normal; display: inline-block; margin:auto;" %>
+  <% end %>
+
+  <%#最新投稿日%>
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');" ,style: 'cursor: pointer;') do %>
+    <%= l(account.max_posted_at, format: :long) if account.max_posted_at %>
+  <% end %>
+
+  <%#投稿数%>
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
+    <%= account.post_increment.present? ? account.post_increment.to_s(:delimited) : '-' %>
+  <% end %>
+
+  <%#反応数%>
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
+    <%= account.total_reaction_increment.present? ? account.total_reaction_increment.to_s(:delimited) : '-' %>
+  <% end %>
+
+  <%#フォロワー増数%>
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
+    <%= account.follower_increment.present? ? account.follower_increment.to_s(:delimited)  : '-'%>
+  <% end %>
+
+  <%#フォロワー増加率%>
+  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
+    <%= "#{account.follower_increment_rate}%" %>
+  <% end %>
+</tr>
+
+<%= javascript_pack_tag 'table_link_stop_propagation' %>

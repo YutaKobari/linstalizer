@@ -1,0 +1,32 @@
+<%# ローカル変数 redirect_path %>
+<%= form_with url: redirect_path, method: :get do |form| %>
+  <%= hidden_field_tag :filter_form_open, true %>
+  <div class="container accordion mt-3" id="accordionExample">
+    <div class="card">
+      <div class="card-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="<%= @filter_form_open %>" aria-controls="collapseTwo">
+        <span class="d-inline-block mb-0 px-4 h3">絞り込みフォーム</span>
+      </div>
+      <%= content_tag(:div, id: 'collapseTwo', class: "collapse #{'show' if @filter_form_open}", aria: {labelledby: 'headingTwo'}, data: {parent: '#accordionExample'}) do %>
+        <div class="card-body">
+          <div class="row pr-4 py-2">
+            <div class="col pl-0">
+              <%= render "filter_elements/keyword" , form: form %>
+              <%= render "filter_elements/account", form: form if controller.controller_name == 'talk_posts' %>
+              <%= render "filter_elements/url", form: form %>
+              <%= render "filter_elements/post_type", form: form, post_type_list: get_talk_post_type_option_hash %><%# TODO: talk_post_helperとで表記を統一する必要、どこかに一般化する。 %>
+            </div>
+            <div class="col pl-0">
+              <%= render "filter_elements/talk_posted_at", form: form %>
+              <%= render "filter_elements/market", form: form, market_list: fetch_market_list if controller.controller_name == 'talk_posts' %>
+              <%= render "filter_elements/is_favorites", form: form %>
+            </div>
+          </div>
+          <div class="row px-4 justify-content-end">
+            <%= form.submit "絞り込み", class: "btn btn-primary btn-filter-form mr-3", name: nil %>
+          </div>
+        </div>
+        </div>
+        <% end %>
+    </div>
+    <%= hidden_field_tag :current_tab, 'talk' if controller.controller_name == 'accounts' %>
+  <% end %>

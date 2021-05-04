@@ -1,0 +1,2 @@
+class TalkFlowResult < ApplicationRecord
+end

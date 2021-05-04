@@ -1,0 +1,23 @@
+<div class="m-5">
+  <ul class="nav nav-pills nav-fill justify-content-start">
+    <span class="text-left h1"><%= @brand.name %></span>
+    <span class="badge badge-default h-25 m-2"><%= @brand.market.name %> </span>
+    <% @brand.accounts.each do |account| %>
+    <li>
+      <%= link_to account.media, account_path(account), class:"btn-sns-form nav-link text-center #{account.media}_color" %>
+    </li>
+    <% end %>
+    <li>
+      <%= link_to 'ブランド分析', '#', class:"btn-sns-form nav-link text-center active" %>
+    </li>
+  </ul>
+</div>
+
+<div class="card">
+  <%= render 'filter_elements/month', { graph_title: 'ブランドリフト', controller: "brand", graph_name: "brandlift" } %>
+  <div class="card-body" style="padding-bottom: 40px;">
+    <%= render 'brand_lift', brand: @brand, brandlift_per_date: @brandlift_per_date %>
+  </div>
+</div>
+
+<%= render 'brands/tabs/tab_main', brand: @brand, posts: @posts %>

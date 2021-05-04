@@ -1,0 +1,57 @@
+<div class="d-flex justify-content-around">
+  <div class="chart chart1">
+    <canvas id="google_trend_chart" class="chart-canvas"></canvas>
+    <% brand.brandlift_per_date(params[:brandlift_month], 2).map{|d| d[:date]}.each.with_index do |date, n|%>
+      <% 4.times do |index| %>
+        <div class="<%= "ch1-column#{n}-row#{index}"%> <%= "brandlift-row-#{index}" %>">
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="chart chart2">
+    <canvas id="line_friends_chart" class="chart-canvas"></canvas>
+    <% brand.brandlift_per_date(params[:brandlift_month], 2).map{|d| d[:date]}.each.with_index do |date, n|%>
+      <% 4.times do |index| %>
+        <div class="<%= "ch2-column#{n}-row#{index}"%> <%= "brandlift-row-#{index}" %>">
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<div class="d-flex justify-content-around">
+  <div class="chart chart3">
+    <canvas id="youtube_hits_chart" class="chart-canvas"></canvas>
+    <% brand.brandlift_per_date(params[:brandlift_month], 2).map{|d| d[:date]}.each.with_index do |date, n|%>
+      <% 4.times do |index| %>
+        <div class="<%= "ch3-column#{n}-row#{index}"%> <%= "brandlift-row-#{index}" %>">
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="chart chart4">
+    <canvas id="insta_followers_chart" class="chart-canvas"></canvas>
+    <% brand.brandlift_per_date(params[:brandlift_month], 2).map{|d| d[:date]}.each.with_index do |date, n|%>
+      <% 4.times do |index| %>
+        <div class="<%= "ch4-column#{n}-row#{index}"%> <%= "brandlift-row-#{index}" %>">
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<%# グラフのデータ %>
+<div id="google_trend_data"    data-google_trend_data=   "<%= brand.brandlift_per_date(params[:brandlift_month], 2).to_json %>"></div>
+<div id="line_friends_data"    data-line_friends_data=   "<%= brand.brandlift_per_date(params[:brandlift_month], 4).to_json %>"></div>
+<div id="youtube_hits_data"    data-youtube_hits_data=   "<%= brand.brandlift_per_date(params[:brandlift_month], 5).to_json %>"></div>
+<div id="insta_followers_data" data-insta_followers_data="<%= brand.brandlift_per_date(params[:brandlift_month], 6).to_json %>"></div>
+<%# 投稿のデータ %>
+<div id="posts_data"      data-posts_per_date="<%= brand.posts_per_date(params[:brandlift_month]) %>"></div>
+<div id="talk_posts_data" data-talk_posts_per_date="<%= brand.talk_posts_per_date(params[:brandlift_month]) %>"></div>
+<%# グラフ下のアイコンをクリックした時の遷移先リンクの情報 %>
+<div id="media_links"     data-media_links="<%= media_links(brand).to_json %>"></div>
+<%# [{:media=>"LINE", :path=>"/accounts/11"}, {:media=>"Instagram", :path=>"/accounts/46"}, nil, nil] %>
+
+<%= javascript_pack_tag 'brands/brandlift_graph' %>

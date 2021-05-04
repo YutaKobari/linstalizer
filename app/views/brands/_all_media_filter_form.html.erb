@@ -1,0 +1,15 @@
+<%= form_with  url: brand_path, method: :get, class:"container-fluid clearfix" do |form| %>
+  <div class="container p-0 m-0">
+    <div>
+      <%= render "filter_elements/all_media_aggregation_period", form: form %>
+      <%= hidden_field_tag :current_tab, 'aggregate' %>
+      <div>
+        <%= render "filter_elements/line",      { form: form } %>
+        <%= render "filter_elements/instagram", { form: form } %>
+        <%= render "filter_elements/twitter",   { form: form } %>
+        <%= render "filter_elements/facebook",  { form: form } %>
+      </div>
+      <%= form.submit "絞り込み", class: "btn btn-primary float-right btn-filter-form mr-6", name: nil %>
+    </div>
+  </div>
+<% end %>

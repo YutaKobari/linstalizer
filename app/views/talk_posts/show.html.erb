@@ -1,0 +1,27 @@
+<div class="card my-3">
+  <div class="card-body">
+    <h2 class="mb-0">
+      <%= @talk_post.brand.name %>
+    </h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-3">
+    <%= render 'account_card', talk_post: @talk_post %>
+  </div>
+  <div class="col-lg-9">
+    <!-- 投稿内容, 詳細 -->
+    <%# {raw_post_id, post_type}, talk_post_contents の組毎にループする %>
+    <% @talk_post.talk_post_contents.order(:id).group_by{|c| {raw_post_id: c.raw_post_id, post_type: c.post_type}}.each do |key,content_array| %>
+      <% if ['text','image','video'].include? key[:post_type] %>
+        <%# コンテンツが1つの時はカルーセルやイメージマップではないため、通常のカードを表示する %>
+        <%= render 'content_with_detail', content: content_array.first %>
+      <% elsif key[:post_type] == 'carousel' %><%# FIXME: ハードコード %>
+        <%= render 'carousel_contains_detail', content_array: content_array, carousel_hash: key[:raw_post_id] %>
+      <% else %>
+        <%# イメージマップの時は専用の表示を行う %>
+        <%= render 'image_map_view', content_array: content_array, carousel_hash: key[:raw_post_id] %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

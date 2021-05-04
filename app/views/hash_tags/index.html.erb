@@ -1,0 +1,21 @@
+<%= render "filter_form" %>
+<p class="text-right mr-4">集計期間：<%= @aggregated_from %>&nbsp;&nbsp;〜&nbsp;&nbsp;<%= @aggregated_to %></p>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table align-items-center table-hover" style="table-layout: fixed;">
+      <thead style="border-radius:6px;">
+        <tr>
+          <th scope="col" style="width: 20%;">ハッシュタグ</th>
+          <th scope="col" style="width: 60%;">投稿サンプル</th>
+          <th scope="col" style="width: 10%;">投稿数</th>
+          <th scope="col" style="width: 10%;">反応数</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @hash_tags %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/pagination_link', records: @hash_tags %>

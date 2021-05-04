@@ -1,0 +1,27 @@
+<%= render "filter_form" %>
+<div class="card">
+  <div class="table-responsive-xl table-hover">
+    <table class="table align-items-center table-border-radius" style="word-break: break-all; word-wrap: break-all;">
+      <thead style="border-radius:6px;">
+        <tr>
+          <th scope="col" style="width: 5%;">お気に入り</th>
+          <th scope="col" style="width: 5%;">メディア</th>
+          <th scope="col" style="width: 7.5%;">アカウントID</th>
+          <th scope="col" style="width: 15%;">ブランド</th>
+          <th scope="col" style="width: 15%;">業種</th>
+          <th scope="col" style="width: 20%;">企業名</th>
+          <th scope="col" style="width: 7.55%;">最新投稿日</th>
+          <th scope="col" style="width: 5%;">投稿数</th>
+          <th scope="col" style="width: 5%;">反応数</th>
+          <th scope="col" style="width: 7.5%;">フォロワー増加数</th>
+          <th scope="col" style="width: 7.5%;">フォロワー増加率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @accounts %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= render 'layouts/pagination_link', records: @accounts %>

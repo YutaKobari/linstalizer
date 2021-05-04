@@ -1,0 +1,4 @@
+<div class="form-group row mx-0 d-flex align-items-center">
+  <%= form.label :is_favorite, "のみ表示", class: "col-3 pr-2 filter_form_labels favorite_icon" %>
+  <%= form.check_box :is_favorite, {class: "form-control form-control-sm filter_form_values", data: {toggle: "toggle", size: "sm", width: "75", onstyle: "success"}, checked: is_favorite_checked}, true, false %>
+</div>

@@ -1,0 +1,5 @@
+<!-- Chart -->
+<%= render 'line_chart', title: '返信数遷移', chart_id: 'reply-trans-chart' %>
+
+<%= content_tag :div, '', id: 'reply-chart-data', data:{reply_chart: reply_chart_data.to_json} %>
+<%= javascript_pack_tag 'post/reply_chart' %>

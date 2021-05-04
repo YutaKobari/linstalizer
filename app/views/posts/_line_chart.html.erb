@@ -1,0 +1,10 @@
+<div class="card">
+    <div class="card-header bg-transparent">
+        <h3 class="card-title mb-0">
+            <%= title %>
+        </h3>
+    </div>
+    <div class="card-body chart">
+        <%= content_tag(:canvas,'',id: chart_id, class: 'chart-canvas' ) %>
+    </div>
+</div>

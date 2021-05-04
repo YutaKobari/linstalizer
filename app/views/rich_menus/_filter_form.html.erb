@@ -1,0 +1,33 @@
+<%# ローカル変数 redirect_path %>
+<%= form_with url: redirect_path, method: :get do |form| %>
+  <%= hidden_field_tag :filter_form_open, true %>
+  <div class="container accordion mt-3" id="accordionExample">
+    <div class="card">
+      <div class="card-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="<%= @filter_form_open %>" aria-controls="collapseTwo">
+        <span class="d-inline-block mb-0 px-4 h3">絞り込みフォーム</span>
+      </div>
+        <%= content_tag(:div, id: 'collapseTwo', class: "collapse #{'show' if @filter_form_open}", aria: {labelledby: 'headingTwo'}, data: {parent: '#accordionExample'}) do %>
+        <div class="card-body">
+          <div class="row pr-4 py-2">
+            <div class="col pl-0">
+              <%= render "filter_elements/account", form: form if controller.controller_name == 'rich_menus' %>
+              <%= render "filter_elements/url",     form: form unless controller.controller_name == 'landing_pages'%>
+              <%= render "filter_elements/market", form: form, market_list: fetch_market_list %>
+            </div>
+            <div class="col pl-0">
+              <%= render "filter_elements/date_from", form: form %>
+              <%# ToDo: 並び替えの追加(現状並び順が一選択肢しかないため、このフィルターは非表示とする) %>
+              <%#= render "filter_elements/sort", form: form, sort_list: {表示開始日が新しい順: 'date_from'} %>
+              <%= render "filter_elements/is_favorites", form: form %>
+            </div>
+          </div>
+          <div class="row px-4 justify-content-end">
+            <%= form.submit "絞り込み", class: "btn btn-primary btn-filter-form mr-3"%>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  <%= hidden_field_tag :current_tab, 'rich_menu' if controller.controller_name == 'accounts' %>
+  <% end %>
+  <%= javascript_pack_tag 'filter_form_dynamic_option' unless controller.controller_name == 'accounts' %>

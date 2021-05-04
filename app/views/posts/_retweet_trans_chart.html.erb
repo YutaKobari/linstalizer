@@ -1,0 +1,5 @@
+<!-- Chart -->
+<%= render 'line_chart_default', title: 'リツイート数遷移', chart_id: 'retweet-trans-chart' %>
+
+<%= content_tag :div, '', id: 'retweet-chart-data', data:{retweet_chart: post.make_retweet_chart_data.to_json} %>
+<%= javascript_pack_tag 'post/retweet_chart' %>

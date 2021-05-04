@@ -1,0 +1,5 @@
+<!-- Chart -->
+<%= render 'line_chart', title: 'いいね数遷移', chart_id: 'like-trans-chart' %>
+
+<%= content_tag :div, '', id: 'like-chart-data', data:{like_chart: post.make_like_chart_data.to_json} %>
+<%= javascript_pack_tag 'post/like_chart' %>
