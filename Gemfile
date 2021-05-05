@@ -64,7 +64,4 @@ gem 'kaminari'
 gem 'devise'
 gem 'devise-i18n'
 gem 'rails-i18n'
-gem 'chronic' # 09/12/2018　のような日付文字列をパースする
-# エラーの捕捉
-gem 'exception_notification'
-gem 'slack-notifier'
+gem 'dotenv-rails'

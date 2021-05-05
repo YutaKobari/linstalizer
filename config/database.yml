@@ -52,6 +52,7 @@ test:
 
 production:
   <<: *default
-  host: 10.42.0.209
-  username: linstalizer
-  password: linstalizer!
+  database: <%= ENV['PRODUCTION_DATABASE'] %>
+  host: <%= ENV['PRODUCTION_HOST'] %>
+  username: <%= ENV['PRODUCTION_USERNAME'] %>
+  password: <%= ENV['PRODUCTION_PASSWORD'] %>
