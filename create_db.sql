@@ -1,13 +1,13 @@
 -- -----------------------------------------------------
--- Schema snscrawl_test
+-- Schema linstalizer_test
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `snscrawl_test` DEFAULT CHARACTER SET utf8mb4 ;
-USE `snscrawl_test` ;
+CREATE SCHEMA IF NOT EXISTS `linstalizer_test` DEFAULT CHARACTER SET utf8mb4 ;
+USE `linstalizer_test` ;
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`account_informations`
+-- Table `linstalizer_test`.`account_informations`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`account_informations`;
+DROP TABLE IF EXISTS `linstalizer_test`.`account_informations`;
 
 CREATE TABLE `account_informations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -20,9 +20,9 @@ CREATE TABLE `account_informations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`raw_posts`
+-- Table `linstalizer_test`.`raw_posts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`raw_posts` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`raw_posts` ;
 
 CREATE TABLE `raw_posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -63,9 +63,9 @@ CREATE TABLE `raw_posts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`reactions`
+-- Table `linstalizer_test`.`reactions`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`reactions` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`reactions` ;
 
 CREATE TABLE `reactions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -79,9 +79,9 @@ CREATE TABLE `reactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`markets`
+-- Table `linstalizer_test`.`markets`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`markets` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`markets` ;
 
 CREATE TABLE `markets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -92,11 +92,11 @@ CREATE TABLE `markets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`companies`
+-- Table `linstalizer_test`.`companies`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`companies` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`companies` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`companies` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`companies` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NULL,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP(),
@@ -106,11 +106,11 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`brands`
+-- Table `linstalizer_test`.`brands`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`brands` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`brands` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`brands` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`brands` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `market_id` INT,
   `company_id` INT NOT NULL,
@@ -122,11 +122,11 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`accounts`
+-- Table `linstalizer_test`.`accounts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`accounts` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`accounts` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`accounts` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`accounts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `brand_id` INT NOT NULL,
   `media` VARCHAR(255) NULL,
@@ -141,11 +141,11 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`daily_account_engagements`
+-- Table `linstalizer_test`.`daily_account_engagements`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`daily_account_engagements` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`daily_account_engagements` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`daily_account_engagements` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`daily_account_engagements` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `account_id` INT NOT NULL,
   `date` DATE NULL,
@@ -160,11 +160,11 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`lp_search_ngrams`
+-- Table `linstalizer_test`.`lp_search_ngrams`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`lp_search_ngrams` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`lp_search_ngrams` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`lp_search_ngrams` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`lp_search_ngrams` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `url_hash` VARCHAR(255),
   `brand_id` INT NOT NULL,
@@ -177,11 +177,11 @@ ENGINE = Mroonga DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`lp_combined_urls`
+-- Table `linstalizer_test`.`lp_combined_urls`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`lp_combined_urls` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`lp_combined_urls` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`lp_combined_urls` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`lp_combined_urls` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `url_hash` VARCHAR(255),
   `brand_id` INT NOT NULL,
@@ -193,11 +193,11 @@ CREATE TABLE IF NOT EXISTS `snscrawl_test`.`lp_combined_urls` (
 ENGINE = Mroonga DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`landing_pages`
+-- Table `linstalizer_test`.`landing_pages`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`landing_pages` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`landing_pages` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`landing_pages` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`landing_pages` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `crawl_status` INT DEFAULT 0,
   `fix_status` INT DEFAULT 0,
@@ -221,9 +221,9 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`posts`
+-- Table `linstalizer_test`.`posts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`posts` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`posts` ;
 
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -254,11 +254,11 @@ CREATE TABLE IF NOT EXISTS `posts` (
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`post_like_counts`
+-- Table `linstalizer_test`.`post_like_counts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`post_like_counts` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`post_like_counts` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`post_like_counts` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`post_like_counts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `post_id` INT NOT NULL,
   `raw_post_id` VARCHAR(255) NOT NULL,
@@ -272,11 +272,11 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`post_retweet_counts`
+-- Table `linstalizer_test`.`post_retweet_counts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`post_retweet_counts` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`post_retweet_counts` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`post_retweet_counts` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`post_retweet_counts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `post_id` INT NOT NULL,
   `raw_post_id` VARCHAR(255) NOT NULL,
@@ -290,9 +290,9 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`post_contents`
+-- Table `linstalizer_test`.`post_contents`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`post_contents` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`post_contents` ;
 
 CREATE TABLE IF NOT EXISTS `post_contents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -308,9 +308,9 @@ CREATE TABLE IF NOT EXISTS `post_contents` (
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`talk_posts`
+-- Table `linstalizer_test`.`talk_posts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`talk_posts` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`talk_posts` ;
 
 CREATE TABLE IF NOT EXISTS `talk_posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -328,9 +328,9 @@ CREATE TABLE IF NOT EXISTS `talk_posts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`talk_post_contents`
+-- Table `linstalizer_test`.`talk_post_contents`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`talk_post_contents` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`talk_post_contents` ;
 
 CREATE TABLE IF NOT EXISTS `talk_post_contents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -357,11 +357,11 @@ CREATE TABLE IF NOT EXISTS `talk_post_contents` (
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`rich_menus`
+-- Table `linstalizer_test`.`rich_menus`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`rich_menus` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`rich_menus` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`rich_menus` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`rich_menus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) NOT NULL,
   `raw_post_id` varchar(255) DEFAULT NULL,
@@ -377,11 +377,11 @@ CREATE TABLE IF NOT EXISTS `snscrawl_test`.`rich_menus` (
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`rich_menu_contents`
+-- Table `linstalizer_test`.`rich_menu_contents`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`rich_menu_contents` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`rich_menu_contents` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`rich_menu_contents` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`rich_menu_contents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) DEFAULT NULL,
   `raw_post_id` varchar(255) NOT NULL DEFAULT '',
@@ -400,11 +400,11 @@ CREATE TABLE IF NOT EXISTS `snscrawl_test`.`rich_menu_contents` (
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`brand_lifts`
+-- Table `linstalizer_test`.`brand_lifts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`brand_lifts` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`brand_lifts` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`brand_lifts` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`brand_lifts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `brand_id` INT NOT NULL,
   `date` DATE NULL,
@@ -416,11 +416,11 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`hash_tags`
+-- Table `linstalizer_test`.`hash_tags`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`hash_tags` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`hash_tags` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`hash_tags` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`hash_tags` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NULL,
   `media` VARCHAR(255) NULL,
@@ -431,11 +431,11 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`post_hash_tags`
+-- Table `linstalizer_test`.`post_hash_tags`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`post_hash_tags` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`post_hash_tags` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`post_hash_tags` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`post_hash_tags` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `post_id` INT NOT NULL,
   `hash_tag_id` INT NOT NULL,
@@ -446,11 +446,11 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`daily_hash_tag_post_counts`
+-- Table `linstalizer_test`.`daily_hash_tag_post_counts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`daily_hash_tag_post_counts` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`daily_hash_tag_post_counts` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`daily_hash_tag_post_counts` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`daily_hash_tag_post_counts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `hash_tag_id` INT NOT NULL,
   `date` DATE NULL,
@@ -462,11 +462,11 @@ ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`daily_account_informations`
+-- Table `linstalizer_test`.`daily_account_informations`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`daily_account_informations` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`daily_account_informations` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`daily_account_informations` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`daily_account_informations` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `account_id` INT NOT NULL,
   `date` DATE NULL,
@@ -478,11 +478,11 @@ CREATE TABLE IF NOT EXISTS `snscrawl_test`.`daily_account_informations` (
 ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------
--- Table `snscrawl_test`.`users`
+-- Table `linstalizer_test`.`users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`users` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`users` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`users` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
@@ -498,11 +498,11 @@ CREATE TABLE IF NOT EXISTS `snscrawl_test`.`users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------
--- Table `sns_crawl_test`.`post_reply_counts`
+-- Table `linstalizer_test`.`post_reply_counts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`post_reply_counts` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`post_reply_counts` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`post_reply_counts` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`post_reply_counts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `post_id` INT NOT NULL,
   `date` DATE NULL,
@@ -513,11 +513,11 @@ CREATE TABLE IF NOT EXISTS `snscrawl_test`.`post_reply_counts` (
 ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- -----------------------------------------------------
--- Table `sns_crawl_test`.`favorites`
+-- Table `linstalizer_test`.`favorites`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `snscrawl_test`.`favorites` ;
+DROP TABLE IF EXISTS `linstalizer_test`.`favorites` ;
 
-CREATE TABLE IF NOT EXISTS `snscrawl_test`.`favorites` (
+CREATE TABLE IF NOT EXISTS `linstalizer_test`.`favorites` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `account_id` INT NOT NULL,

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "ユーザーの登録情報変更" do
   given(:email)   { 'tester@example.com' }
-  given(:new_pwd) { 'welcome_sns_crawl' }
+  given(:new_pwd) { 'welcome_linstalizer' }
   given(:old_pwd) { '000000' }
 
   background do
