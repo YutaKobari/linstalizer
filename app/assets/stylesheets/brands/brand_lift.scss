@@ -1,18 +1,7 @@
-.d-flex .chart {
-  position: relative;
-  margin-bottom: 40px;
-  padding: 0;
-  width: 600px !important;
-  canvas {
-    width: 600px !important;
-    height: 300px !important;
-  }
-}
-
 .brandlift-row {
   &-0 {
     position: absolute;
-    top: 300px;
+    top: 330px;
     border-radius: 50%;
     text-align: center;
     width: 15px;
@@ -29,7 +18,7 @@
   }
   &-1 {
     position: absolute;
-    top: 323px;
+    top: 350px;
     border-radius: 50%;
     text-align: center;
     width: 15px;
@@ -45,7 +34,7 @@
   }
   &-2 {
     position: absolute;
-    top: 346px;
+    top: 370px;
     border-radius: 50%;
     text-align: center;
     min-width: 15px;
@@ -63,7 +52,7 @@
   }
   &-3 {
     position: absolute;
-    top: 369px;
+    top: 390px;
     border-radius: 50%;
     text-align: center;
     min-width: 15px;
@@ -112,4 +101,10 @@
   text-align: center;
   line-height: 15px;
   padding: 0 2px;
+}
+
+.icon-label{
+    position: absolute;
+    font-size: 14px;
+    top: 305px;
 }

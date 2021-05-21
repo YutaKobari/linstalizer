@@ -29,7 +29,7 @@ feature '投稿一覧画面' do
       end
     end
     scenario 'ホーム画面から投稿一覧へ遷移できる' do
-      click_on '全メディア'
+      click_on '全SNS'
       expect(current_path).to eq posts_path
     end
 
@@ -43,47 +43,25 @@ feature '投稿一覧画面' do
       find('span', text: '絞り込みフォーム').click
       find("option[value='Instagram']").selected?
     end
-    scenario 'ホーム画面から投稿一覧へ遷移し、Twitterで絞りこんだ状態にできる' do
-      click_on 'Twitter'
-      find('span', text: '絞り込みフォーム').click
-      find("option[value='Twitter']").selected?
-    end
-    scenario 'ホーム画面から投稿一覧へ遷移し、Facebookで絞りこんだ状態にできる' do
-      click_on 'Facebook'
-      find('span', text: '絞り込みフォーム').click
-      find("option[value='Facebook']").selected?
-    end
   end
 
   context 'パンくずリスト' do
-    scenario '全メディアで検索' do
-      find('.nav-link-text', text: '投稿検索').click
-      find('.sidenav-normal', text: '全メディア').click
-      expect(page).to have_selector(".breadcrumb-item", text: '全メディア')
+    scenario '全SNSで検索' do
+      find('.fa-mail-bulk').click
+      find('.sidenav-normal', text: '全SNS').click
+      expect(page).to have_selector(".breadcrumb-item", text: '全SNS')
     end
 
     scenario 'LINEで検索' do
-      find('.nav-link-text', text: '投稿検索').click
+      find('.fa-mail-bulk').click
       find('.sidenav-normal', text: 'LINE').click
       expect(page).to have_selector(".breadcrumb-item", text: 'LINE')
     end
 
     scenario 'Instagramで検索' do
-      find('.nav-link-text', text: '投稿検索').click
+      find('.fa-mail-bulk').click
       find('.sidenav-normal', text: 'Instagram').click
       expect(page).to have_selector(".breadcrumb-item", text: 'Instagram')
-    end
-
-    scenario 'Twitterで検索' do
-      find('.nav-link-text', text: '投稿検索').click
-      find('.sidenav-normal', text: 'Twitter').click
-      expect(page).to have_selector(".breadcrumb-item", text: 'Twitter')
-    end
-
-    scenario 'Facebookで検索' do
-      find('.nav-link-text', text: '投稿検索').click
-      find('.sidenav-normal', text: 'Facebook').click
-      expect(page).to have_selector(".breadcrumb-item", text: 'Facebook')
     end
   end
 
@@ -113,7 +91,7 @@ feature '投稿一覧画面' do
       fill_in 'start_date', with: '2021/03/01'
       fill_in 'end_date', with: '2021/03/06'
       find('label', text: 'キーワード').click # カレンダーを消すために空クリック
-      select '通常投稿', from: 'post_type'
+      select 'タイムライン投稿', from: 'post_type'
       select 'いいね数', from: 'sort'
       click_on('絞り込み')
       expect(find('#search_text').value).to eq 'テスト'
@@ -228,30 +206,24 @@ feature '投稿一覧画面' do
       end
     end
 
-    context 'メディア絞り込みを行う' do
+    context 'SNS絞り込みを行う' do
       given(:line_count) { 2 }
       given(:instagram_count) { 3 }
-      given(:twitter_count) { 4 }
-      given(:facebook_count) { 5 }
       background do
         line_count.times { FactoryBot.create(:post, media: 'LINE') }
         instagram_count.times { FactoryBot.create(:post, media: 'Instagram') }
-        twitter_count.times { FactoryBot.create(:post, media: 'Twitter') }
-        facebook_count.times { FactoryBot.create(:post, media: 'Facebook') }
       end
-      context '全メディアを指定する' do
+      context '全SNSを指定する' do
         scenario 'すべての項目が表示される' do
-          # 14
+          # 5
           click_on('絞り込み')
-          expect(all('tbody tr').length).to eq 14
+          expect(all('tbody tr').length).to eq 5
         end
-        scenario '投稿タイプで 通常投稿, フィード, リール, ストーリー, ツイート, リツイート が選べるようになる' do
+        scenario '投稿タイプで タイムライン投稿, フィード, リール, ストーリーが選べるようになる' do
           expect(page).to have_selector('option[value="normal_post"]')
           expect(page).to have_selector('option[value="feed"]')
           expect(page).to have_selector('option[value="reel"]')
           expect(page).to have_selector('option[value="story"]')
-          expect(page).to have_selector('option[value="tweet"]')
-          expect(page).to have_selector('option[value="retweet"]')
         end
         scenario '並び替えで 投稿が新しい順, いいね数 が選べるようになる' do
           expect(page).to have_selector('option[value="posted_at"]')
@@ -269,7 +241,7 @@ feature '投稿一覧画面' do
           click_on('絞り込み')
           expect(all('tbody tr').length).to eq line_count
         end
-        scenario '投稿タイプで 通常投稿 が選べるようになる' do
+        scenario '投稿タイプで タイムライン投稿 が選べるようになる' do
           expect(page).to have_selector('option[value="normal_post"]')
         end
         scenario '並び替えで 投稿が新しい順, いいね数 が選べるようになる' do
@@ -297,44 +269,43 @@ feature '投稿一覧画面' do
         end
       end
 
-      context 'Twitterを指定する' do
-        background do
-          select 'Twitter', from: 'media'
-        end
-        scenario 'Twitter投稿のみが表示される' do
-          click_on('絞り込み')
-          expect(all('tbody tr').length).to eq twitter_count
-        end
-        scenario '投稿タイプで ツイート, リツイート が選べるようになる' do
-          expect(page).to have_selector('option[value="tweet"]')
-          expect(page).to have_selector('option[value="retweet"]')
-        end
-        scenario '並び替えで 投稿が新しい順, いいね数, リツイート数 が選べるようになる' do
-          expect(page).to have_selector('option[value="posted_at"]')
-          expect(page).to have_selector('option[value="like"]')
-          expect(page).to have_selector('option[value="retweet"]')
-        end
-      end
+    #   context 'Twitterを指定する' do
+    #     background do
+    #       select 'Twitter', from: 'media'
+    #     end
+    #     scenario 'Twitter投稿のみが表示される' do
+    #       click_on('絞り込み')
+    #       expect(all('tbody tr').length).to eq twitter_count
+    #     end
+    #     scenario '投稿タイプで ツイート, リツイート が選べるようになる' do
+    #       expect(page).to have_selector('option[value="tweet"]')
+    #       expect(page).to have_selector('option[value="retweet"]')
+    #     end
+    #     scenario '並び替えで 投稿が新しい順, いいね数, リツイート数 が選べるようになる' do
+    #       expect(page).to have_selector('option[value="posted_at"]')
+    #       expect(page).to have_selector('option[value="like"]')
+    #       expect(page).to have_selector('option[value="retweet"]')
+    #     end
+    #   end
 
-      context 'Facebookを指定する' do
-        background do
-          select 'Facebook', from: 'media'
-        end
-        scenario 'Facebook投稿のみが表示される' do
-          click_on('絞り込み')
-          expect(all('tbody tr').length).to eq facebook_count
-        end
-        # TODO: Facebookの投稿タイプに関するテストを追加する
-        scenario '並び替えで 投稿が新しい順, いいね数 が選べるようになる' do
-          expect(page).to have_selector('option[value="posted_at"]')
-          expect(page).to have_selector('option[value="like"]')
-        end
-      end
+    #   context 'Facebookを指定する' do
+    #     background do
+    #       select 'Facebook', from: 'media'
+    #     end
+    #     scenario 'Facebook投稿のみが表示される' do
+    #       click_on('絞り込み')
+    #       expect(all('tbody tr').length).to eq facebook_count
+    #     end
+    #     # TODO: Facebookの投稿タイプに関するテストを追加する
+    #     scenario '並び替えで 投稿が新しい順, いいね数 が選べるようになる' do
+    #       expect(page).to have_selector('option[value="posted_at"]')
+    #       expect(page).to have_selector('option[value="like"]')
+    #     end
+    #   end
     end
 
     context '投稿日時絞込みを行う' do
       background do
-        # 3ヒット
         FactoryBot.create(:post, posted_at: '2021/03/01 15:00:00 JTC')
         FactoryBot.create(:post, posted_at: '2021/03/04 00:00:00 JTC')
         FactoryBot.create(:post, posted_at: '2021/03/06 23:59:59 JTC')
@@ -380,6 +351,88 @@ feature '投稿一覧画面' do
       end
     end
 
+    context '時間帯で絞り込みを行う' do
+      background do
+        FactoryBot.create(:post, posted_at: '2021/03/04 13:00:01 JTC', hour: 13)
+        FactoryBot.create(:post, posted_at: '2021/03/14 23:59:59 JTC', hour: 23)
+        FactoryBot.create(:post, posted_at: '2021/03/17 15:00:00 JTC', hour: 15)
+        FactoryBot.create(:post, posted_at: '2021/04/04 00:00:00 JTC', hour:  0)
+      end
+
+      context '時間帯絞込みパーツ' do
+        scenario '午前を選択すると0時台〜11時台' do
+          click_on 'am_filter'
+          sleep 0.5
+          expect(find('#hour_start').value).to eq "0"
+          expect(find('#hour_end').value).to eq "11"
+        end
+        scenario '午後を選択すると12時台〜23時台' do
+          click_on 'pm_filter'
+          sleep 0.5
+          expect(find('#hour_start').value).to eq "12"
+          expect(find('#hour_end').value).to eq "23"
+        end
+        scenario '朝を選択すると5時台〜10時台' do
+          click_on 'morning_filter'
+          sleep 0.5
+          expect(find('#hour_start').value).to eq "5"
+          expect(find('#hour_end').value).to eq "10"
+        end
+        scenario '昼を選択すると11時台〜14時台' do
+          click_on 'daytime_filter'
+          sleep 0.5
+          expect(find('#hour_start').value).to eq "11"
+          expect(find('#hour_end').value).to eq "14"
+        end
+        scenario '夕を選択すると15時台〜18時台' do
+          click_on 'evening_filter'
+          sleep 0.5
+          expect(find('#hour_start').value).to eq "15"
+          expect(find('#hour_end').value).to eq "18"
+        end
+        scenario '夜を選択すると19時台〜23時台' do
+          click_on 'night_filter'
+          sleep 0.5
+          expect(find('#hour_start').value).to eq "19"
+          expect(find('#hour_end').value).to eq "23"
+        end
+        scenario '深夜を選択すると0時台〜4時台' do
+          click_on 'midnight_filter'
+          sleep 0.5
+          expect(find('#hour_start').value).to eq "0"
+          expect(find('#hour_end').value).to eq "4"
+        end
+      end
+
+      scenario "指定時刻の間の投稿のみが表示される" do
+        select "13時", from: 'hour_start'
+        select "15時", from: 'hour_end'
+        click_on('絞り込み')
+        expect(all('tbody tr').length).to eq 2
+
+        select "0時台", from: 'hour_start'
+        select "23時台", from: 'hour_end'
+        click_on('絞り込み')
+        expect(all('tbody tr').length).to eq 4
+      end
+
+      scenario "開始時より終了時が前だとモーダルをだし、絞り込みをしない" do
+        visit posts_path
+        expect(all('tbody tr').length).to eq 4
+        expect(page).to_not have_content('開始時刻は終了時刻より前にしてください')
+
+        find('span', text: '絞り込みフォーム').click
+        select "15時台", from: 'hour_start'
+        select "1時台", from: 'hour_end'
+        click_on('絞り込み')
+        expect(page).to have_content('開始時刻は終了時刻より前にしてください')
+        #FIXME 以下bitbucketで落ちる。pendingを入れてもbitbucketでerrorが出されるのでコメントアウトしている。
+        # find("#modal_close").click
+        # expect(page).to_not have_content('開始時刻は終了時刻より前にしてください')
+        # expect(all('tbody tr').length).to eq 4
+      end
+    end
+
     context '投稿タイプ絞り込みを行う' do
       background do
         FactoryBot.create(:post, media: 'LINE', post_type: 'invalid')
@@ -387,14 +440,11 @@ feature '投稿一覧画面' do
         3.times { FactoryBot.create(:post, :reel) }
         4.times { FactoryBot.create(:post, :story) }
         5.times { FactoryBot.create(:post, :normal_post) }
-        6.times { FactoryBot.create(:post, :tweet) }
-        7.times { FactoryBot.create(:post, :retweet) }
-        8.times { FactoryBot.create(:post, media: 'Facebook', post_type: 'not-multipled') }
       end
       context 'LINEが選択されている時' do
         background { select 'LINE', from: 'media' }
-        scenario '通常投稿で絞り込むと通常投稿のみが表示される' do
-          select '通常投稿', from: 'post_type'
+        scenario 'タイムライン投稿で絞り込むとタイムライン投稿のみが表示される' do
+          select 'タイムライン投稿', from: 'post_type'
           click_on('絞り込み')
           expect(all('tbody tr').length).to eq 5
         end
@@ -417,27 +467,11 @@ feature '投稿一覧画面' do
           expect(all('tbody tr').length).to eq 4
         end
       end
-      context 'Twitterが選択されている時' do
-        background { select 'Twitter', from: 'media' }
-        scenario 'ツイートで絞り込むとツイートのみが表示される' do
-          select 'ツイート', from: 'post_type'
-          click_on('絞り込み')
-          expect(all('tbody tr').length).to eq 6
-        end
-        scenario 'リツイートで絞り込むとツイートのみが表示される' do
-          select 'リツイート', from: 'post_type'
-          click_on('絞り込み')
-          expect(all('tbody tr').length).to eq 7
-        end
-      end
-      # TODO: Facebookのテストを追加する
-      # context 'Facebookが選択されている時' do
-      # background { select 'Facebook', from: 'media' }
-      # end
-      context '全メディアが選択されている時' do
-        background { select '全メディア', from: 'media' }
-        scenario '通常投稿で絞り込むと通常投稿のみが表示される' do
-          select '通常投稿', from: 'post_type'
+
+      context '全SNSが選択されている時' do
+        background { select '全SNS', from: 'media' }
+        scenario 'タイムライン投稿で絞り込むとタイムライン投稿のみが表示される' do
+          select 'タイムライン投稿', from: 'post_type'
           click_on('絞り込み')
           expect(all('tbody tr').length).to eq 5
         end
@@ -456,25 +490,15 @@ feature '投稿一覧画面' do
           click_on('絞り込み')
           expect(all('tbody tr').length).to eq 4
         end
-        scenario 'ツイートで絞り込むとツイートのみが表示される' do
-          select 'ツイート', from: 'post_type'
-          click_on('絞り込み')
-          expect(all('tbody tr').length).to eq 6
-        end
-        scenario 'リツイートで絞り込むとツイートのみが表示される' do
-          select 'リツイート', from: 'post_type'
-          click_on('絞り込み')
-          expect(all('tbody tr').length).to eq 7
-        end
       end
     end
 
     # TDDO: 並び替えの追加に応じてテストも追加する
     context '並び替えを行う' do
       background do
-        FactoryBot.create(:post, :tweet, posted_at: '2021/03/01 00:00:00 JST', like_count: 100, retweet_count: 300)
-        FactoryBot.create(:post, :tweet, posted_at: '2021/02/27 00:00:00 JST', like_count: 200, retweet_count: 100)
-        FactoryBot.create(:post, :tweet, posted_at: '2021/02/26 00:00:00 JST', like_count: 300, retweet_count: 200)
+        FactoryBot.create(:post, :reel, posted_at: '2021/03/01 00:00:00 JST', like_count: 100)
+        FactoryBot.create(:post, :reel, posted_at: '2021/02/27 00:00:00 JST', like_count: 200)
+        FactoryBot.create(:post, :reel, posted_at: '2021/02/26 00:00:00 JST', like_count: 300)
       end
       scenario 'いいね数順で並び替える' do
         select 'いいね数', from: 'sort'
@@ -492,21 +516,11 @@ feature '投稿一覧画面' do
         within(all('tbody tr')[1]) { expect(page).to have_content '2021/02/27 (土)' }
         within(all('tbody tr')[2]) { expect(page).to have_content '2021/02/26 (金)' }
       end
-      context 'Twitterが選択されているとき' do
-        background { select 'Twitter', from: 'media' }
-        scenario 'リツイート数順で並び替える' do
-          select 'リツイート数', from: 'sort'
-          click_on '絞り込み'
-          within(all('tbody tr')[0]) { expect(page).to have_content 'リツイート： 300' }
-          within(all('tbody tr')[1]) { expect(page).to have_content 'リツイート： 200' }
-          within(all('tbody tr')[2]) { expect(page).to have_content 'リツイート： 100' }
-        end
-      end
     end
 
-    context "お気に入りスイッチで絞り込み" do
+    context "ピンアカスイッチで絞り込み" do
       background do
-        # どのユーザーもお気に入りに登録していないアカウントを2個作成
+        # どのユーザーもピンアカに登録していないアカウントを2個作成
         2.times do
           FactoryBot.create(:account) do |account|
             # 各アカウントに紐づくpostを4つ作成
@@ -514,7 +528,7 @@ feature '投稿一覧画面' do
           end
         end
 
-        # user(id:2)がお気に入りに登録しているアカウントを3個作成
+        # user(id:2)がピンアカに登録しているアカウントを3個作成
         FactoryBot.create(:user, email: 'tester2@example.com')
         3.times do
           FactoryBot.create(:account) do |account|
@@ -524,7 +538,7 @@ feature '投稿一覧画面' do
           end
         end
 
-        # user(id:1)がお気に入りに登録しているアカウントを4個作成
+        # user(id:1)がピンアカに登録しているアカウントを4個作成
         4.times do
           FactoryBot.create(:account) do |account|
             FactoryBot.create(:favorite, account_id: account.id)
@@ -536,7 +550,7 @@ feature '投稿一覧画面' do
         expect(all('tbody > tr').size).to eq(34) # 2×4 + 3×2 + 4×5 = 34
       end
 
-      scenario "お気に入りスイッチONでお気に入りアカウントのみ表示、OFFで解除" do
+      scenario "ピンアカスイッチONでピンアカのみ表示、OFFで解除" do
         find('span', text: "絞り込みフォーム").click
         find('label', text: "Off").click
         click_on '絞り込み'

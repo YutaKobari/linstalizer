@@ -1,6 +1,7 @@
 class Account < ApplicationRecord
   belongs_to :brand
   has_one    :company, through: :brand
+  has_one    :market, through: :brand
   has_many   :posts
   has_many   :talk_posts
   has_many   :talk_post_contents
@@ -27,13 +28,14 @@ class Account < ApplicationRecord
   end
 
   scope :select_engagement_increment, -> (aggregated_from, aggregated_to) do
-    if aggregated_from.blank?
+    if aggregated_from == "2000/01/01".to_date
       select(<<-EOS
         accounts.*,
         (aggre_to.follower) follower_increment,
         (aggre_to.post_count) post_increment,
         (aggre_to.total_reaction) total_reaction_increment,
-        '-' follower_increment_rate
+        '-' follower_increment_rate,
+        '-' total_reaction_increment_rate
         EOS
       ).joins(inner_query(aggregated_to, "aggre_to"))
     else
@@ -42,7 +44,8 @@ class Account < ApplicationRecord
         (aggre_to.follower - aggre_from.follower) follower_increment,
         (aggre_to.post_count - aggre_from.post_count) post_increment,
         (aggre_to.total_reaction - aggre_from.total_reaction) total_reaction_increment,
-        ((aggre_to.follower - aggre_from.follower) / aggre_from.follower * 100) follower_increment_rate
+        ((aggre_to.follower - aggre_from.follower) / aggre_from.follower * 100) follower_increment_rate,
+        ((aggre_to.total_reaction - aggre_from.total_reaction) / aggre_from.total_reaction * 100) total_reaction_increment_rate
         EOS
       ).joins(inner_query(aggregated_from, "aggre_from")).joins(inner_query(aggregated_to, "aggre_to"))
       # .joins("post ON post.account_id = account.id AND post.posted_at BETWEEN #{aggregated_from} AND #{aggregated_to}") ここでjoinしないと最新投稿日が出せない（バッチでテーブルに入れてしまうというのもあり）。
@@ -57,6 +60,8 @@ class Account < ApplicationRecord
       order("total_reaction_increment DESC")
     when 'follower_increment_rate' then
       order("follower_increment_rate DESC")
+    when 'total_reaction_increment_rate' then
+      order("total_reaction_increment_rate DESC")
     when 'max_posted_at' then
       order("max_posted_at DESC")
     else
@@ -70,23 +75,51 @@ class Account < ApplicationRecord
     where(id: favorite_account_ids)
   end
 
-  def fetch_follower_per_date(follower_transition_month)
-    follower_column = media == 'LINE' ? 'line_follower' : 'follower'
-    first_day, last_day = follower_transition_month_to_span(follower_transition_month)
+  def fetch_follower_per_date(follower_transition_params, relative: false, increment: false )
+    #初期値は30日間(フォームのplaceholderと一致させる必要あり)
+    first_day = follower_transition_params[:graph_aggregated_from]&.to_date || 29.days.ago.to_date
+    last_day = follower_transition_params[:graph_aggregated_to]&.to_date || Date.today
     follower_data = daily_account_engagements
       .between_date(first_day, last_day)
       .order(date: :asc)
-      .map{ |dae| {date: dae.date, follower: dae.send(follower_column)} }
+      .group(:date)
+      .map{ |dae| {date: dae.date, value: dae.follower} }
 
-    # 歯抜けている日付にデータを入れる、ブランドリフトは直前で存在しているデータを入れる
+    # 歯抜けている日付はNILで付加する
     first_day.upto(last_day) do |date|
       unless follower_data.any?{|d| d[:date] == date}
-        follower = follower_data.reverse.find{|d| d[:date] < date }&.fetch(:follower) || 0
-        follower_data.unshift({date: date, follower: follower, none: true })
+        follower_data.unshift({date: date, value: NIL})
       end
     end
-    follower_data.sort{|a, b| a[:date] <=> b[:date]}
-                 .map {|d| {date: d[:date].to_s, follower: d[:follower], none: d[:none]}}
+    
+    if increment # 前日からの増加の場合
+      follower_data.sort!{|a, b| a[:date] <=> b[:date]}
+      base = daily_account_engagements.find_by(date: first_day - 1)&.follower
+      if relative # 比率で表す場合
+        follower_data.map {|d|
+          follower = (d[:value].nil? or base.nil?)? nil : (d[:value] - base).to_f * 100 / base
+          base = d[:value]
+          {date: d[:date].to_s, value: follower}
+        }
+      else # 絶対数で表す場合
+        follower_data.map {|d|
+          follower = (d[:value].nil? or base.nil?)? nil : (d[:value] - base)
+          base = d[:value]
+          {date: d[:date].to_s, value: follower}
+        }
+      end
+    else # 通常のデータの場合
+      follower_data.sort!{|a, b| a[:date] <=> b[:date]}
+      base = follower_data.first[:value]
+      if relative # 比率で表す場合
+        follower_data.map {|d|
+          follower = (d[:value].nil? or base.nil?)? nil : d[:value].to_f * 100 / base
+          {date: d[:date].to_s, value: follower}
+        }
+      else # 絶対数で表す場合
+        follower_data.map {|d| {date: d[:date].to_s, value: d[:value]}}
+      end
+    end   
   end
 
   def latest_engagement
@@ -100,8 +133,9 @@ class Account < ApplicationRecord
     daily_account_informations.find_by(date: latest_date, key: 'introduction')&.value
   end
 
-  def posts_per_date(follower_transition_month)
-    first_day, last_day = follower_transition_month_to_span(follower_transition_month)
+  def posts_per_date(follower_transition_params)
+    first_day = follower_transition_params[:graph_aggregated_from]&.to_date || 29.days.ago.to_date
+    last_day = follower_transition_params[:graph_aggregated_to]&.to_date || Date.today
     posts_per_date = posts
       .between_posted_on(first_day, last_day)
       .group(:media, :posted_on)
@@ -116,8 +150,9 @@ class Account < ApplicationRecord
     end.to_json
   end
 
-  def talk_posts_per_date(follower_transition_month)
-    first_day, last_day = follower_transition_month_to_span(follower_transition_month)
+  def talk_posts_per_date(follower_transition_params)
+    first_day = follower_transition_params[:graph_aggregated_from]&.to_date || 29.days.ago.to_date
+    last_day = follower_transition_params[:graph_aggregated_to]&.to_date || Date.today
     talk_posts_per_date = talk_posts
       .between_posted_on(first_day, last_day)
       .group(:posted_on)
@@ -190,5 +225,35 @@ class Account < ApplicationRecord
     first_day = Date.new(year,month, 1)
     last_day = [Date.today, first_day.end_of_month].min
     [first_day, last_day]
+  end
+
+  # offset位置からsize件取得する
+  def self.fetch_csv_row_post(relation, offset, size)
+    select_columns = <<~EOS
+      brands.name as brand_name,
+      markets.name as market_name,
+      companies.name as company_name
+    EOS
+    # size件分取得するSQLを発行
+    records = relation.joins(:market, :company)
+                      .select(select_columns)
+                      .offset(offset)
+                      .take(size)
+    csv_array = records.map do |account|
+      [
+        account.media,
+        account.name,
+        account.screen_name,
+        account.brand_name,
+        account.market_name,
+        account.company_name,
+        account.max_posted_at,
+        account.post_increment,
+        account.total_reaction_increment,
+        account.follower_increment,
+        account.follower_increment_rate,
+        account.total_reaction_increment_rate
+      ]
+    end
   end
 end

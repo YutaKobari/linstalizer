@@ -1,0 +1,19 @@
+<div class="card mb-4">
+  <div class="table-responsive table-hover">
+    <table class="table align-items-center">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col" style="width:25%">アカウント</th>
+          <th scope="col" style="width:60%;">コンテンツ</th>
+          <th scope="col" style="width:15%">投稿日時</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render 'talk_posts/talk_post_content', talk_post_contents: talk_post_contents %>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+    <%= render 'layouts/pagination_link_in_tab', records: talk_post_contents, param_name: 'talks_page' %>
+  </div>
+</div>

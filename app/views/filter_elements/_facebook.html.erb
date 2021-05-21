@@ -9,7 +9,7 @@
     <% post_type_selected = params[:media_post_types]&.include?("Facebook-normal_post") %>
     <div class='btn btn-outline-primary btn-sns-form Facebook-normal_post Facebook-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
       <input type="checkbox" name="media_post_types[]" value='Facebook-normal_post' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
-      通常投稿
+      タイムライン投稿
     </div>
     <% post_type_selected = params[:media_post_types]&.include?("Facebook-story") %>
     <div class='btn btn-outline-primary btn-sns-form Facebook-story Facebook-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">

@@ -47,4 +47,55 @@ class TalkPostContent < ApplicationRecord
     favorite_account_ids = User.current.favorites.pluck(:account_id)
     where(account_id: favorite_account_ids)
   end
+
+
+  scope :between_posted_hour, -> (hour_start, hour_end) do
+    return if hour_start.blank? || hour_end.blank?
+      joins(:talk_post)
+      .where('talk_posts.hour BETWEEN ? AND ?', hour_start, hour_end)
+  end
+  
+  # offset位置からsize件取得する
+  def self.fetch_csv_row_post(relation, offset, size)
+    select_columns = <<~EOS
+      #{table_name}.account_id,
+      accounts.name as account_name,
+      #{table_name}.brand_id,
+      brands.name as brand_name,
+      markets.name as market_name,
+      #{table_name}.post_type,
+      #{table_name}.content_url,
+      #{table_name}.video_url,
+      #{table_name}.text,
+      #{table_name}.posted_at,
+      #{table_name}.landing_page_url,
+      #{table_name}.talk_group_hash
+    EOS
+    # size件分取得するSQLを発行
+    records = relation.joins(:market)
+                      .select(select_columns)
+                      .offset(offset)
+                      .take(size)
+    # できればtalk_post_helperと共通のハッシュを用いたい
+    display_hash = { 'text' => 'テキストメッセージ', 'image' => '画像メッセージ', 'video' => '動画メッセージ', 'image_map' => 'イメージマップ',
+      'carousel' => 'カルーセル' }
+    csv_array = records.map do |talk_post|
+      [
+        talk_post.account_name,
+        talk_post.brand_name,
+        talk_post.market_name,
+        display_hash[talk_post.post_type],
+        case talk_post.post_type
+        when 'text'
+          talk_post.text
+        when 'video'
+          talk_post.video_url
+        else
+          talk_post.content_url
+        end,
+        talk_post.posted_at,
+        talk_post.landing_page_url
+      ]
+    end
+  end
 end

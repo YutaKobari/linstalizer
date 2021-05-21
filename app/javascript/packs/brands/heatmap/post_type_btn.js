@@ -1,10 +1,8 @@
 const post_type_selectors = [
   ".LINE-normal_post", ".LINE-talk_post", ".LINE-story",
-  ".Instagram-feed", ".Instagram-reel", '.Instagram-story',
-  ".Twitter-tweet", ".Twitter-retweet", ".Twitter-fleet",
-  ".Facebook-normal_post", ".Facebook-story"
+  ".Instagram-feed", ".Instagram-reel", '.Instagram-story'
 ]
-const media = ["LINE", "Instagram", "Twitter", "Facebook"]
+const media = ["LINE", "Instagram"]
 
 window.addEventListener('load', function () {
   // ボタンの押下でボタンの子要素のcheckboxの状態がcheckedになるようにする
@@ -15,7 +13,7 @@ window.addEventListener('load', function () {
       })
     })
   })
-  // メディアの全選択(全削除)ボタンを押すと、そのメディアのcheckboxが全てchecked(unchecked)になるようにする
+  // SNSの全選択(全削除)ボタンを押すと、そのSNSのcheckboxが全てchecked(unchecked)になるようにする
   media.forEach(medium => {
     const selector = `.${medium}-checkall`
     $(selector).each((i, elem) => {

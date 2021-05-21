@@ -3,6 +3,7 @@ class LandingPage < ApplicationRecord
   has_one  :lp_combined_urls, primary_key: :url_hash, foreign_key: :url_hash
   has_one  :lp_search_ngrams, primary_key: :url_hash, foreign_key: :url_hash
   belongs_to  :brand
+  has_one    :market, through: :brand
 
   scope :where_market_id, -> (market_id) do
     return if market_id.blank?
@@ -57,5 +58,32 @@ class LandingPage < ApplicationRecord
     return if is_favorite.blank?
     favorite_brand_ids = User.current.accounts.distinct.pluck(:brand_id)
     where(brand_id: favorite_brand_ids)
+  end
+
+   # offset位置からsize件取得する
+   def self.fetch_csv_row_post(relation, offset, size)
+    select_columns = <<~EOS
+      #{table_name}.brand_id,
+      #{table_name}.brand_name,
+      markets.name as market_name,
+      #{table_name}.thumbnail_s3,
+      #{table_name}.title,
+      #{table_name}.description
+    EOS
+    # size件分取得するSQLを発行
+    records = relation.joins(:market)
+                      .select(select_columns)
+                      .offset(offset)
+                      .take(size)
+    csv_array = records.map do |lps|
+      [
+        lps.brand_name,
+        lps.market_name,
+        lps.thumbnail_s3,
+        lps.title,
+        lps.description,
+        lps.posts.size.to_s(:delimited)
+      ]
+    end
   end
 end

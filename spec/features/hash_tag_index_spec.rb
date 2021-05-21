@@ -47,7 +47,7 @@ feature "ハッシュタグ一覧画面" do
         expect(page).to have_current_path(post_path(1))
       end
     end
-    scenario 'メディア名をクリックするとメディア絞り込み画面に遷移' do
+    scenario 'SNS名をクリックするとSNS絞り込み画面に遷移' do
       first('tbody > tr > td > span > a', class: 'Instagram_btn').click
       within_window(windows.last) do
         expect(page).to have_current_path(hash_tags_path(media: "Instagram"))
@@ -84,7 +84,7 @@ feature "ハッシュタグ一覧画面" do
     end
   end
 
-  context "メディアを指定" do
+  context "SNSを指定" do
     background do
       3.times { FactoryBot.create(:post, posted_at: Date.yesterday) }
 
@@ -101,7 +101,7 @@ feature "ハッシュタグ一覧画面" do
       find('.sidenav-normal', text: 'ハッシュタグ一覧').click
     end
 
-    scenario '選択したメディアのみのハッシュタグが表示される' do
+    scenario '選択したSNSのみのハッシュタグが表示される' do
       expect(all('tbody > tr').size).to eq(3)
       find('span', text: "絞り込みフォーム").click
       select 'LINE', from: 'media'
@@ -112,7 +112,7 @@ feature "ハッシュタグ一覧画面" do
       click_on "絞り込み"
       expect(all('tbody > tr').size).to eq(2)
 
-      select '全メディア', from: 'media'
+      select '全SNS', from: 'media'
       click_on "絞り込み"
       expect(all('tbody > tr').size).to eq(3)
     end

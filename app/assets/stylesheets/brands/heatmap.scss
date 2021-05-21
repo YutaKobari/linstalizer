@@ -3,9 +3,8 @@ heatmap-wrapper {
 }
 
 .heatmap-tbl {
-  margin: 0 auto 20px auto; 
   width: 100%;
-  height: 900px;
+  height: 600px;
   margin-top:15px;
 }
 
@@ -14,7 +13,7 @@ heatmap-wrapper {
 }
 
 .heatmap-tbl tr th:not(.th-first) {
-  padding-top: 3px;
+  padding-top: 0px;
   padding-right: 7px;
   padding-left: 7px;
   border-right: 1px solid #ccc; 
@@ -27,19 +26,19 @@ heatmap-wrapper {
   background-color: #F1F1F1;
   background-image: -moz-linear-gradient(center top , #F9F9F9, #ECECEC);
   margin-bottom: 0;
-  height: 36px;
+  height: 24px;
 }
 
 .heatmap-tbl tr td:not(.stats-title) {
-  padding-top: 3px;
+  padding-top: 0px;
   padding-right: 7px;
   padding-left: 7px;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
   text-align: right; 
   color: #000; 
-  font-size: 11px;
-  height: 36px;
+  font-size: 8px;
+  height: 24px;
   width: 165px;
 }
 
@@ -64,14 +63,14 @@ heatmap-wrapper {
 }
 
 .hours-wrapper .hour {
-  height: 36px;
+  height: 24px;
   font-size: 11px;
   position: relative;
 }
 
 .hours-wrapper .hour:first-child {
   margin-top: 22.3px;
-  height: 36px;
+  height: 24px;
   font-size: 11px;
 }
 

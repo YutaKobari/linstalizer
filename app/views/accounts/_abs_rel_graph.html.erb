@@ -1,0 +1,46 @@
+<%# 二つのデータを保持してパーシャルのみでデータの入れ替えを含むグラフ表示を作成する %>
+
+<%# ローカル変数%>
+<%# graph_id: グラフ(キャンバス)毎に個別の値, label_abs: 絶対値側の表示名, label_rel: 相対値側の表示名 %>
+<%# account: アカウント %>
+<%# chart_data_abs: 絶対値側のグラフデータセット, chart_data_rel: 相対値側のグラフデータセット %>
+<%# posts_per_date: 日当たりの投稿数, talk_posts_per_date: 日当たりのトーク投稿数 %>
+<%# type: "line", "bar" など %>
+
+<%# すべての.mychartに対して共通処理がなされる %>
+<div id="<%= graph_id %>" class="mychart">
+
+  <%# 二種切り替えパーツ %>
+  <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
+    <label class="btn btn-sm btn-secondary active">
+      <input type="radio" class="<%= graph_id %>-switch" name="<%= graph_id %>-ar-radio" autocomplete="off" checked data-toggle="mychart" data-update="abs"> <%= label_abs %>
+    </label>
+    <label class="btn btn-sm btn-secondary">
+      <input type="radio" class="<%= graph_id %>-switch" name="<%= graph_id %>-ar-radio" autocomplete="off" data-toggle="mychart" data-update="rel"> <%= label_rel %>
+    </label>
+  </div>
+
+  <%# グラフエリア %>
+  <div class="chart">
+    <canvas id="<%= graph_id %>-canvas" class="chart-canvas" height="0.5em"></canvas>
+    <div class="follower-transition-icon-label w-100 bg-secondary text-center rounded">アクティビティ</div>
+    <% chart_data_abs.map{|d| d[:date]}.each.with_index do |date, n|%>
+      <div class="follower_transition_icon follower_transition_icon_<%= n %>">
+        <a href="<%= account_path(account, start_date: date, end_date: date, graph_aggregated_from: params[:graph_aggregated_from], graph_aggregated_to: params[:graph_aggregated_to]
+        ) %>">
+          <span class="<%=account.media%>_circle_icon <%=account.media%>_follower_transition_icon<%= n %>">0</span>
+        </a>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Ruby <=> JS  %>
+  <div id="<%= graph_id %>-chart-type" data-type="<%= type %>"></div>
+  <div id="<%= graph_id %>-chart-title" data-title="<%= graph_title %>"></div>
+  <div id="<%= graph_id %>-dataset-abs" data-dataset="<%= chart_data_abs.to_json %>"></div>
+  <div id="<%= graph_id %>-dataset-rel" data-dataset="<%= chart_data_rel.to_json %>"></div>
+  <%# 以下は投稿数表示用 %>
+  <div id="<%= graph_id %>-posts-per-date" data-value="<%= posts_per_date %>"></div>
+  <div id="<%= graph_id %>-talks-per-date" data-value="<%= talk_posts_per_date %>"></div>
+  <div id="<%= graph_id %>-media" data-media="<%= account.media %>"></div>
+</div>

@@ -1,25 +1,28 @@
-<div class="form-group row py-1">
-  <%= form.label :line, "LINE", class: "col-3 col-form-label sns_labels" %>
+<div class="form-group row mx-0 d-flex align-items-center">
+  <div class="col-3 text-right p-0">
+    <p class="LINE_btn heatmap-sns-labels mb-0">LINE</p>
+  </div>
   <div class="col-9 d-flex align-items-center">
-    <div class="form-check">
-      <input class="form-check-input LINE-checkall" type="checkbox">
-      <label class="form-check-label" for="check1a">全選択</label>
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input LINE-checkall" id="customCheck1">
+      <label class="custom-control-label" for="customCheck1">全選択</label>
     </div>
 
+
     <% post_type_selected = params[:media_post_types]&.include?("LINE-normal_post") %>
-    <div class='btn btn-outline-primary btn-sns-form LINE-normal_post LINE-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+    <div class='btn btn-outline-LINE btn-sns-form LINE-normal_post LINE-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
       <input type="checkbox" name="media_post_types[]" value='LINE-normal_post' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
-      投稿
+      <i class="fas fa-file-alt m-0"></i><span class="mx-1">投稿</span>
     </div>
     <% post_type_selected = params[:media_post_types]&.include?("LINE-talk_post") %>
-    <div class='btn btn-outline-primary btn-sns-form LINE-talk_post LINE-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+    <div class='btn btn-outline-LINE btn-sns-form LINE-talk_post LINE-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
       <input type="checkbox" name="media_post_types[]" value='LINE-talk_post' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
-      トーク投稿
+      <i class="fas fa-comment-dots m-0"></i><span class="mx-1">トーク投稿</span>
     </div>
     <% post_type_selected = params[:media_post_types]&.include?("LINE-story") %>
-    <div class='btn btn-outline-primary btn-sns-form LINE-story LINE-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
+    <div class='btn btn-outline-LINE btn-sns-form LINE-story LINE-sns-btn' data-toggle="button" aria-pressed="<%= post_type_selected %>">
       <input type="checkbox" name="media_post_types[]" value='LINE-story' style="width: 0px" class="sns-checkbox" <%= post_type_selected ? 'checked' : '' %>/>
-      ストーリー
+      <i class="fas fa-camera m-0"></i><span class="mx-1">ストーリー
     </div>
   </div>
 </div>

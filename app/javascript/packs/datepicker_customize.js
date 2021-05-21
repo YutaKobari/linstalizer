@@ -16,6 +16,21 @@ window.addEventListener('load', function () {
     document.getElementById('aggregated_to').value = end_date;
   });
 
+  $('#graph_last_month_aggregation').on('click', function () {
+    const date = new Date();
+    const last_month_end = new Date(date.getFullYear(), date.getMonth(), 0)
+
+    //フォーマット整形
+    const year = last_month_end.getFullYear();
+    const month = ("00" + (last_month_end.getMonth() + 1)).slice(-2);
+    const end_day = ("00" + last_month_end.getDate()).slice(-2);
+
+    const start_date = year + "/" + month + "/01";
+    const end_date = year + "/" + month + "/" + end_day;
+    document.getElementById('graph_aggregated_from').value = start_date;
+    document.getElementById('graph_aggregated_to').value = end_date;
+  });
+
   $('#this_month_aggregation').on('click', function () {
     const today = new Date();
 
@@ -28,6 +43,20 @@ window.addEventListener('load', function () {
     const end_date = year + "/" + month + "/" + day;
     document.getElementById('aggregated_from').value = start_date;
     document.getElementById('aggregated_to').value = end_date;
+  });
+
+  $('#graph_this_month_aggregation').on('click', function () {
+    const today = new Date();
+
+    //フォーマット整形
+    const year = today.getFullYear();
+    const month = ("00" + (today.getMonth() + 1)).slice(-2);
+    const day = ("00" + today.getDate()).slice(-2);
+
+    const start_date = year + "/" + month + "/01";
+    const end_date = year + "/" + month + "/" + day;
+    document.getElementById('graph_aggregated_from').value = start_date;
+    document.getElementById('graph_aggregated_to').value = end_date;
   });
 
   $('#last_week_aggregation').on('click', function () {
@@ -51,6 +80,27 @@ window.addEventListener('load', function () {
     document.getElementById('aggregated_to').value = end_date;
   });
 
+  $('#graph_last_week_aggregation').on('click', function () {
+    const date = new Date();
+    const last_week_start = new Date();
+    last_week_start.setDate(last_week_start.getDate() - last_week_start.getDay() - 7);
+    const last_week_end = new Date();
+    last_week_end.setDate(last_week_end.getDate() - last_week_end.getDay() - 1);
+
+    //フォーマット整形
+    const start_year = last_week_start.getFullYear();
+    const start_month = ("00" + (last_week_start.getMonth() + 1)).slice(-2);
+    const start_day = ("00" + last_week_start.getDate()).slice(-2);
+    const start_date = start_year + "/" + start_month + "/" + start_day
+    document.getElementById('graph_aggregated_from').value = start_date;
+
+    const end_year = last_week_end.getFullYear();
+    const end_month = ("00" + (last_week_end.getMonth() + 1)).slice(-2);
+    const end_day = ("00" + last_week_end.getDate()).slice(-2);
+    const end_date = end_year + "/" + end_month + "/" + end_day
+    document.getElementById('graph_aggregated_to').value = end_date;
+  });
+
   $('#this_week_aggregation').on('click', function () {
     const today = new Date();
     const this_week_start = new Date();
@@ -68,6 +118,25 @@ window.addEventListener('load', function () {
     const end_day = ("00" + today.getDate()).slice(-2);
     const end_date = end_year + "/" + end_month + "/" + end_day
     document.getElementById('aggregated_to').value = end_date;
+  });
+
+  $('#graph_this_week_aggregation').on('click', function () {
+    const today = new Date();
+    const this_week_start = new Date();
+    this_week_start.setDate(this_week_start.getDate() - this_week_start.getDay());
+
+    //フォーマット整形
+    const start_year = this_week_start.getFullYear();
+    const start_month = ("00" + (this_week_start.getMonth() + 1)).slice(-2);
+    const start_day = ("00" + this_week_start.getDate()).slice(-2);
+    const start_date = start_year + "/" + start_month + "/" + start_day
+    document.getElementById('graph_aggregated_from').value = start_date;
+
+    const end_year = today.getFullYear();
+    const end_month = ("00" + (today.getMonth() + 1)).slice(-2);
+    const end_day = ("00" + today.getDate()).slice(-2);
+    const end_date = end_year + "/" + end_month + "/" + end_day
+    document.getElementById('graph_aggregated_to').value = end_date;
   });
 
   $("#this_month_filter").on('click', function () {
@@ -115,6 +184,21 @@ window.addEventListener('load', function () {
     document.getElementById('richmenu_end_date').value = end_date;
   });
 
+  $("#account_index_all_periods_aggregation").on('click', function () {
+    const today = new Date();
+
+    //フォーマット整形
+    const year = today.getFullYear();
+    const month = ("00" + (today.getMonth() + 1)).slice(-2);
+    const end_day = ("00" + today.getDate()).slice(-2);
+
+    const start_date = "2000/01/01";
+    const end_date = year + "/" + month + "/" + end_day;
+
+    document.getElementById("aggregated_from").value = start_date;
+    document.getElementById("aggregated_to").value = end_date;
+  });
+
   //他のボタンは同じ処理を共通化
   const buttons = [
     { selector: "#30_days_filter", subtract_day: 29 },
@@ -132,6 +216,9 @@ window.addEventListener('load', function () {
     { selector: "#all_periods_aggregation", subtract_day: 0, target: 'aggregation' },
     { selector: "#thirty_days_aggregation", subtract_day: 29, target: 'aggregation' },
     { selector: "#one_week_aggregation", subtract_day: 6, target: 'aggregation' },
+    { selector: "#graph_all_periods_aggregation", subtract_day: 0, target: 'graph_aggregation' },
+    { selector: "#graph_thirty_days_aggregation", subtract_day: 29, target: 'graph_aggregation' },
+    { selector: "#graph_one_week_aggregation", subtract_day: 6, target: 'graph_aggregation' },
   ]
   const setting_date = function (selector, subtract_day, target = '') {
     const today = new Date();
@@ -160,6 +247,10 @@ window.addEventListener('load', function () {
       case 'aggregation':
         start_id = "aggregated_from"
         end_id = "aggregated_to"
+        break
+      case 'graph_aggregation':
+        start_id = "graph_aggregated_from"
+        end_id = "graph_aggregated_to"
         break
       case 'richmenu':
         start_id = "richmenu_start_date"

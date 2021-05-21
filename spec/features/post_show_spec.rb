@@ -47,7 +47,7 @@ feature '投稿詳細画面' do
       FactoryBot.create(:post)
     end
 
-    scenario 'メディアをクリックするとメディアで絞り込んだアカウント一覧表示に遷移' do
+    scenario 'SNSをクリックするとSNSで絞り込んだアカウント一覧表示に遷移' do
       visit post_path(1)
       find('.breadcrumb-item', text: "Instagram").click
       expect(page).to have_current_path(accounts_path(media: "Instagram"))

@@ -1,11 +1,13 @@
 <%= render "filter_form", redirect_path: posts_path %>
+<%= render "layouts/csvdl_button", csv_download_path: "post_csv_download_path" %>
+
 <div class="card">
-  <div class="table-responsive table-hover">
-    <table class="table align-items-center", style="table-layout: fixed;" style="table-layout: fixed;">
+  <div class="table-responsive-xl table-hover">
+    <table class="table align-items-center" style="word-break: break-all; word-wrap: break-all;">
       <thead>
         <tr>
           <th scope="col" style="width:20%">アカウント名</th>
-          <th scope="col" style="width:10%">メディア</th>
+          <th scope="col" style="width:10%">SNS</th>
           <th scope="col" style="width:35%">コンテンツ</th>
           <th scope="col" style="width:20%;">テキスト</th>
           <th scope="col" style="width:15%">詳細情報</th>

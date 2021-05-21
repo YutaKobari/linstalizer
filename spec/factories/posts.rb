@@ -30,16 +30,6 @@ FactoryBot.define do
     post_type { "story" }
   end
 
-  trait :tweet do
-    media     { "Twitter" }
-    post_type { "tweet" }
-  end
-
-  trait :retweet do
-    media     { "Twitter" }
-    post_type { "retweet" }
-  end
-
   trait :normal_post do
     media { 'LINE' }
     post_type { 'normal_post' }

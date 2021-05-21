@@ -40,4 +40,33 @@ class RichMenu < ApplicationRecord
     favorite_account_ids = User.current.favorites.pluck(:account_id)
     where(account_id: favorite_account_ids)
   end
+
+  # offset位置からsize件取得する
+  def self.fetch_csv_row_post(relation, offset, size)
+    select_columns = <<~EOS
+      #{table_name}.account_id,
+      accounts.name as account_name,
+      brands.id,
+      brands.name as brand_name,
+      markets.name as market_name,
+      #{table_name}.content_url,
+      #{table_name}.date_from,
+      #{table_name}.date_to
+    EOS
+    # size件分取得するSQLを発行
+    records = relation.joins(:market)
+                      .select(select_columns)
+                      .offset(offset)
+                      .take(size)
+    csv_array = records.map do |rich_menu|
+      [
+        rich_menu.account_name,
+        rich_menu.brand_name,
+        rich_menu.market_name,
+        rich_menu.content_url,
+        rich_menu.date_from,
+        rich_menu.date_to || '表示中'
+      ]
+    end
+  end
 end

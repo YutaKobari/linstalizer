@@ -1,5 +1,5 @@
 <%# ローカル変数 redirect_path %>
-<%= form_with url: redirect_path, method: :get do |form| %>
+<%= form_with url: redirect_path, method: :get, html: {name: "talk_post_form"} do |form| %>
   <%= hidden_field_tag :filter_form_open, true %>
   <div class="container accordion mt-3" id="accordionExample">
     <div class="card">
@@ -17,12 +17,13 @@
             </div>
             <div class="col pl-0">
               <%= render "filter_elements/talk_posted_at", form: form %>
+              <%= render "filter_elements/talk_hour", form: form, hour_list: hour_list %>
               <%= render "filter_elements/market", form: form, market_list: fetch_market_list if controller.controller_name == 'talk_posts' %>
-              <%= render "filter_elements/is_favorites", form: form %>
+              <%= render "filter_elements/is_favorites", form: form if controller.controller_name == 'talk_posts' %>
             </div>
           </div>
           <div class="row px-4 justify-content-end">
-            <%= form.submit "絞り込み", class: "btn btn-primary btn-filter-form mr-3", name: nil %>
+            <%= form.submit "絞り込み", class: "btn btn-primary btn-filter-form mr-3", id: "talk_post_form_button", name: nil %>
           </div>
         </div>
         </div>
@@ -30,3 +31,15 @@
     </div>
     <%= hidden_field_tag :current_tab, 'talk' if controller.controller_name == 'accounts' %>
   <% end %>
+
+  <%# 絞り込みの値が間違っている時に表示するモーダル  %>
+  <div class="row">
+    <div class="col-md-4">
+        <span hidden data-toggle='modal' data-target='#talk_alert-modal' id="talk_alert-modal-open"></span>
+        <div class="modal fade" id="talk_alert-modal" tabindex="-1" role="dialog" aria-labelledby="heatmap-modal-label" aria-hidden="true">
+            <%= render "alerts/modal" %>
+        </div>
+    </div>
+  </div>
+
+  <%= javascript_pack_tag 'talkpost_filter_form_settings' %>

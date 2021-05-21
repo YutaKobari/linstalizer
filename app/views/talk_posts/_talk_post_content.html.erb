@@ -1,11 +1,9 @@
 <% talk_post_contents.each do |talk_post_content| %>
 <%= content_tag(:tr,'',onclick: "window.open('#{talk_post_path(talk_post_content.talk_post.id)}');" ,style: 'cursor: pointer;' ) do %>
-  <% if controller.controller_name == 'talk_posts' || controller.controller_name == 'brands' %>
+  <% if ['talk_posts', 'brands', 'top'].include? controller.controller_name %>
     <td>
-      <p class="text-left ml-2">
-        <%= link_to talk_post_content.brand.name, brand_path(talk_post_content.brand), style: 'white-space:normal;' %>
-        <%= link_to talk_post_content.market&.name, talk_posts_path(market_id: talk_post_content.brand.market_id), class: "badge badge-primary ml-1" %>
-      </p>
+      <p class="mb-1"><%= link_to talk_post_content.market&.name, talk_posts_path(market_id: talk_post_content.brand.market_id), class: "badge badge-primary" %></p>
+      <p><%= link_to talk_post_content.brand.name, brand_path(talk_post_content.brand), style: 'white-space:normal;' %></p>
       <div class="media align-items-center ml-2">
         <span class="avatar rounded-circle mr-2">
           <%#一旦、icon_s3がNULLの場合もダミー画像を表示するようにしている。%>
@@ -22,7 +20,7 @@
   <% end %>
   <td>
     <%#一旦、content_urlがNULLの場合もダミー画像を表示するようにしている。%>
-    <div style="overflow-x: auto;" class="align-items-top d-flex">
+    <div style="overflow-x: auto; max-width: 60vw;" class="align-items-top d-flex">
       <%# TODO: カルーセルだと分かるような表示方法を %>
       <% talk_post_content.talk_post.talk_post_contents.group(:raw_post_id).order(:id).each do |content| %>
         <div class="d-inline-block m-1">

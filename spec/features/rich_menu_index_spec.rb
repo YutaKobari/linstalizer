@@ -128,9 +128,9 @@ feature 'リッチメニュー一覧画面' do
       end
     end
 
-    context "お気に入りスイッチで絞り込み" do
+    context "ピンアカスイッチで絞り込み" do
       background do
-        # どのユーザーもお気に入りに登録していないアカウントを2個作成
+        # どのユーザーもピンアカに登録していないアカウントを2個作成
         2.times do
           FactoryBot.create(:account) do |account|
             # 各アカウントに紐づくrich_menuを4つ作成
@@ -138,7 +138,7 @@ feature 'リッチメニュー一覧画面' do
           end
         end
 
-        # user(id:2)がお気に入りに登録しているアカウントを3個作成
+        # user(id:2)がピンアカに登録しているアカウントを3個作成
         FactoryBot.create(:user, email: 'tester2@example.com')
         3.times do
           FactoryBot.create(:account) do |account|
@@ -148,7 +148,7 @@ feature 'リッチメニュー一覧画面' do
           end
         end
 
-        # user(id:1)がお気に入りに登録しているアカウントを4個作成
+        # user(id:1)がピンアカに登録しているアカウントを4個作成
         4.times do
           FactoryBot.create(:account) do |account|
             FactoryBot.create(:favorite, account_id: account.id)
@@ -160,7 +160,7 @@ feature 'リッチメニュー一覧画面' do
         expect(all('tbody > tr').size).to eq(34) # 2×4 + 3×2 + 4×5 = 34
       end
 
-      scenario "お気に入りスイッチONでお気に入りアカウントのみ表示、OFFで解除" do
+      scenario "ピンアカスイッチONでピンアカのみ表示、OFFで解除" do
         find('span', text: "絞り込みフォーム").click
         find('label', text: "Off").click
         click_on '絞り込み'

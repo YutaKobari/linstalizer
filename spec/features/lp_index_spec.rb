@@ -166,9 +166,9 @@ feature "LP検索画面テスト" do
     end
   end
 
-  context "お気に入りスイッチで絞り込み" do
+  context "ピンアカスイッチで絞り込み" do
     background do
-      # どのユーザーもお気に入りに登録していないアカウントを2個作成。LPはブランドと紐づくため、ブランドから作成。
+      # どのユーザーもピンアカに登録していないアカウントを2個作成。LPはブランドと紐づくため、ブランドから作成。
       2.times do
         FactoryBot.create(:brand) do |brand|
           FactoryBot.create(:account, brand_id: brand.id)
@@ -180,7 +180,7 @@ feature "LP検索画面テスト" do
         end
       end
 
-      # user(id:2)がお気に入りに登録しているアカウントを3個作成
+      # user(id:2)がピンアカに登録しているアカウントを3個作成
       FactoryBot.create(:user, email: 'tester2@example.com')
       3.times do
         FactoryBot.create(:brand) do |brand|
@@ -194,13 +194,13 @@ feature "LP検索画面テスト" do
         end
       end
 
-      # user(id:1)がお気に入りに登録しているアカウントと、同ブランドの登録していないアカウントをそれぞれ4つ作成
-      # 同ブランド内にお気に入り登録しているアカウントが一つでもあったら、そのブランドに紐づくLPは全て表示されるかをテストするため未登録アカウントを作成している
+      # user(id:1)がピンアカに登録しているアカウントと、同ブランドの登録していないアカウントをそれぞれ4つ作成
+      # 同ブランド内にピンアカ登録しているアカウントが一つでもあったら、そのブランドに紐づくLPは全て表示されるかをテストするため未登録アカウントを作成している
       4.times do
         FactoryBot.create(:brand) do |brand|
-          account1 = FactoryBot.create(:account, brand_id: brand.id) # お気に入り登録
+          account1 = FactoryBot.create(:account, brand_id: brand.id) # ピンアカ登録
           FactoryBot.create(:favorite, account_id: account1.id)
-          account2 = FactoryBot.create(:account, media: 'LINE', brand_id: brand.id) # お気に入り未登録
+          account2 = FactoryBot.create(:account, media: 'LINE', brand_id: brand.id) # ピンアカ未登録
           # ブランドに紐づくlpを5つ作成
           5.times do
             lp = FactoryBot.create(:landing_page, brand_id: brand.id)
@@ -212,7 +212,7 @@ feature "LP検索画面テスト" do
       expect(all('tbody > tr').size).to eq(35) # 1(最初のbackground) + 2×4 + 3×2 + 4×5 = 34
     end
 
-    scenario "お気に入りスイッチONでお気に入りアカウントのみ表示、OFFで解除" do
+    scenario "ピンアカスイッチONでピンアカのみ表示、OFFで解除" do
       find('span', text: "絞り込みフォーム").click
       find('label', text: "Off").click
       click_on '絞り込み'

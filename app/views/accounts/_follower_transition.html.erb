@@ -1,22 +1,17 @@
 <div class="card">
-  <%= render 'filter_elements/month', { graph_title: "#{graph_title(account)}推移", controller: "account", graph_name: "follower_transition" }%>
-  <div class="card-body">
-    <div class="chart">
-      <canvas id="followerChart" class="chart-canvas" height="0.5em"></canvas>
-      <% follower_per_date.map{|d| d[:date]}.each.with_index do |date, n|%>
-        <div class="follower_transition_icon follower_transition_icon_<%= n %>">
-          <a href="<%= account_path(account, start_date: date, end_date: date) %>">
-            <span class="<%=account.media%>_circle_icon <%=account.media%>_follower_transition_icon<%= n %>">0</span>
-          </a>
-        </div>
-      <% end %>
+  <%= render 'filter_elements/aggregation_graph_header', { graph_title: "#{graph_title(account)}推移", controller: "account", graph_name: "follower_transition" }%>
+  <div class="card-body row justify-content-around">
+    <div class="col-xl-5 mb-4">
+      <%= render 'abs_rel_graph', graph_id: 'follower-transition', label_abs: '人', label_rel: '%', graph_title: graph_title(account),
+        account: account, chart_data_abs: follower_per_date, chart_data_rel: follower_per_date_rel, posts_per_date: posts_per_date,
+        talk_posts_per_date: talk_posts_per_date, type: 'line' %>
+    </div>
+    <div class="col-xl-5 mb-4">
+    <%= render 'abs_rel_graph', graph_id: 'follower-increment', label_abs: '人', label_rel: '%', graph_title: "#{graph_title(account)}増減",
+        account: account, chart_data_abs: follower_increment_per_date, chart_data_rel: follower_increment_per_date_rel, posts_per_date: posts_per_date,
+        talk_posts_per_date: talk_posts_per_date, type: 'bar' %>
     </div>
   </div>
 </div>
 
-<%# data属性を使用してJSにRubyの変数を引き渡す %>
-<div id="follower_transition_data" data-follower_per_date="<%= follower_per_date.to_json %>" data-graph_title="<%= graph_title(account) %>"></div>
-<div id="posts_data" data-posts_per_date="<%= account.posts_per_date(params[:follower_transition_month]) %>"></div>
-<div id="talk_posts_data" data-talk_posts_per_date="<%= account.talk_posts_per_date(params[:follower_transition_month]) %>"></div>
-<div id="media" data-media="<%= account.media %>"></div>
 <%= javascript_pack_tag 'accounts/follower_transition_graph' %>

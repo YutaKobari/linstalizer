@@ -3,8 +3,8 @@ class AccountForm
   include ActiveModel::Attributes
 
   validates_inclusion_of :market_id, in: Market.pluck(:id), allow_blank: true
-  validates_inclusion_of :media, in: %w(LINE Instagram Twitter Facebook), allow_blank: true
-  validates_inclusion_of :sort , in: %w(follower_increment post_increment total_reaction_increment follower_increment_rate max_posted_at), allow_blank: true
+  validates_inclusion_of :media, in: %w(LINE Instagram), allow_blank: true
+  validates_inclusion_of :sort , in: %w(follower_increment post_increment total_reaction_increment follower_increment_rate total_reaction_increment_rate max_posted_at), allow_blank: true
 
   attribute :search_account , :string
   attribute :market_id      , :integer
@@ -16,7 +16,9 @@ class AccountForm
 
   def search
     return Account.none unless self.valid?
-    self.aggregated_to ||= DailyAccountEngagement.order('date DESC').first&.date
+    default_aggregated_to = DailyAccountEngagement.order('date DESC').first&.date || Date.yesterday
+    self.aggregated_from ||= default_aggregated_to - 6.days
+    self.aggregated_to ||= default_aggregated_to
 
     Account
       .where_is_favorite(is_favorite)

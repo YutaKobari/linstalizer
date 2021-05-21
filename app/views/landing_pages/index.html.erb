@@ -1,7 +1,10 @@
 <%= render "filter_form"%>
+
+<%= render "layouts/csvdl_button", csv_download_path: "landing_page_csv_download_path" %>
+
 <div class="card">
-  <div class="table-responsive table-hover">
-    <table class="table align-items-center table-flash" style="table-layout: fixed;">
+  <div class="table-responsive-xl table-hover">
+    <table class="table align-items-center">
       <thead>
         <tr>
           <th scope="col" style="width:15%">ブランド名</th>

@@ -1,8 +1,10 @@
-<div class="m-5">
-  <ul class="nav nav-pills nav-fill justify-content-start">
-    <span class="text-left h1"><%= @account.brand.name %></span>
-    <span class="badge badge-default h-25 ml-3 mr-4 mt-2"><%= @account.brand.market.name %></span>
-       <% @account.brand.accounts.each do |account| %>
+<div class="m-3">
+  <ul class="nav nav-pills nav-fill justify-content-start align-items-end">
+    <li class="mr-auto">
+      <div class="badge badge-default my-2 mr-2"><%= @account.brand.market.name %></div>
+      <div class="text-left h1 mb-0"><%= @account.brand.name %></div>
+    </li>
+    <% @account.brand.accounts.each do |account| %>
     <li>
       <% if @account == account %>
       <% color_style = "#{account.media}_btn" %>
@@ -13,7 +15,7 @@
     </li>
     <% end %>
     <li>
-      <%= link_to 'ブランド分析', brand_path(@account.brand), class:"btn-sns-form nav-link text-center" %>
+      <%= link_to 'ブランドTOPIX', brand_path(@account.brand), class:"nav-link text-center", style:"margin: 10px 15px;" %>
     </li>
   </ul>
 </div>
@@ -21,25 +23,24 @@
 <div class="card">
   <div class="card-body">
     <div class="row align-items-center">
-      <div class="col-4 pl-4">
-        <img src=<%= @account.icon_s3 %> class="rounded-circle shadow shadow-lg--hover" style="width: 80%;">
+      <div class="col-3 pl-4">
+        <img src=<%= @account.icon_s3 %> class="rounded-circle shadow shadow-lg--hover" style="width: 60%;">
       </div>
-      <div class="col-6">
-        <h2><%= @account.name %></h2>
-        <h3 class="font-weight-light text-muted">
+      <div class="col-7">
+        <h3><%= @account.name %></h3>
+        <h5 class="font-weight-light text-muted">
             <span class="mr-4">投稿数：<%= @account.latest_engagement&.post_count&.to_s(:delimited) %></span>
           <% if @account.media == 'LINE' %>
             <span class="mr-4">友だち数：<%= @account.latest_engagement&.follower&.to_s(:delimited) %></span>
-            <br>
             <span class="mr-4">フォロワー数：<%= @account.latest_engagement&.line_follower&.to_s(:delimited) %></span>
             <span class="mr-0">反応数：<%= @account.latest_engagement&.total_reaction&.to_s(:delimited) %></span>
           <% else %>
             <span class="mr-4">フォロワー数：<%= @account.latest_engagement&.follower&.to_s(:delimited) %></span>
           <% end %>
-        </h3>
-        <p class="text-muted"><%= @account.screen_name %><br><%= @account.latest_introduction %></p>
-        <h3>運営元：<%= @account.company.name %></h3>
-        <div id=<%="favorite_#{@account.id}" %> class="mt-4">
+        </h5>
+        <h5 class="text-muted font-weight-light"><%= @account.screen_name %><br><%= @account.latest_introduction %></h5>
+        <h5>運営元：<%= @account.company.name %></h5>
+        <div id=<%="favorite_#{@account.id}" %> class="mt-2">
           <%= render "favorite_button", account: @account, is_account_show: 'true' %>
         </div>
       </div>
@@ -47,7 +48,7 @@
   </div>
 </div>
 <%# フォロワー数グラフ %>
-<%= render 'follower_transition', account: @account, follower_per_date: @follower_per_date %>
+<%= render 'follower_transition', account: @account, follower_per_date: @follower_per_date, follower_per_date_rel: @follower_per_date_rel, follower_increment_per_date: @follower_increment_per_date, follower_increment_per_date_rel: @follower_increment_per_date_rel, posts_per_date: @posts_per_date, talk_posts_per_date: @talk_posts_per_date %>
 <%# タブ %>
 <%# LINEのときのみタブを表示 %>
 <% if @account.media == 'LINE' %>

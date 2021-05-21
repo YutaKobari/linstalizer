@@ -10,20 +10,20 @@ function changeFormOptions() {
     let sort_option_hash = { '選択してください': '', '投稿が新しい順': 'posted_at', 'いいね数': 'like' }
     switch (media) {
         case 'LINE':
-            type_option_hash = { '選択してください': '', '通常投稿': 'normal_post' }
+            type_option_hash = { '選択してください': '', 'タイムライン投稿': 'normal_post' }
             break;
         case 'Instagram':
             type_option_hash = { '選択してください': '', 'フィード': 'feed', 'リール': 'reel', 'ストーリー': 'story' }
             break;
-        case 'Twitter':
-            type_option_hash = { '選択してください': '', 'ツイート': 'tweet', 'リツイート': 'retweet' }
-            sort_option_hash['リツイート数'] = 'retweet';
-            break;
-        //case 'Facebook': 
+        // case 'Twitter':
+        //     type_option_hash = { '選択してください': '', 'ツイート': 'tweet', 'リツイート': 'retweet' }
+        //     sort_option_hash['リツイート数'] = 'retweet';
+        //     break;
+        //case 'Facebook':
         //Facebookの投稿タイプなどは今のところ未定
         //  break;
         default:
-            type_option_hash = { '選択してください': '', '通常投稿': 'normal_post', 'フィード': 'feed', 'リール': 'reel', 'ストーリー': 'story', 'ツイート': 'tweet', 'リツイート': 'retweet' }
+            type_option_hash = { '選択してください': '', 'タイムライン投稿': 'normal_post', 'フィード': 'feed', 'リール': 'reel', 'ストーリー': 'story' }
             break;
     }
     //selectタグに追加する

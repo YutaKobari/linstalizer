@@ -11,16 +11,12 @@
         <dd><%= post.account.name %></dd>
         <dt>企業名</dt>
         <dd><%= post.account.company.name %></dd>
-        <dt>メディア</dt>
+        <dt>SNS</dt>
         <dd><%= link_to post.media, posts_path(media: post.media), class: "#{post.media}_btn btn btn-sm" %></dd>
         <dt>投稿タイプ</dt>
         <dd><%= display_post_type post.post_type, posts_path(post_type: post.post_type) %></dd>
         <dt>いいね数</dt>
         <dd><%= post.like_count %></dd>
-        <% if post.media=="Twitter" then %>
-        <dt>リツイート数</dt>
-        <dd><%= post.retweet_count %></dd>
-        <% end %>
         <dt>投稿日時</dt>
         <dd><%= l(post.posted_at) %></dd>
         <% if post.redirect_url&.include?('http') %>

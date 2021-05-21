@@ -42,13 +42,13 @@ RSpec.describe Heatmap, type: :model do
       before do
         FactoryBot.create(:post, :feed)
         FactoryBot.create(:post, :reel)
-        FactoryBot.create(:post, :retweet)
-        @heatmap = Heatmap.new(@brand, media_post_types: ["Instagram-reel", "Twitter-retweet"], aggregated_from: "2021/02/01", aggregated_to: "2021/02/02")
+        FactoryBot.create(:post, :normal_post)
+        @heatmap = Heatmap.new(@brand, media_post_types: ["Instagram-reel", "LINE-normal_post"], aggregated_from: "2021/02/01", aggregated_to: "2021/02/02")
       end
       example "投稿タイプが一致した投稿が返ってくる" do
         post_data = @heatmap.post_data_hashes
         expect(post_data.size).to eq 2
-        expect(post_data.map{|d| d[:post_type]}).to eq ["reel", "retweet"]
+        expect(post_data.map{|d| d[:post_type]}).to eq ["normal_post", "reel"]
       end
     end
   end

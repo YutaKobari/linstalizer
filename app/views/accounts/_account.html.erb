@@ -1,8 +1,5 @@
 <tr>
-  <td class="favorite_link">
-    <%= render "favorite_button", account: account, is_account_show: 'false' %>
-  </td>
-
+  <%= content_tag :td, render("favorite_button", account: account, is_account_show: 'false') ,class: "favorite_link" unless controller.controller_name == 'top'%>
   <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
     <%= link_to account.media, accounts_path(media: account.media), class: "#{account.media}_btn btn btn-sm" %>
   <% end %>
@@ -20,17 +17,13 @@
   <% end %>
 
   <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
-    <%= external_link_to account.brand.name, brand_path(account.brand), class: "name text-sm", style: "white-space: normal;"%>
-  <% end %>
-
-  <%#業種%>
-  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
-    <%= link_to account.brand.market&.name, accounts_path(market_id: account.brand.market_id), class: "btn btn-sm btn-secondary" %>
-  <% end %>
-
-  <%#企業名%>
-  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
-    <%= content_tag :p, account.brand.company.name, class: "name text-sm", style: "white-space: normal; display: inline-block; margin:auto;" %>
+    <div class="mb-2">
+      <%= link_to account.brand.market&.name, accounts_path(market_id: account.brand.market_id), class: "btn btn-sm btn-secondary" %>
+    </div>
+    <div>
+      <%= external_link_to account.brand.name, brand_path(account.brand), class: "name text-sm", style: "white-space: normal;"%>
+    </div>
+    <%= content_tag :p, "運営元: #{account.brand.company.name}", class: "name text-sm", style: "white-space: normal; display: inline-block; margin:auto;" %>
   <% end %>
 
   <%#最新投稿日%>
@@ -43,19 +36,24 @@
     <%= account.post_increment.present? ? account.post_increment.to_s(:delimited) : '-' %>
   <% end %>
 
-  <%#反応数%>
+  <%#反応数/反応数増加率%>
   <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
-    <%= account.total_reaction_increment.present? ? account.total_reaction_increment.to_s(:delimited) : '-' %>
+    <% unless controller.controller_name == 'top' %>
+      <div>増加数: <%= account.total_reaction_increment.present? ? account.total_reaction_increment.to_s(:delimited) : '-' %></div>
+      <div>増加率: <%= "#{account.total_reaction_increment_rate}%" %></div>
+    <% else %>
+      <%= account.total_reaction_increment.present? ? account.total_reaction_increment.to_s(:delimited) : '-' %>
+    <% end %>
   <% end %>
 
-  <%#フォロワー増数%>
+  <%#フォロワー増加数/増加率%>
   <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
-    <%= account.follower_increment.present? ? account.follower_increment.to_s(:delimited)  : '-'%>
-  <% end %>
-
-  <%#フォロワー増加率%>
-  <%= content_tag(:td,'',onclick: "window.open('#{account_path(account.id)}');",style: 'cursor: pointer;') do %>
-    <%= "#{account.follower_increment_rate}%" %>
+    <% unless controller.controller_name == 'top' %>
+      <div>増加数: <%= account.follower_increment.present? ? account.follower_increment.to_s(:delimited)  : '-'%></div>
+      <div>増加率: <%= "#{account.follower_increment_rate}%" %></div>
+    <% else %>
+      <%= account.follower_increment.present? ? account.follower_increment.to_s(:delimited)  : '-'%></div>
+    <% end %>
   <% end %>
 </tr>
 

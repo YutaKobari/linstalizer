@@ -1,20 +1,26 @@
 <%= render "filter_form" %>
+<div class="mb-3 d-flex align-items-end justify-content-between">
+  <%= link_to '表示結果をCSVダウンロード', account_csv_download_path(@search_params), class: 'btn btn-secondary csv-download' %>
+  <% sort = sort_list_hash_for_accounts.key(params[:sort]) || 'フォロワー増加数' %>
+  <div>
+    <span class="mr-6">並び順：<%= sort %>が多い順</span>
+    <span>集計期間：<%= @aggregated_from unless @aggregated_from == "2000-01-01".to_date %>&nbsp;&nbsp;〜&nbsp;&nbsp;<%= @aggregated_to %></span>
+  </div>
+</div>
+
 <div class="card">
   <div class="table-responsive-xl table-hover">
     <table class="table align-items-center table-border-radius" style="word-break: break-all; word-wrap: break-all;">
       <thead style="border-radius:6px;">
         <tr>
-          <th scope="col" style="width: 5%;">お気に入り</th>
-          <th scope="col" style="width: 5%;">メディア</th>
-          <th scope="col" style="width: 7.5%;">アカウントID</th>
-          <th scope="col" style="width: 15%;">ブランド</th>
-          <th scope="col" style="width: 15%;">業種</th>
-          <th scope="col" style="width: 20%;">企業名</th>
-          <th scope="col" style="width: 7.55%;">最新投稿日</th>
-          <th scope="col" style="width: 5%;">投稿数</th>
-          <th scope="col" style="width: 5%;">反応数</th>
-          <th scope="col" style="width: 7.5%;">フォロワー増加数</th>
-          <th scope="col" style="width: 7.5%;">フォロワー増加率</th>
+          <th scope="col" style="width: 7.5%;">ピンアカ</th>
+          <th scope="col" style="width: 7.5%;">SNS</th>
+          <th scope="col" style="width: 10%;">アカウントID</th>
+          <th scope="col" style="width: 30%;">ブランド情報</th>
+          <th scope="col" style="width: 10%;">最新投稿日</th>
+          <th scope="col" style="width: 10%;">投稿数</th>
+          <th scope="col" style="width: 10%;">反応数</th>
+          <th scope="col" style="width: 15%;">フォロワー</th>
         </tr>
       </thead>
       <tbody>

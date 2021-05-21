@@ -67,8 +67,6 @@ class Post < ApplicationRecord
     case sort
     when 'like' then
       order(like_count: "DESC")
-    when 'retweet' then
-      order(retweet_count: "DESC")
     when 'posted_at' then
       order(posted_at: "DESC")
     else
@@ -84,6 +82,10 @@ class Post < ApplicationRecord
 
   scope :between_posted_at, -> (start_date, end_date) do
     where(posted_at: start_date..(end_date + 1.day)) # date型で同日を指定するとなにもヒットしないため
+  end
+
+  scope :between_posted_hour, -> (hour_start, hour_end) do
+    where(hour: hour_start..hour_end)
   end
 
   def make_like_chart_data
@@ -109,5 +111,47 @@ class Post < ApplicationRecord
     .where(posted_at: args[:aggregated_from]..args[:aggregated_to])
     .where_media_post_types(args[:media_post_types])
     .group(:day, :hour, :post_type, :media)
+  end
+
+  # offset位置からsize件取得する
+  def self.fetch_csv_row_post(relation, offset, size)
+    select_columns = <<~EOS
+      #{table_name}.account_id,
+      accounts.name as account_name,
+      #{table_name}.brand_id,
+      brands.name as brand_name,
+      markets.name as market_name,
+      #{table_name}.media,
+      #{table_name}.post_type,
+      #{table_name}.is_img,
+      #{table_name}.content_url,
+      #{table_name}.video_url,
+      #{table_name}.text,
+      #{table_name}.like_count,
+      #{table_name}.posted_at,
+      #{table_name}.landing_page_url
+    EOS
+    # size件分取得するSQLを発行
+    records = relation.joins(:market)
+                      .select(select_columns)
+                      .offset(offset)
+                      .take(size)
+    # できればposts_helperと共通のハッシュを用いたい
+    display_hash = { 'normal_post' => 'タイムライン投稿', 'feed' => 'フィード', 'reel' => 'リール', 'story' => 'ストーリー' }
+    csv_array = records.map do |post|
+      [
+        post.account_name,
+        post.brand_name,
+        post.market_name,
+        post.media,
+        display_hash[post.post_type],
+        post.is_img ? '画像' : '動画',
+        post.is_img ? post.content_url : post.video_url,
+        post.text,
+        post.like_count,
+        post.posted_at,
+        post.landing_page_url
+      ]
+    end
   end
 end

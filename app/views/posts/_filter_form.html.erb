@@ -1,5 +1,5 @@
 <%# ローカル変数 redirect_path, media(アカウント詳細画面時のみ渡す) %>
-<%= form_with url: redirect_path, method: :get do |form| %>
+<%= form_with url: redirect_path, method: :get, html: {name: "post_form"} do |form| %>
   <%= hidden_field_tag :filter_form_open, true %>
   <div class="container accordion mt-3" id="accordionExample">
     <div class="card">
@@ -14,6 +14,7 @@
               <%= render "filter_elements/account", form: form if controller.controller_name == 'posts' %>
               <%= render "filter_elements/hashtag", form: form %>
               <%= render "filter_elements/url",     form: form unless controller.controller_name == 'landing_pages'%>
+              <%= render "filter_elements/market", form: form, market_list: fetch_market_list if controller.controller_name == 'posts' %>
               <% if defined? media %>
                 <%= render "filter_elements/post_type", form: form, post_type_list: get_post_type_option_hash_by_media(media) %>
               <% else %>
@@ -22,8 +23,8 @@
             </div>
             <div class="col pl-0">
               <%= render "filter_elements/posted_at", form: form %>
-              <%= render "filter_elements/media",   form: form, media_list: %w(LINE Instagram Twitter Facebook) unless controller.controller_name == 'accounts' %>
-              <%= render "filter_elements/market", form: form, market_list: fetch_market_list if controller.controller_name == 'posts' %>
+              <%= render "filter_elements/hour", form: form, hour_list: hour_list() %>
+              <%= render "filter_elements/media",   form: form, media_list: %w(LINE Instagram) unless controller.controller_name == 'accounts' %>
               <% if defined? media %>
                 <%= render "filter_elements/sort", form: form, sort_list: get_sort_option_hash_by_media(media) %>
               <% else %>
@@ -33,11 +34,23 @@
             </div>
           </div>
           <div class="row px-4 justify-content-end">
-            <%= form.submit "絞り込み", class: "btn btn-primary btn-filter-form mr-3", name: nil %>
+            <%= form.submit "絞り込み", class: "btn btn-primary btn-filter-form mr-3", id: "post_form_button", name: nil %>
           </div>
           </div>
         <% end %>
       </div>
     </div>
   <% end %>
-  <%= javascript_pack_tag 'filter_form_dynamic_option' unless controller.controller_name == 'accounts' %>
+
+<%# 絞り込みの値が間違っている時に表示するモーダル  %>
+<div class="row">
+  <div class="col-md-4">
+      <span hidden data-toggle='modal' data-target='#alert-modal' id="alert-modal-open"></span>
+      <div class="modal fade" id="alert-modal" tabindex="-1" role="dialog" aria-labelledby="heatmap-modal-label" aria-hidden="true">
+          <%= render "alerts/modal" %>
+      </div>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'filter_form_dynamic_option' unless controller.controller_name == 'accounts' %>
+<%= javascript_pack_tag 'post_filter_form_settings' %>

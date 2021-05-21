@@ -3,9 +3,10 @@
 <div class="form-group row mx-0 d-flex align-items-center">
   <%= form.label :aggregation_period, "集計期間", class: "col-3 pr-2 filter_form_labels" %>
   <div class="col-9 p-0", style="border: none;">
+  <% prefix = "account_index_" if controller.controller_name == 'accounts' %>
     <div>
-      <button id="all_periods_aggregation" class="btn btn-secondary btn-sm" type="button">全期間</button>
-      <button id="one_week_aggregation" class="btn btn-secondary btn-sm" type="button">１週間</button>
+      <button id=<%= "#{prefix}all_periods_aggregation" %> class="btn btn-secondary btn-sm" type="button">全期間</button>
+      <button id=<%= "one_week_aggregation" %> class="btn btn-secondary btn-sm" type="button">１週間</button>
     </div>
   </div>
 </div>

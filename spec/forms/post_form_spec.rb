@@ -11,33 +11,33 @@ RSpec.describe PostForm, type: :model do
     FactoryBot.create(:post)
   end
 
-  it 'メディアがLINE,Instagram,Twitter,Facebook以外であれば無効である' do
+  it 'SNSがLINE,Instagram以外であれば無効である' do
     post = PostForm.new(media: 'hoge_media')
     expect(post.valid?).to eq false
 
-    valid_media = %w[LINE Instagram Twitter Facebook]
+    valid_media = %w[LINE Instagram]
     valid_media.each do |valid_media|
       post = PostForm.new(media: valid_media)
       expect(post.valid?).to eq true
     end
   end
 
-  it '投稿タイプがfeed,reel,story,tweet,retweet,normal_post以外であれば無効である' do
+  it '投稿タイプがfeed,reel,story,normal_post以外であれば無効である' do
     post = PostForm.new(post_type: 'hoge_post_type')
     expect(post.valid?).to eq false
 
-    valid_post_types = %w[feed reel story tweet retweet normal_post]
+    valid_post_types = %w[feed reel story normal_post]
     valid_post_types.each do |valid_post_type|
       post = PostForm.new(post_type: valid_post_type)
       expect(post.valid?).to eq true
     end
   end
 
-  it '並び替えがlike,retweet以外であれば無効である' do
+  it '並び替えがlike以外であれば無効である' do
     post = PostForm.new(sort: 'hoge_sort')
     expect(post.valid?).to eq false
 
-    valid_sorts = %w[like retweet]
+    valid_sorts = %w[like]
     valid_sorts.each do |valid_sort|
       post = PostForm.new(sort: valid_sort)
       expect(post.valid?).to eq true
@@ -109,20 +109,20 @@ RSpec.describe PostForm, type: :model do
       end
     end
 
-    describe 'メディアで検索' do
-      context '存在するメディアで検索' do
+    describe 'SNSで検索' do
+      context '存在するSNSで検索' do
         before do
           @post_form = PostForm.new(media: 'LINE')
           FactoryBot.create(:post, media: 'LINE')
         end
-        example 'メディアが一致する投稿が返ってくる' do
+        example 'SNSが一致する投稿が返ってくる' do
           posts = @post_form.search
           expect(posts.size).to eq 1
           expect(posts.first.media).to eq 'LINE'
         end
       end
 
-      context '存在しないメディアで検索' do
+      context '存在しないSNSで検索' do
         before do
           @post_form = PostForm.new(media: 'hogemedia')
           FactoryBot.create(:post, media: 'Instagram')
@@ -186,16 +186,6 @@ RSpec.describe PostForm, type: :model do
           expect(posts.first.like_count).to  eq 3
           expect(posts.second.like_count).to eq 2
           expect(posts.third.like_count).to  eq 1
-        end
-      end
-
-      context 'リツイート数で並び替え' do
-        before { @post_form = PostForm.new(sort: 'retweet', end_date: '2021/02/04'.to_date) }
-        example 'リツイート数が多い順に表示される' do
-          posts = @post_form.search
-          expect(posts.first.retweet_count).to  eq 3
-          expect(posts.second.retweet_count).to eq 2
-          expect(posts.third.retweet_count).to  eq 1
         end
       end
 
@@ -279,14 +269,14 @@ RSpec.describe PostForm, type: :model do
       end
     end
 
-    context 'メディアで検索' do
+    context 'SNSで検索' do
       before do
         FactoryBot.create(:post, media: 'LINE', url_hash: @current_lp.url_hash)
         FactoryBot.create(:post, media: 'LINE', url_hash: @other_lp.url_hash)
         FactoryBot.create(:post, :feed)
         @post_form = PostForm.new(media: 'LINE')
       end
-      example '該当LPでメディアが一致する投稿が返ってくる' do
+      example '該当LPでSNSが一致する投稿が返ってくる' do
         posts = @post_form.search_in_lp_show(@current_lp.id)
         expect(posts.size).to eq 1
         expect(posts.first.media).to eq 'LINE'
@@ -296,7 +286,7 @@ RSpec.describe PostForm, type: :model do
     context '投稿タイプで検索' do
       before do
         FactoryBot.create(:post, url_hash: @other_lp)
-        FactoryBot.create(:post, :tweet, url_hash: @current_lp.url_hash)
+        FactoryBot.create(:post, :reel, url_hash: @current_lp.url_hash)
         FactoryBot.create(:post, :feed, url_hash: @current_lp.url_hash)
         @post_form = PostForm.new(post_type: 'feed')
       end
@@ -339,16 +329,6 @@ RSpec.describe PostForm, type: :model do
           expect(posts.first.like_count).to  eq 3
           expect(posts.second.like_count).to eq 2
           expect(posts.third.like_count).to  eq 1
-        end
-      end
-
-      context 'リツイート数で並び替え' do
-        before { @post_form = PostForm.new(sort: 'retweet', end_date: '2021/02/04'.to_date) }
-        example '該当LPでリツイート数が多い順に表示される' do
-          posts = @post_form.search_in_lp_show(@current_lp.id)
-          expect(posts.first.retweet_count).to  eq 3
-          expect(posts.second.retweet_count).to eq 2
-          expect(posts.third.retweet_count).to  eq 1
         end
       end
 
@@ -449,14 +429,14 @@ RSpec.describe PostForm, type: :model do
         expect(posts.size).to eq 1
       end
     end
-    context 'メディアで検索' do
+    context 'SNSで検索' do
       before do
         FactoryBot.create(:post, media: 'LINE', brand_id: @current_brand.id)
         FactoryBot.create(:post, media: 'LINE', brand_id: @other_brand.id)
         FactoryBot.create(:post, :feed, brand_id: @current_brand.id)
         @post_form = PostForm.new(media: 'LINE')
       end
-      example '該当ブランドでメディアが一致する投稿が返ってくる' do
+      example '該当ブランドでSNSが一致する投稿が返ってくる' do
         posts = @post_form.search_in_brands_show(@current_brand.id)
         expect(posts.size).to eq 1
         expect(posts.first.media).to eq 'LINE'
@@ -479,7 +459,7 @@ RSpec.describe PostForm, type: :model do
     context '投稿タイプで検索' do
       before do
         FactoryBot.create(:post, brand_id: @current_brand.id)
-        FactoryBot.create(:post, :tweet, brand_id: @current_brand.id)
+        FactoryBot.create(:post, :reel, brand_id: @current_brand.id)
         FactoryBot.create(:post, :feed, brand_id: @other_brand.id)
         @post_form = PostForm.new(post_type: 'feed')
       end
@@ -506,15 +486,6 @@ RSpec.describe PostForm, type: :model do
           expect(posts.first.like_count).to  eq 3
           expect(posts.second.like_count).to eq 2
           expect(posts.third.like_count).to  eq 1
-        end
-      end
-      context 'リツイート数で並び替え' do
-        before { @post_form = PostForm.new(sort: 'retweet', end_date: '2021/02/04'.to_date) }
-        example '該当ブランドでリツイート数が多い順に表示される' do
-          posts = @post_form.search_in_brands_show(@current_brand.id)
-          expect(posts.first.retweet_count).to  eq 3
-          expect(posts.second.retweet_count).to eq 2
-          expect(posts.third.retweet_count).to  eq 1
         end
       end
       context '投稿が新しい順で並び替え' do
@@ -629,7 +600,7 @@ RSpec.describe PostForm, type: :model do
     context '投稿タイプで検索' do
       before do
         FactoryBot.create(:post, account_id: @current_account.id)
-        FactoryBot.create(:post, :tweet, account_id: @current_account.id)
+        FactoryBot.create(:post, :reel, account_id: @current_account.id)
         FactoryBot.create(:post, :feed, account_id: @other_account.id)
         @post_form = PostForm.new(post_type: 'feed')
       end
@@ -656,15 +627,6 @@ RSpec.describe PostForm, type: :model do
           expect(posts.first.like_count).to  eq 3
           expect(posts.second.like_count).to eq 2
           expect(posts.third.like_count).to  eq 1
-        end
-      end
-      context 'リツイート数で並び替え' do
-        before { @post_form = PostForm.new(sort: 'retweet', end_date: '2021/02/04'.to_date) }
-        example '該当アカウントでリツイート数が多い順に表示される' do
-          posts = @post_form.search_in_accounts_show(@current_account.id)
-          expect(posts.first.retweet_count).to  eq 3
-          expect(posts.second.retweet_count).to eq 2
-          expect(posts.third.retweet_count).to  eq 1
         end
       end
       context '投稿が新しい順で並び替え' do

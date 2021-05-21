@@ -1,13 +1,17 @@
 <%= content_tag(:tr,'',onclick: "window.open('#{landing_page_path(landing_page.id)}');",style: 'cursor: pointer;') do %>
   <td>
-    <%= link_to landing_page.brand.name, brand_path(landing_page.brand), class: "brand_name_link", style: 'word-wrap: break-word; white-space:normal;' %>
-    <% if landing_page.brand.accounts.pluck(:id).each.any? { |account_id| @favorite_account_ids.include?(account_id) } %>
-      <i class="fas fa-star ml-1" style="color: gold"></i>
-    <% end %>
-    <p><%= link_to landing_page.brand.market&.name, landing_pages_path(market_id: landing_page.brand.market_id), class: "badge badge-primary ml-1 mt-3" %></p>
+    <p class="mb-2">
+      <%= link_to landing_page.brand.market&.name, landing_pages_path(market_id: landing_page.brand.market_id), class: "badge badge-primary" %>
+    </p>
+    <div>
+      <%= link_to landing_page.brand.name, brand_path(landing_page.brand), class: "brand_name_link", style: 'word-wrap: break-word; white-space:normal;' %>
+      <% if landing_page.brand.accounts.pluck(:id).each.any? { |account_id| @favorite_account_ids.include?(account_id) } %>
+        <i class="fas fa-star ml-1" style="color: gold"></i>
+      <% end %>
+    </div>
   </td>
   <td>
-    <%= image_tag landing_page.thumbnail_s3 || 'https://picsum.photos/250/250', class: 'rounded', style: 'max-height: 800px; max-width: 350px;' %>
+    <%= image_tag landing_page.thumbnail_s3 || 'https://picsum.photos/250/250', class: 'rounded', style: 'max-height: 40vh; max-width: 30vw;' %>
   </td>
   <td style="white-space:normal;">
     <%= simple_format landing_page.title %>

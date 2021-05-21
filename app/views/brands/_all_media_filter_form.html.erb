@@ -6,10 +6,8 @@
       <div>
         <%= render "filter_elements/line",      { form: form } %>
         <%= render "filter_elements/instagram", { form: form } %>
-        <%= render "filter_elements/twitter",   { form: form } %>
-        <%= render "filter_elements/facebook",  { form: form } %>
       </div>
-      <%= form.submit "絞り込み", class: "btn btn-primary float-right btn-filter-form mr-6", name: nil %>
+      <%= form.submit "絞り込み", class: "btn btn-primary float-right btn-filter-form mr-5 mt-3", name: nil %>
     </div>
   </div>
 <% end %>

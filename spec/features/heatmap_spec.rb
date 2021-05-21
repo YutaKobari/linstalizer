@@ -25,13 +25,10 @@ feature "ブランド詳細画面 ヒートマップ" do
   context "ヒートマップのアイコン表示" do
     background do
       FactoryBot.create(:post, hour: 1, day: 0, post_type: "normal_post", media: "LINE", posted_at: Date.today)
-      FactoryBot.create(:post, hour: 2, day: 0, post_type: "tweet", media: "Twitter", posted_at: Date.today)
       FactoryBot.create(:post, hour: 3, day: 0, post_type: "reel", media: "Instagram", posted_at: Date.today)
-      FactoryBot.create(:post, hour: 4, day: 0, post_type: "retweet", media: "Twitter", posted_at: Date.today)
       FactoryBot.create(:talk_post, hour: 5, day: 0, posted_at: Date.today)
       FactoryBot.create(:talk_post_content)
       FactoryBot.create(:post, hour: 6, day: 0, post_type: "story", media: "Instagram", posted_at: Date.today)
-      FactoryBot.create(:post, hour: 7, day: 0, post_type: "fleet", media: "Twitter", posted_at: Date.today)
       visit brand_path(1)
       switch_to_window(windows.last)
       click_on "投稿推移（集計）"
@@ -47,28 +44,16 @@ feature "ブランド詳細画面 ヒートマップ" do
       expect(find('.hour-0.day-0')).to have_text('1')
     end
 
-    scenario "通常投稿のアイコンが表示されている" do
+    scenario "タイムライン投稿のアイコンが表示されている" do
       sleep 1
       expect(find('.hour-1.day-0 span')[:class]).to include('normal_post_icon')
       expect(find('.hour-1.day-0')).to have_text('1')
-    end
-
-    scenario "ツイートのアイコンが表示されている" do
-      sleep 1
-      expect(find('.hour-2.day-0 span')[:class]).to include('tweet_icon')
-      expect(find('.hour-2.day-0')).to have_text('1')
     end
 
     scenario "リールのアイコンが表示されている" do
       sleep 1
       expect(find('.hour-3.day-0 span')[:class]).to include('reel_icon')
       expect(find('.hour-3.day-0')).to have_text('1')
-    end
-
-    scenario "リツイートのアイコンが表示されている" do
-      sleep 1
-      expect(find('.hour-4.day-0 span')[:class]).to include('retweet_icon')
-      expect(find('.hour-4.day-0')).to have_text('1')
     end
 
     scenario "トーク投稿のアイコンが表示されている" do
@@ -81,12 +66,6 @@ feature "ブランド詳細画面 ヒートマップ" do
       sleep 1
       expect(find('.hour-6.day-0 span')[:class]).to include('story_icon')
       expect(find('.hour-6.day-0')).to have_text('1')
-    end
-
-    scenario "フリートのアイコンが表示されている" do
-      sleep 1
-      expect(find('.hour-7.day-0 span')[:class]).to include('fleet_icon')
-      expect(find('.hour-7.day-0')).to have_text('1')
     end
 
     scenario "hour,day,post_typeが同じ投稿の数だけアイコン横の数字が増える" do
@@ -123,20 +102,20 @@ feature "ブランド詳細画面 ヒートマップ" do
     end
 
     scenario "アイコンをクリックするとモーダルが表示される" do
-      expect(find('.modal', visible: false)).not_to be_visible
+      expect(find('#heatmap-modal', visible: false)).not_to be_visible
       find('.hour-0.day-0 a').click
       sleep 1
-      expect(find('.modal', visible: false)).to be_visible
+      expect(find('#heatmap-modal', visible: false)).to be_visible
       click_on "閉じる"
 
       sleep 1
-      expect(find('.modal', visible: false)).not_to be_visible
+      expect(find('#heatmap-modal', visible: false)).not_to be_visible
       find('.hour-5.day-0 a').click
       sleep 1
-      expect(find('.modal', visible: false)).to be_visible
+      expect(find('#heatmap-modal', visible: false)).to be_visible
     end
 
-    scenario "モーダルのメディア、投稿タイプがクリックしたアイコンと一致している" do
+    scenario "モーダルのSNS、投稿タイプがクリックしたアイコンと一致している" do
       find('.hour-0.day-0 a').click
       sleep 1
       expect(find('.modal-content td:first-child p:first-child').text).to eq "Instagram"
@@ -144,10 +123,10 @@ feature "ブランド詳細画面 ヒートマップ" do
       click_on "閉じる"
       sleep 1
 
-      find('.hour-4.day-0 a').click
+      find('.hour-3.day-0 a').click
       sleep 1
-      expect(find('.modal-content td:first-child p:first-child').text).to eq "Twitter"
-      expect(find('.modal-content td:first-child p:nth-child(2)').text).to eq "リツイート"
+      expect(find('.modal-content td:first-child p:first-child').text).to eq "Instagram"
+      expect(find('.modal-content td:first-child p:nth-child(2)').text).to eq "リール"
     end
 
     scenario "モーダルの表示数がアイコンの表示数と一致している" do
@@ -236,26 +215,26 @@ feature "ブランド詳細画面 ヒートマップ" do
       expect(all('.LINE-story .sns-checkbox', visible: false)[0].checked?).to       eq false
     end
 
-    scenario "全選択ボタンを押すと、そのメディアの全ての投稿タイプボタンが押される" do
-      expect(find('.LINE-checkall').checked?).to eq false
+    scenario "全選択ボタンを押すと、そのSNSの全ての投稿タイプボタンが押される" do
+      expect(find('.LINE-checkall', :visible => false).checked?).to eq false
       expect(all('.LINE-normal_post .sns-checkbox', visible: false)[0].checked?).to eq false
       expect(all('.LINE-talk_post .sns-checkbox', visible: false)[0].checked?).to   eq false
       expect(all('.LINE-story .sns-checkbox', visible: false)[0].checked?).to       eq false
-      find('.LINE-checkall').set(true) # 全選択ボタンを押す
-      expect(find('.LINE-checkall').checked?).to eq true
+      find_all('.custom-control-label')[0].click # 全選択ボタンを押す
+      expect(find('.LINE-checkall', :visible => false).checked?).to eq true
       expect(all('.LINE-normal_post .sns-checkbox', visible: false)[0].checked?).to eq true
       expect(all('.LINE-talk_post .sns-checkbox', visible: false)[0].checked?).to   eq true
       expect(all('.LINE-story .sns-checkbox', visible: false)[0].checked?).to       eq true
     end
 
-    scenario "全選択ボタンのチェックを外すと、そのメディアの全ての投稿タイプボタンが解除される" do
-      find('.LINE-checkall').set(true) # 全選択ボタンを押す
-      expect(find('.LINE-checkall').checked?).to eq true
+    scenario "全選択ボタンのチェックを外すと、そのSNSの全ての投稿タイプボタンが解除される" do
+      find_all('.custom-control-label')[0].click # 全選択ボタンを押す
+      expect(find('.LINE-checkall', :visible => false).checked?).to eq true
       expect(all('.LINE-normal_post .sns-checkbox', visible: false)[0].checked?).to eq true
       expect(all('.LINE-talk_post .sns-checkbox', visible: false)[0].checked?).to   eq true
       expect(all('.LINE-story .sns-checkbox', visible: false)[0].checked?).to       eq true
-      find('.LINE-checkall').set(false) # 全選択ボタンを解除する
-      expect(find('.LINE-checkall').checked?).to eq false
+      find_all('.custom-control-label')[0].click # 全選択ボタンを押す # 全選択ボタンを解除する
+      expect(find('.LINE-checkall', :visible => false).checked?).to eq false
       expect(all('.LINE-normal_post .sns-checkbox', visible: false)[0].checked?).to eq false
       expect(all('.LINE-talk_post .sns-checkbox', visible: false)[0].checked?).to   eq false
       expect(all('.LINE-story .sns-checkbox', visible: false)[0].checked?).to       eq false

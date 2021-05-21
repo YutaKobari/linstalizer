@@ -33,4 +33,24 @@ class HashTag < ApplicationRecord
     .order(posted_at: 'DESC')
     .limit(30)
   end
+
+  # offset位置からsize件取得する
+  def self.fetch_csv_row_post(relation, offset, size)
+    select_columns = <<~EOS
+      #{table_name}.name,
+      #{table_name}.media
+    EOS
+    # size件分取得するSQLを発行
+    records = relation.select(select_columns)
+                      .offset(offset)
+                      .take(size)
+    csv_array = records.map do |hash_tag|
+      [
+        hash_tag.name,
+        hash_tag.media,
+        hash_tag.post_increment,
+        hash_tag.total_reaction_increment
+      ]
+    end
+  end
 end

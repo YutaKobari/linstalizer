@@ -18,4 +18,8 @@ module ApplicationHelper
     option.merge!({target: :_blank, rel: 'noopener noreferrer'})
     link_to(text, href, option)
   end
+
+  def hour_list
+    (0..23).to_a.map {|num| ["#{num}時台", num]}
+  end
 end

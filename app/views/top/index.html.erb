@@ -1,0 +1,62 @@
+    <div class="card my-4" id="notifications" >
+  <div class="card-header bg-gradient-info">
+    <h4 class="text-uppercase ls-1 text-white mb-0">運営からのお知らせ</h4>
+  </div>
+  <div class="table-responsive table-hover">
+    <table class="table">
+      <%= render partial: 'notifications', collection: @notifications %>
+    </table>
+  </div>
+</div>
+
+<div class="card my-4" id="favorite-accounts" >
+  <div class="card-header bg-gradient-default">
+    <h4 class="ls-1 text-white mb-0">ピンアカ</h4>
+  </div>
+  <div class="table-responsive-xl table-hover">
+    <table class="table align-items-center table-border-radius" style="word-break: break-all; word-wrap: break-all;">
+      <thead class="card-header text-default">
+        <tr>
+          <th scope="col" style="width: 7.5%;">SNS</th>
+          <th scope="col" style="width: 15%;">アカウントID</th>
+          <th scope="col" style="width: 30%;">ブランド情報</th>
+          <th scope="col" style="width: 10%;">最新投稿日</th>
+          <th scope="col" style="width: 10%;">投稿数</th>
+          <th scope="col" style="width: 10%;">反応数</th>
+          <th scope="col" style="width: 15%;">フォロワー数</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'accounts/account', collection: @fav_accounts[0..9] %>
+      </tbody>
+    </table>
+    <%  if @fav_accounts.length > 10 %>
+      <div class="card-footer text-center">
+        <%= link_to 'すべて表示', accounts_path(params: {is_favorite: 1, sort: 'max_posted_at'}) %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="card card-body bg-gradient-default mb-0">
+    <h4 class="ls-1 text-white mb-0">ピンアカの最近の投稿をチェック</h4>
+</div>
+<div class="nav-wrapper">
+  <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="tabs-1-tab" data-toggle="tab" href="#tabs-1" role="tab" aria-controls="tabs-1" aria-selected="true">投稿</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="tabs-2-tab" data-toggle="tab" href="#tabs-2" role="tab" aria-controls="tabs-2" aria-selected="false">トーク</a>
+    </li>
+  </ul>
+</div>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="tabs-1" role="tabpanel" aria-labelledby="tabs-1-tab">
+    <%= render 'tab_fav_posts', posts: @fav_posts %>
+  </div>
+  <div class="tab-pane fade" id="tabs-2" role="tabpanel" aria-labelledby="tabs-2-tab">
+    <%= render 'tab_fav_talks', talk_post_contents: @fav_talks %>
+  </div>
+</div>
+<%= javascript_pack_tag 'top_tab_controll' %>

@@ -4,6 +4,7 @@ class BrandsController < ApplicationController
     @heatmap = Heatmap.new(@brand, heatmap_params)
     post_form = PostForm.new(post_params)
     @posts = post_form.search_in_brands_show(@brand.id).page(params[:page]).without_count.per(30)
+    @brandlift_params = brandlift_params
   end
 
   def append_modal
@@ -38,7 +39,16 @@ class BrandsController < ApplicationController
       :post_type,
       :start_date,
       :end_date,
+      :hour_start,
+      :hour_end,
       :sort
+    )
+  end
+
+  def brandlift_params
+    params.permit(
+      :graph_aggregated_from,
+      :graph_aggregated_to
     )
   end
 end

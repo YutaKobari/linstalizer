@@ -23,7 +23,7 @@ feature "LP詳細画面" do
 
   context '遷移' do
     scenario 'LP検索画面からLP詳細画面へ正しく遷移できる' do
-      find('.nav-link-text', text: "LP検索").click
+      find('.fa-newspaper').click
       find('.sidenav-normal', text: "LP検索").click
       first('tbody tr').click
       within_window(windows.last) do
@@ -99,26 +99,24 @@ feature "LP詳細画面" do
       end
     end
 
-    context 'メディア絞り込みを行う' do
+    context 'SNS絞り込みを行う' do
       background do
         lp = LandingPage.find(1)
         FactoryBot.create(:post, media: 'LINE', text: "post_in_line", url_hash: lp.url_hash)
-        FactoryBot.create(:post, media: 'Twitter', text: "post_in_twitter", url_hash: lp.url_hash)
-        FactoryBot.create(:post, media: 'Facebook', text: "post_in_facebook", url_hash: lp.url_hash)
         visit landing_page_path(id: 1)
         find('span', text: "絞り込みフォーム").click
       end
 
-      scenario '全メディアを指定する' do
-        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 5
-        select '全メディア', from: 'SNS'
+      scenario '全SNSを指定する' do
+        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 3
+        select '全SNS', from: 'SNS'
         click_on '絞り込み'
 
-        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 5
+        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 3
       end
 
       scenario 'LINEを指定する' do
-        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 5
+        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 3
         select 'LINE', from: 'SNS'
         click_on '絞り込み'
 
@@ -128,7 +126,7 @@ feature "LP詳細画面" do
       end
 
       scenario 'Instagramを指定する' do
-        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 5
+        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 3
         select 'Instagram', from: 'SNS'
         click_on '絞り込み'
 
@@ -137,23 +135,6 @@ feature "LP詳細画面" do
         expect(find('#lp_posts_table > tbody')).to have_content('second_post')
       end
 
-      scenario 'Twitterを指定する' do
-        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 5
-        select 'Twitter', from: 'SNS'
-        click_on '絞り込み'
-
-        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 1
-        expect(find('#lp_posts_table > tbody')).to have_content('post_in_twitter')
-      end
-
-      scenario 'Facebookを指定する' do
-        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 5
-        select 'Facebook', from: 'SNS'
-        click_on '絞り込み'
-
-        expect(find('#lp_posts_table > tbody').all('tr').length).to eq 1
-        expect(find('#lp_posts_table > tbody')).to have_content('post_in_facebook')
-      end
     end
 
     context '投稿日時絞込みを行う' do

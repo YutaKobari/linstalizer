@@ -1,0 +1,33 @@
+<%= javascript_pack_tag 'datepicker_customize' %>
+
+<div class="card-header">
+  <h5 class="h3 mb-0"><%= graph_title %></h5>
+  <%= form_with  url: controller == "account" ? account_path : brand_path, method: :get, class:"container-fluid clearfix" do |form| %>
+    <div class="form-group row mx-0 d-flex align-items-center justify-content-start">
+      <%= form.label :aggregation_period, "集計期間", class: "col-auto pr-2 filter_form_labels" %>
+      <div class="col-auto", style="border: none;">
+        <div>
+          <button id="graph_all_periods_aggregation" class="btn btn-secondary btn-sm" type="button">全期間</button>
+          <button id="graph_last_month_aggregation" class="btn btn-secondary btn-sm" type="button">先月</button>
+          <button id="graph_this_month_aggregation" class="btn btn-secondary btn-sm" type="button">今月</button>
+          <button id="graph_thirty_days_aggregation" class="btn btn-secondary btn-sm" type="button">30日間</button>
+          <button id="graph_last_week_aggregation" class="btn btn-secondary btn-sm" type="button">先週</button>
+          <button id="graph_one_week_aggregation" class="btn btn-secondary btn-sm" type="button">1週間</button>
+          <button id="graph_this_week_aggregation" class="btn btn-secondary btn-sm" type="button">今週</button>
+        </div>
+      </div>
+    </div>
+    <div class="input-daterange datepicker row align-items-center justify-content-evenly form-group">
+      <div class="col-3">
+        <%= form.text_field :graph_aggregated_from, placeholder: l(29.days.ago.to_date),  class: "form-control form-control-sm filter_form_values", value: params[:graph_aggregated_from] %>
+      </div>
+      <div class="col-auto"> ～ </div>
+      <div class="col-3">
+        <%= form.text_field :graph_aggregated_to, placeholder: l(Date.today),  class: "form-control form-control-sm filter_form_values", value: params[:graph_aggregated_to] %>
+      </div>
+    </div>
+    <div class="text-right">
+      <%= form.submit "絞り込み", class: "btn btn-primary btn-filter-form", name: nil %>
+    </div>
+  <% end %>
+</div>

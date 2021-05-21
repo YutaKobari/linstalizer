@@ -25,7 +25,7 @@ feature '投稿詳細画面' do
       FactoryBot.create(:talk_post)
     end
 
-    scenario 'メディアをクリックするとメディアで絞り込んだアカウント一覧表示に遷移' do
+    scenario 'SNSをクリックするとSNSで絞り込んだアカウント一覧表示に遷移' do
       visit talk_post_path(1)
       sleep 2
       find('.breadcrumb-item', text: "LINE").click

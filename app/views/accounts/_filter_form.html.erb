@@ -11,8 +11,8 @@
               <div class="col pl-0">
                 <%= render "filter_elements/account", form: form%>
                 <%= render "filter_elements/market", form: form, market_list: fetch_market_list %>
-                <%= render "filter_elements/media",   form: form, media_list: %w(LINE Instagram Twitter Facebook) %>
-                <%= render "filter_elements/sort",    form: form, sort_list: {投稿数: 'post_increment', 反応数: 'total_reaction_increment', フォロワー増加数: 'follower_increment', フォロワー増加率: 'follower_increment_rate', 最新投稿日: 'max_posted_at' } %>
+                <%= render "filter_elements/media",   form: form, media_list: %w(LINE Instagram) %>
+                <%= render "filter_elements/sort",    form: form, sort_list: sort_list_hash_for_accounts %>
               </div>
               <div class="col pl-0">
                 <%= render "filter_elements/aggregation_period", form: form %>

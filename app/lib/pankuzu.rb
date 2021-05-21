@@ -8,7 +8,7 @@ module Pankuzu
     when "AccountsController"
       case self.action_name
       when "index"
-        media = params[:media] || '全メディア'
+        media = params[:media] || '全SNS'
         [
           {
             text: "アカウント検索",
@@ -48,7 +48,7 @@ module Pankuzu
             href: accounts_path
           },
           {
-            text: "全メディア",
+            text: "全SNS",
             href: accounts_path
           },
           {
@@ -61,7 +61,7 @@ module Pankuzu
     when "PostsController"
       case self.action_name
       when "index"
-        media = params[:media] || '全メディア'
+        media = params[:media] || '全SNS'
         [
           {
             text: "投稿検索",

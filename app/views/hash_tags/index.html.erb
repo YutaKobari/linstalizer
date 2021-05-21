@@ -1,8 +1,12 @@
 <%= render "filter_form" %>
-<p class="text-right mr-4">集計期間：<%= @aggregated_from %>&nbsp;&nbsp;〜&nbsp;&nbsp;<%= @aggregated_to %></p>
+<div class="mb-3 d-flex align-items-end justify-content-between">
+  <%= link_to '表示結果をCSVダウンロード', hash_tag_csv_download_path(@search_params), class: 'btn btn-secondary csv-download' %>
+  <span>集計期間：<%= @aggregated_from %>&nbsp;&nbsp;〜&nbsp;&nbsp;<%= @aggregated_to %></span>
+</div>
+
 <div class="card">
-  <div class="table-responsive">
-    <table class="table align-items-center table-hover" style="table-layout: fixed;">
+  <div class="table-responsive table-hover">
+    <table class="table align-items-center">
       <thead style="border-radius:6px;">
         <tr>
           <th scope="col" style="width: 20%;">ハッシュタグ</th>

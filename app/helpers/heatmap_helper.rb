@@ -1,6 +1,6 @@
 module HeatmapHelper
   def post_type_icon(post_type, media)
-    "<span class='#{post_type}_icon #{media}_color' style='font-size:20px'></span>".html_safe
+    "<span class='#{post_type}_icon #{media}_color heatmap_icon' style='font-size:12px;'></span>".html_safe
   end
 
   def bg_color_by_value(sum_post_count_per_hour, max_post_count_per_hour)

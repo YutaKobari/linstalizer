@@ -1,57 +1,54 @@
-<div class="d-flex justify-content-around">
-  <div class="chart chart1">
-    <canvas id="google_trend_chart" class="chart-canvas"></canvas>
-    <% brand.brandlift_per_date(params[:brandlift_month], 2).map{|d| d[:date]}.each.with_index do |date, n|%>
-      <% 4.times do |index| %>
-        <div class="<%= "ch1-column#{n}-row#{index}"%> <%= "brandlift-row-#{index}" %>">
-        </div>
-      <% end %>
-    <% end %>
+<div class="card-body">
+  <div class="row mb-2 justify-content-around p-2">
+    <div class="col-xl-5 mb-4">
+      <%= render 'abs_rel_graph', graph_id: 'brandlift1', label_abs: '値', label_rel: '%', graph_title: 'Googleトレンド',
+        brand: brand, chart_data_abs: brand.brandlift_per_date(@brandlift_params, 2), chart_data_rel: brand.brandlift_per_date(@brandlift_params, 2, relative: true), posts_per_date: brand.posts_per_date(@brandlift_params),
+        talk_posts_per_date: brand.talk_posts_per_date(@brandlift_params), type: 'line' %>
+    </div>
+    <div class="col-xl-5 mb-4">
+      <%= render 'abs_rel_graph', graph_id: 'brandlift2', label_abs: '値', label_rel: '%', graph_title: 'Googleトレンド増減',
+        brand: brand, chart_data_abs: brand.brandlift_per_date(@brandlift_params, 2, increment: true), chart_data_rel: brand.brandlift_per_date(@brandlift_params, 2, relative: true, increment: true), posts_per_date: brand.posts_per_date(@brandlift_params),
+        talk_posts_per_date: brand.talk_posts_per_date(@brandlift_params), type: 'bar' %>
+    </div>
   </div>
 
-  <div class="chart chart2">
-    <canvas id="line_friends_chart" class="chart-canvas"></canvas>
-    <% brand.brandlift_per_date(params[:brandlift_month], 2).map{|d| d[:date]}.each.with_index do |date, n|%>
-      <% 4.times do |index| %>
-        <div class="<%= "ch2-column#{n}-row#{index}"%> <%= "brandlift-row-#{index}" %>">
-        </div>
-      <% end %>
-    <% end %>
+  <div class="row mb-2 justify-content-around p-2">
+    <div class="col-xl-5 mb-4">
+      <%= render 'abs_rel_graph', graph_id: 'brandlift3', label_abs: '人', label_rel: '%', graph_title: 'LINE 友達数',
+        brand: brand, chart_data_abs: brand.brandlift_per_date(@brandlift_params, 4), chart_data_rel: brand.brandlift_per_date(@brandlift_params, 4, relative: true), posts_per_date: brand.posts_per_date(@brandlift_params),
+        talk_posts_per_date: brand.talk_posts_per_date(@brandlift_params), type: 'line' %>
+    </div>
+    <div class="col-xl-5 mb-4">
+      <%= render 'abs_rel_graph', graph_id: 'brandlift4', label_abs: '人', label_rel: '%', graph_title: 'LINE 友達数増減',
+        brand: brand, chart_data_abs: brand.brandlift_per_date(@brandlift_params, 4, increment: true), chart_data_rel: brand.brandlift_per_date(@brandlift_params, 4, relative: true, increment: true), posts_per_date: brand.posts_per_date(@brandlift_params),
+        talk_posts_per_date: brand.talk_posts_per_date(@brandlift_params), type: 'bar' %>
+    </div>
+  </div>
+
+  <div class="row mb-2 justify-content-around p-2">
+    <div class="col-xl-5 mb-4">
+      <%= render 'abs_rel_graph', graph_id: 'brandlift5', label_abs: '件', label_rel: '%', graph_title: 'YouTube検索ヒット数',
+        brand: brand, chart_data_abs: brand.brandlift_per_date(@brandlift_params, 5), chart_data_rel: brand.brandlift_per_date(@brandlift_params, 5, relative: true), posts_per_date: brand.posts_per_date(@brandlift_params),
+        talk_posts_per_date: brand.talk_posts_per_date(@brandlift_params), type: 'line' %>
+    </div>
+    <div class="col-xl-5 mb-4">
+      <%= render 'abs_rel_graph', graph_id: 'brandlift6', label_abs: '件', label_rel: '%', graph_title: 'YouTube 検索ヒット数増減',
+        brand: brand, chart_data_abs: brand.brandlift_per_date(@brandlift_params, 5, increment: true), chart_data_rel: brand.brandlift_per_date(@brandlift_params, 5, relative: true, increment: true), posts_per_date: brand.posts_per_date(@brandlift_params),
+        talk_posts_per_date: brand.talk_posts_per_date(@brandlift_params), type: 'bar' %>
+    </div>
+  </div>
+
+  <div class="row mb-2 justify-content-around p-2">
+    <div class="col-xl-5 mb-4">
+      <%= render 'abs_rel_graph', graph_id: 'brandlift7', label_abs: '人', label_rel: '%', graph_title: 'Instagramフォロワー数',
+        brand: brand, chart_data_abs: brand.brandlift_per_date(@brandlift_params, 6), chart_data_rel: brand.brandlift_per_date(@brandlift_params, 6, relative: true), posts_per_date: brand.posts_per_date(@brandlift_params),
+        talk_posts_per_date: brand.talk_posts_per_date(@brandlift_params), type: 'line' %>
+    </div>
+    <div class="col-xl-5 mb-4">
+      <%= render 'abs_rel_graph', graph_id: 'brandlift8', label_abs: '人', label_rel: '%', graph_title: 'Instagramフォロワー数増減',
+        brand: brand, chart_data_abs: brand.brandlift_per_date(@brandlift_params, 6, increment: true), chart_data_rel: brand.brandlift_per_date(@brandlift_params, 6, relative: true, increment: true), posts_per_date: brand.posts_per_date(@brandlift_params),
+        talk_posts_per_date: brand.talk_posts_per_date(@brandlift_params), type: 'bar' %>
+    </div>
   </div>
 </div>
-
-<div class="d-flex justify-content-around">
-  <div class="chart chart3">
-    <canvas id="youtube_hits_chart" class="chart-canvas"></canvas>
-    <% brand.brandlift_per_date(params[:brandlift_month], 2).map{|d| d[:date]}.each.with_index do |date, n|%>
-      <% 4.times do |index| %>
-        <div class="<%= "ch3-column#{n}-row#{index}"%> <%= "brandlift-row-#{index}" %>">
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-
-  <div class="chart chart4">
-    <canvas id="insta_followers_chart" class="chart-canvas"></canvas>
-    <% brand.brandlift_per_date(params[:brandlift_month], 2).map{|d| d[:date]}.each.with_index do |date, n|%>
-      <% 4.times do |index| %>
-        <div class="<%= "ch4-column#{n}-row#{index}"%> <%= "brandlift-row-#{index}" %>">
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-</div>
-
-<%# グラフのデータ %>
-<div id="google_trend_data"    data-google_trend_data=   "<%= brand.brandlift_per_date(params[:brandlift_month], 2).to_json %>"></div>
-<div id="line_friends_data"    data-line_friends_data=   "<%= brand.brandlift_per_date(params[:brandlift_month], 4).to_json %>"></div>
-<div id="youtube_hits_data"    data-youtube_hits_data=   "<%= brand.brandlift_per_date(params[:brandlift_month], 5).to_json %>"></div>
-<div id="insta_followers_data" data-insta_followers_data="<%= brand.brandlift_per_date(params[:brandlift_month], 6).to_json %>"></div>
-<%# 投稿のデータ %>
-<div id="posts_data"      data-posts_per_date="<%= brand.posts_per_date(params[:brandlift_month]) %>"></div>
-<div id="talk_posts_data" data-talk_posts_per_date="<%= brand.talk_posts_per_date(params[:brandlift_month]) %>"></div>
-<%# グラフ下のアイコンをクリックした時の遷移先リンクの情報 %>
-<div id="media_links"     data-media_links="<%= media_links(brand).to_json %>"></div>
-<%# [{:media=>"LINE", :path=>"/accounts/11"}, {:media=>"Instagram", :path=>"/accounts/46"}, nil, nil] %>
-
 <%= javascript_pack_tag 'brands/brandlift_graph' %>

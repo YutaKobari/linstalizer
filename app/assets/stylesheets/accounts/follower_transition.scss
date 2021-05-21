@@ -1,10 +1,10 @@
 .follower_transition_icon {
   position: absolute;
-  top: 300px;
+  top: 335px;
   border-radius: 50%;
   text-align: center;
-  min-width: 20px;
-  min-height: 20px;
+  min-width: 12px;
+  min-height: 15px;
   white-space: nowrap;
 }
 
@@ -13,5 +13,11 @@
   display: block;
   height:100%;
   width: 100%;
-  line-height: 20px;
+  line-height: 15px;
+}
+
+.follower-transition-icon-label{
+    font-size: 14px;
+    top: 305px;
+    position: absolute;
 }

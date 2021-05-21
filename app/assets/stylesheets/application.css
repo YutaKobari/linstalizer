@@ -29,7 +29,7 @@
     padding-left: 1rem;
 }
 
-  /* メディア毎の色を設定 */
+  /* SNS毎の色を設定 */
   .LINE_btn {
     background-color: #2dce89 !important;
     color: white !important;
@@ -81,7 +81,7 @@
   }
 
   /* 投稿タイプ毎のアイコンを設定 */
-  /* 通常投稿系 */
+  /* タイムライン投稿系 */
   .normal_post_icon::before {
     content: "\f15c";
     font-family: 'Font Awesome 5 Free';
@@ -140,6 +140,9 @@
     margin-right: 5px;
     color:#666666;
   }
+  .heatmap_icon::before {
+    margin-right: 0px !important;
+  }
 
   /* LINEトーク背景 */
   .bg-talk {
@@ -153,6 +156,14 @@
     font-weight: 900;
     margin-right: 5px;
     color:#666666;
+  }
+
+  /* CSVダウンロードアイコン */
+  .csv-download::before {
+      content: "\f019";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      margin-right: 5px;
   }
 
 /* 絞り込みフォームのクラス */
@@ -186,14 +197,23 @@
   font-size: 0.9rem !important;
 }
 
-.sns_labels {
-  text-align: right;
-  font-size: 1.2rem !important;
+.heatmap-sns-labels {
+  font-size: .75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  width: 80px;
+  display: inline-block;
+  text-align: center;
+
+  padding: .25rem .5rem;
+
+  border-radius: .25rem;
 }
 
 .btn-sns-form {
-  width: 140px;
-  margin: 0 15px;
+  width: 150px;
+  padding: 7px 20px;
+  margin: 10px 15px;
 }
 
 .form-group {
@@ -218,4 +238,90 @@
 .disable_a{
   cursor: not-allowed;
   pointer-events: none;
+}
+
+/* LINEアウトラインのボタン ブランドヒートマップ用*/
+.btn-outline-LINE
+{
+    color: #2dce89;
+    border-color: #2dce89;
+    background-color: transparent;
+    background-image: none;
+}
+.btn-outline-LINE:hover
+{
+    color: #fff;
+    border-color: #2dce89;
+    background-color: #2dce89;
+}
+.btn-outline-LINE:focus,
+.btn-outline-LINE.focus
+{
+    box-shadow: 0 0 0 0 rgba(78, 185, 132, 0.5);
+}
+.btn-outline-LINE.disabled,
+.btn-outline-LINE:disabled
+{
+    color: #2dce89;
+    background-color: transparent;
+}
+.btn-outline-LINE:not(:disabled):not(.disabled):active,
+.btn-outline-LINE:not(:disabled):not(.disabled).active,
+.show > .btn-outline-LINE.dropdown-toggle
+{
+    color: #fff;
+    border-color: #2dce89;
+    background-color: #2dce89;
+}
+.btn-outline-LINE:not(:disabled):not(.disabled):active:focus,
+.btn-outline-LINE:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-LINE.dropdown-toggle:focus
+{
+    box-shadow: 0 0 0 0 rgba(78, 185, 132, 0.5);
+}
+
+/* Instagramアウトラインのボタン ブランドヒートマップ用*/
+.btn-outline-Instagram
+{
+    color: #fb6340;
+    border-color: #fb6340;
+    background-color: transparent;
+    background-image: none;
+}
+.btn-outline-Instagram:hover
+{
+    color: #fff;
+    border-color: #fb6340;
+    background-color: #fb6340;
+}
+.btn-outline-Instagram:focus,
+.btn-outline-Instagram.focus
+{
+    box-shadow: 0 0 0 0 rgba(78, 185, 132, 0.5);
+}
+.btn-outline-Instagram.disabled,
+.btn-outline-Instagram:disabled
+{
+    color: #fb6340;
+    background-color: transparent;
+}
+.btn-outline-Instagram:not(:disabled):not(.disabled):active,
+.btn-outline-Instagram:not(:disabled):not(.disabled).active,
+.show > .btn-outline-Instagram.dropdown-toggle
+{
+    color: #fff;
+    border-color: #fb6340;
+    background-color: #fb6340;
+}
+.btn-outline-Instagram:not(:disabled):not(.disabled):active:focus,
+.btn-outline-Instagram:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-Instagram.dropdown-toggle:focus
+{
+    box-shadow: 0 0 0 0 rgba(78, 185, 132, 0.5);
+}
+
+/* argonのチェックボックスのチェックマークがつかないバグに対応する指定 */
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after
+{
+    background-image: url('data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'8\' height=\'8\' viewBox=\'0 0 8 8\'%3e%3cpath fill=\'%23fff\' d=\'M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z\'/%3e%3c/svg%3e');
 }

@@ -4,9 +4,9 @@ class PostForm
 
   # TODO: mediaに応じて選択可能なpost_typeが決まる。2つの組み合わせでのバリデーションもかけられると尚良い。
   validates_inclusion_of :market_id, in: Market.pluck(:id), allow_blank: true
-  validates_inclusion_of :media, in: %w[LINE Instagram Twitter Facebook], allow_blank: true
-  validates_inclusion_of :post_type, in: %w[feed reel story tweet retweet normal_post], allow_blank: true
-  validates_inclusion_of :sort, in: %w[like retweet posted_at], allow_blank: true
+  validates_inclusion_of :media, in: %w[LINE Instagram], allow_blank: true
+  validates_inclusion_of :post_type, in: %w[feed reel story normal_post], allow_blank: true
+  validates_inclusion_of :sort, in: %w[like posted_at], allow_blank: true
 
   attribute :search_text, :string
   attribute :search_account, :string
@@ -17,6 +17,8 @@ class PostForm
   attribute :post_type, :string
   attribute :start_date, :date
   attribute :end_date, :date
+  attribute :hour_start, :integer
+  attribute :hour_end, :integer
   attribute :sort, :string
   attribute :is_favorite, :boolean
 
@@ -35,6 +37,7 @@ class PostForm
       .where_is_favorite(is_favorite)
       .where_media(media)
       .between_posted_at(start_date, end_date)
+      .between_posted_hour(hour_start, hour_end)
       .where_post_type(post_type)
       .order_by(sort)
   end
@@ -64,6 +67,7 @@ class PostForm
          .fulltext_search_by_url(search_url)
          .where_media(media)
          .between_posted_at(start_date, end_date)
+         .between_posted_hour(hour_start, hour_end)
          .where_post_type(post_type)
          .order_by(sort)
   end
@@ -79,6 +83,7 @@ class PostForm
            .search_by_hash_tag(search_hash_tag)
            .fulltext_search_by_url(search_url)
            .between_posted_at(start_date, end_date)
+           .between_posted_hour(hour_start, hour_end)
            .where_post_type(post_type)
            .order_by(sort)
   end

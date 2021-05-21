@@ -21,15 +21,15 @@ feature "アカウント検索画面" do
 
   scenario "titleタグがパンくずのテキストになっている" do
     click_on "アカウント検索"
-    find('.sidenav-normal', text: '全メディア').click
-    expect(page).to have_title 'アカウント検索 | 全メディア | SNSクロール'
+    find('.sidenav-normal', text: '全SNS').click
+    expect(page).to have_title 'アカウント検索 | 全SNS | SNSクロール'
   end
 
   context 'パンくずリスト' do
-    scenario '全メディアで検索' do
+    scenario '全SNSで検索' do
       click_on "アカウント検索"
-      find('.sidenav-normal', text: '全メディア').click
-      expect(page).to have_selector(".breadcrumb-item", text: '全メディア')
+      find('.sidenav-normal', text: '全SNS').click
+      expect(page).to have_selector(".breadcrumb-item", text: '全SNS')
     end
 
     scenario 'LINEで検索' do
@@ -44,17 +44,6 @@ feature "アカウント検索画面" do
       expect(page).to have_selector(".breadcrumb-item", text: 'Instagram')
     end
 
-    scenario 'Twitterで検索' do
-      click_on "アカウント検索"
-      find('.sidenav-normal', text: 'Twitter').click
-      expect(page).to have_selector(".breadcrumb-item", text: 'Twitter')
-    end
-
-    scenario 'Facebookで検索' do
-      click_on "アカウント検索"
-      find('.sidenav-normal', text: 'Facebook').click
-      expect(page).to have_selector(".breadcrumb-item", text: 'Facebook')
-    end
   end
 
   scenario "条件を何も指定しないと全てのレコードが返ってくる" do
@@ -62,7 +51,7 @@ feature "アカウント検索画面" do
     9.times { FactoryBot.create(:daily_account_engagement, :nth_daily_account_engagement) } # account_id: 2 〜 10
     expect(Account.all.size).to eq 10
     click_on "アカウント検索"
-    find('.sidenav-normal', text: '全メディア').click
+    find('.sidenav-normal', text: '全SNS').click
     expect(all(:css, 'tbody > tr').size).to eq(10)
   end
 
@@ -75,9 +64,11 @@ feature "アカウント検索画面" do
       account2 = FactoryBot.create(:account, name: "アカウント2", brand_id: 3) # id: 2
       account3 = FactoryBot.create(:account, name: "アカウント3", brand_id: 4) # id: 3
       FactoryBot.create(:daily_account_engagement, account_id: account2.id)
+      FactoryBot.create(:daily_account_engagement, date: '2021/2/04'.to_date, account_id: account2.id, follower: 0)
       FactoryBot.create(:daily_account_engagement, account_id: account3.id, follower: 999)
+      FactoryBot.create(:daily_account_engagement, date: '2021/2/04'.to_date, account_id: account3.id, follower: 0)
       click_on "アカウント検索"
-      find('.sidenav-normal', text: '全メディア').click
+      find('.sidenav-normal', text: '全SNS').click
     end
     scenario "nameに検索ワードがマッチするアカウントが表示される" do
       expect(all(:css, 'tbody > tr').size).to eq(3)
@@ -145,17 +136,17 @@ feature "アカウント検索画面" do
     end
   end
 
-  context "メディアで検索" do
+  context "SNSで検索" do
     background do
-      FactoryBot.create(:account, media: "line", name: 'ラインアカウント') # id: 2
+      FactoryBot.create(:account, media: "LINE", name: 'ラインアカウント') # id: 2
       FactoryBot.create(:daily_account_engagement, account_id: 2)
-      FactoryBot.create(:account, media: "twitter", name: 'ツイッターアカウント') # id: 3
+      FactoryBot.create(:account, media: "Instagram", name: 'インスタアカウント') # id: 3
       FactoryBot.create(:daily_account_engagement, account_id: 3)
     end
 
-    scenario "メディアが一致するアカウントが表示される" do
+    scenario "SNSが一致するアカウントが表示される" do
       click_on "アカウント検索"
-      find('.sidenav-normal', text: '全メディア').click
+      find('.sidenav-normal', text: '全SNS').click
       expect(all(:css, 'tbody > tr').size).to eq(3)
       find('span', text: "絞り込みフォーム").click
       select 'LINE', from: "media"
@@ -164,16 +155,16 @@ feature "アカウント検索画面" do
       expect(all(:css, 'tbody > tr')[0]).to have_content 'ラインアカウント'
     end
 
-    scenario "サイドバーで予めメディアを指定することができる" do
+    scenario "サイドバーで予めSNSを指定することができる" do
       click_on "アカウント検索"
-      find('.sidenav-normal', text: '全メディア').click
+      find('.sidenav-normal', text: '全SNS').click
       expect(all(:css, 'tbody > tr').size).to eq(3)
-      find('.nav-link-text', text: 'アカウント検索').click
-      click_on "Twitter"
+      find('.fa-user-circle').click
+      click_on "LINE"
       find('span', text: "絞り込みフォーム").click
-      expect(page).to have_field 'SNS', with: 'Twitter'
+      expect(page).to have_field 'SNS', with: 'LINE'
       expect(all(:css, 'tbody > tr').size).to eq(1)
-      expect(all(:css, 'tbody > tr')[0]).to have_content 'ツイッターアカウント'
+      expect(all(:css, 'tbody > tr')[0]).to have_content 'ラインアカウント'
     end
   end
 
@@ -185,47 +176,63 @@ feature "アカウント検索画面" do
       FactoryBot.create(:daily_account_engagement, account_id: 1, date: '2021/2/11'.to_date, follower: 1100, post_count: 52, total_reaction: 3500)
       # account_id: 1, date: 2021/2/12, follower: 1800,  post_count: 60,  total_reaction: 4000
       FactoryBot.create(:daily_account_engagement, account_id: 1, date: '2021/2/12'.to_date, follower: 1800, post_count: 60, total_reaction: 4000)
-      # account_id: 1, date: 今日,      follower: 10000, post_count: 300, total_reaction: 28000
+      # account_id: 1, date: 昨日,      follower: 10000, post_count: 300, total_reaction: 28000
       FactoryBot.create(:daily_account_engagement, account_id: 1, date: Date.today, follower: 10000, post_count: 300, total_reaction: 28000)
+      FactoryBot.create(:daily_account_engagement, account_id: 1, date: Date.today - 6.days, follower: 9111, post_count: 233, total_reaction: 18000)
       click_on "アカウント検索"
-      find('.sidenav-normal', text: '全メディア').click
+      find('.sidenav-normal', text: '全SNS').click
     end
 
-    scenario '全期間をクリックすると2021/02/01から今日の日付がセットされる' do
+    scenario '全期間をクリックすると2020/01/01から今日の日付がセットされる' do
       find('span', text: "絞り込みフォーム").click
-      find('#all_periods_aggregation').click
-      expect(find('#aggregated_from').value).to eq '2021/02/01'
-      expect(find('#aggregated_to').value).to eq I18n.l((Time.now).to_date)
+      find('#account_index_all_periods_aggregation').click
+      expect(find('#aggregated_from').value).to eq '2000/01/01'
+      expect(find('#aggregated_to').value).to eq I18n.l((Date.today).to_date)
     end
 
-    scenario "1週間をクリックすると今日から1週間の日付がセットされる" do
+    scenario "1週間をクリックすると今日までの1週間の日付がセットされる" do
       find('span', text: "絞り込みフォーム").click
       find('#one_week_aggregation').click
-      expect(find('#aggregated_from').value).to eq I18n.l((Time.now - 6.day).to_date)
-      expect(find('#aggregated_to').value).to eq I18n.l((Time.now).to_date)
+      expect(find('#aggregated_from').value).to eq I18n.l((Date.today - 6.day).to_date)
+      expect(find('#aggregated_to').value).to eq I18n.l((Date.today).to_date)
     end
 
-    scenario "集計期間を指定しないと最新のエンゲージメント値が返ってくる" do
+    scenario "集計期間はデフォルトで1週間となる" do
       expect(all(:css, 'tbody > tr').size).to eq(1)
       find('span', text: "絞り込みフォーム").click
       click_on "絞り込み"
       expect(all(:css, 'tbody > tr').size).to eq(1)
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '300') #投稿数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(9)', text: '28,000') #反応数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(10)', text: '10,000') #フォロワー増加数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(11)', text: '-') #フォロワー増加率
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(6)', text: '67') #投稿数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '10,000') #反応数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '55.5556%') #反応数増加率
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '889') #フォロワー増加数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '9.7574%') #フォロワー増加率
     end
-    scenario "集計終了日のみ指定すると指定日時点のエンゲージメント値が返ってくる" do
+    scenario "集計期間を全期間にすると今日のエンゲージメント値が返ってくる" do
       expect(all(:css, 'tbody > tr').size).to eq(1)
       find('span', text: "絞り込みフォーム").click
+      find('#account_index_all_periods_aggregation').click
+      click_on "絞り込み"
+      expect(all(:css, 'tbody > tr').size).to eq(1)
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(6)', text: '300') #投稿数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '28,000') #反応数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '-') #反応数増加率
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '10,000') #フォロワー増加数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '-') #フォロワー増加率
+    end
+    scenario "全期間指定後、集計終了日を指定すると指定日時点のエンゲージメント値が返ってくる" do
+      expect(all(:css, 'tbody > tr').size).to eq(1)
+      find('span', text: "絞り込みフォーム").click
+      find('#account_index_all_periods_aggregation').click
       fill_in  "aggregated_to", with: '2021/02/12'
       find('label', text: "集計期間").click #カレンダーを消すために空クリック
       click_on "絞り込み"
       expect(all(:css, 'tbody > tr').size).to eq(1)
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '60') #投稿数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(9)', text: '4,000') #反応数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(10)', text: '1,800') #フォロワー増加数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(11)', text: '-') #フォロワー増加率
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(6)', text: '60') #投稿数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '4,000') #反応数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '-') #反応数増加率
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '1,800') #フォロワー増加数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '-') #フォロワー増加率
     end
     scenario "集計開始日のみ指定すると指定日と最新取得日（今日or昨日）の差が返ってくる" do
       expect(all(:css, 'tbody > tr').size).to eq(1)
@@ -233,10 +240,11 @@ feature "アカウント検索画面" do
       fill_in "aggregated_from", with: '2021/02/11'
       click_on "絞り込み"
       expect(all(:css, 'tbody > tr').size).to eq(1)
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '248')       # 300 - 52 #投稿数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(9)', text: '24,500')     # 28000 - 3500 #反応数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(10)', text: '8,900')      # 10000 - 1100 #フォロワー増加数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(11)', text: '809.0909%') # 8900 / 1100 * 100  #フォロワー増加率
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(6)', text: '248')       # 300 - 52 #投稿数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '24,500')    # 28000 - 3500 #反応数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '700.0%')      # 24500 / 3500 * 100 #反応数増加率
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '8,900')     # 10000 - 1100 #フォロワー増加数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '809.0909%') # 8900 / 1100 * 100  #フォロワー増加率
     end
     scenario "集計期間を指定すると開始日と終了日の差が返ってくる" do
       expect(all(:css, 'tbody > tr').size).to eq(1)
@@ -246,10 +254,11 @@ feature "アカウント検索画面" do
       find('label', text: "集計期間").click #カレンダーを消すために空クリック
       click_on "絞り込み"
       expect(all(:css, 'tbody > tr').size).to eq(1)
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '10')    # 60 - 50  #投稿数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(9)', text: '1,000')  # 4000 - 3000 #反応数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(10)', text: '800')   # 1800 - 1000  #フォロワー増加数
-      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(11)', text: '80.0%') # 800 / 1000 * 100  #フォロワー増加率
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(6)', text: '10')       # 60 - 50  #投稿数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '1,000')    # 4000 - 3000 #反応数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(7)', text: '33.3333%') # 1000 / 3000 * 100 #反応数増加率
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '800')      # 1800 - 1000  #フォロワー増加数
+      expect(first(:css, 'tbody > tr')).to have_selector('td:nth-child(8)', text: '80.0%')    # 800 / 1000 * 100  #フォロワー増加率
     end
   end
 
@@ -259,22 +268,28 @@ feature "アカウント検索画面" do
       # ↑最上部backgroundで定義
       # account_id: 1, date: 2021/2/11, follower: 1100, post_count: 60, total_reaction: 4500
       FactoryBot.create(:daily_account_engagement, date: '2021/2/11'.to_date, follower: 1100, post_count: 60, total_reaction: 4500)
+      # 直近1週間前のデータ想定 account_id: 1, date: 2021/2/05, follower: 0, post_count: 0, total_reaction: 0
+      FactoryBot.create(:daily_account_engagement, date: '2021/2/05'.to_date, follower: 0, post_count: 0, total_reaction: 0)
       @account2 = FactoryBot.create(:account, name: 'アカウント2', max_posted_at: '2021/2/28'.to_date) do |account|
         # account_id: 2, date: 2021/2/10, follower: 1200, post_count: 5,   total_reaction: 1800
         FactoryBot.create(:daily_account_engagement, account_id: account.id, follower: 1200, post_count: 5, total_reaction: 1800)
-        # account_id: 2, date: 2021/2/10, follower: 1400, post_count: 100, total_reaction: 9000
+        # account_id: 2, date: 2021/2/10, follower: 1400, post_count: 100, total_reaction: 2000
         FactoryBot.create(:daily_account_engagement, account_id: account.id, date: '2021/2/11'.to_date, follower: 1310, post_count: 100, total_reaction: 2000)
+        # 直近1週間前のデータ想定 account_id: 2, date: 2021/2/05, follower: 0, post_count: 0, total_reaction: 0
+        FactoryBot.create(:daily_account_engagement, account_id: account.id, date: '2021/2/05'.to_date, follower: 0, post_count: 0, total_reaction: 0)
       end
       @account3 = FactoryBot.create(:account, name: 'アカウント3', max_posted_at: '2021/2/5'.to_date) do |account|
-        # account_id: 3, date: 2021/2/10, follower: 10,   post_count: 250, total_reaction: 70
+        # account_id: 3, date: 2021/2/10, follower: 10,   post_count: 250, total_reaction: 700
         FactoryBot.create(:daily_account_engagement, account_id: account.id, follower: 10, post_count: 250, total_reaction: 700)
-        # account_id: 3, date: 2021/2/11, follower: 1000, post_count: 300, total_reaction: 75
+        # account_id: 3, date: 2021/2/11, follower: 1000, post_count: 300, total_reaction: 2100
         FactoryBot.create(:daily_account_engagement, account_id: account.id, date: '2021/2/11'.to_date, follower: 1000, post_count: 300, total_reaction: 2100)
+        # 直近1週間前のデータ想定 account_id: 3, date: 2021/2/05, follower: 0, post_count: 0, total_reaction: 0
+        FactoryBot.create(:daily_account_engagement, account_id: account.id, date: '2021/2/05'.to_date, follower: 0, post_count: 0, total_reaction: 0)
       end
       click_on "アカウント検索"
-      find('.sidenav-normal', text: '全メディア').click
+      find('.sidenav-normal', text: '全SNS').click
       expect(all(:css, 'tbody > tr').size).to eq(3)
-      # ↓デフォルトは最新のフォロワー数が多い順
+      # ↓デフォルトは直近1週間のフォロワー増加数が多い順
       expect(first(:css, 'tbody > tr')).to  have_content 'アカウント2'
       expect(all(:css, 'tbody > tr')[1]).to have_content 'アカウント1'
       expect(all(:css, 'tbody > tr')[2]).to have_content 'アカウント3'
@@ -328,6 +343,17 @@ feature "アカウント検索画面" do
       end
     end
 
+    context "反応数増加率で並び替え" do
+      scenario "集計期間での反応数増加率が多い順に表示される" do
+        select '反応数増加率', from: "sort"
+        click_on "絞り込み"
+        expect(all(:css, 'tbody > tr').size).to eq(3)
+        expect(first(:css, 'tbody > tr')).to  have_content 'アカウント3'
+        expect(all(:css, 'tbody > tr')[1]).to have_content 'アカウント1'
+        expect(all(:css, 'tbody > tr')[2]).to have_content 'アカウント2'
+      end
+    end
+
     context "最新投稿日で並び替え" do
       scenario "最新投稿日が若い順に表示される" do
         select '最新投稿日', from: "sort"
@@ -342,7 +368,7 @@ feature "アカウント検索画面" do
 
   scenario "絞込みフォームに入力した項目がpost後も入力されている" do
     click_on "アカウント検索"
-    find('.sidenav-normal', text: '全メディア').click
+    find('.sidenav-normal', text: '全SNS').click
     find('span', text: "絞り込みフォーム").click
     fill_in 'search_account', with: "アカウント"
     select 'LINE', from: "media"
@@ -358,14 +384,14 @@ feature "アカウント検索画面" do
     expect(find('#aggregated_to').value).to eq '2021/02/12'
   end
 
-  context "お気に入り機能" do
-    context "お気に入り登録、削除" do
-      scenario "☆クリックでお気に入り登録/削除の切り替え" do
+  context "ピンアカ機能" do
+    context "ピンアカ登録、削除" do
+      scenario "☆クリックでピンアカ登録/削除の切り替え" do
         5.times do
           FactoryBot.create(:account)
         end
         click_on "アカウント検索"
-        find('.sidenav-normal', text: '全メディア').click
+        find('.sidenav-normal', text: '全SNS').click
         expect(all(:css, 'tbody > tr').size).to eq(6)
         expect(Favorite.all.size).to eq(0)
         first('tbody > tr > td > a .fa-star').click # 何故か'#favorite_1'とid指定すると☆がON状態の場合に見つからないというエラーが出るため、cssで指定している。
@@ -380,14 +406,14 @@ feature "アカウント検索画面" do
         expect(Favorite.all.size).to eq(1)
       end
     end
-    context "お気に入りスイッチで絞り込み" do
+    context "ピンアカスイッチで絞り込み" do
       background do
-        # どのユーザーもお気に入りに登録していないアカウントを5個作成
+        # どのユーザーもピンアカに登録していないアカウントを5個作成
         5.times do
           FactoryBot.create(:account)
         end
 
-        # user(id:2)がお気に入りに登録しているアカウントを10個作成
+        # user(id:2)がピンアカに登録しているアカウントを10個作成
         FactoryBot.create(:user, email: 'tester2@example.com')
         10.times do
           FactoryBot.create(:account) do |account|
@@ -395,18 +421,18 @@ feature "アカウント検索画面" do
           end
         end
 
-        # user(id:1)がお気に入りに登録しているアカウントを10個作成
+        # user(id:1)がピンアカに登録しているアカウントを10個作成
         20.times do
           FactoryBot.create(:account) do |account|
             FactoryBot.create(:favorite, account_id: account.id)
           end
         end
         click_on "アカウント検索"
-        find('.sidenav-normal', text: '全メディア').click
+        find('.sidenav-normal', text: '全SNS').click
         expect(all(:css, 'tbody > tr').size).to eq(36)
       end
 
-      scenario "お気に入りスイッチONでお気に入りアカウントのみ表示、OFFで解除" do
+      scenario "ピンアカスイッチONでピンアカのみ表示、OFFで解除" do
         find('span', text: "絞り込みフォーム").click
         find('label', text: "Off").click
         click_on '絞り込み'

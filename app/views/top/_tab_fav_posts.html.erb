@@ -1,0 +1,21 @@
+<div class="card mb-4">
+  <div class="table-responsive table-hover">
+    <table class="table align-items-center">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col" style="width:20%">アカウント名</th>
+          <th scope="col" style="width:10%">SNS</th>
+          <th scope="col" style="width:35%">コンテンツ</th>
+          <th scope="col" style="width:20%;">テキスト</th>
+          <th scope="col" style="width:15%">詳細情報</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'posts/post', collection: posts %>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+    <%= render 'layouts/pagination_link_in_tab', records: posts, param_name: 'posts_page' %>
+  </div>
+</div>
