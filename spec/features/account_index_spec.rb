@@ -99,7 +99,7 @@ feature "アカウント検索画面" do
 
   context "業種で検索" do
     scenario '選択した業種だけが表示' do
-      pending('ローカルでは通るがbitbucketで落ちる')
+      pending('ローカルでは通るがCIで落ちる')
       FactoryBot.create(:account) # id: 2
 
       FactoryBot.create(:account, brand_id: 2) #id = 3

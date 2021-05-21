@@ -102,7 +102,7 @@ feature 'リッチメニュー一覧画面' do
 
     context '業種検索' do
       scenario '選択した業種だけが表示' do
-        pending('ローカルでは通るがbitbucketで落ちる')
+        pending('ローカルでは通るがCIで落ちる')
         #マーケットがコスメのブランドによる投稿
         FactoryBot.create(:rich_menu)
         FactoryBot.create(:rich_menu)

@@ -151,7 +151,7 @@ feature '投稿一覧画面' do
 
     context '業種で絞り込みを行う' do
       scenario '選択した業種だけが表示' do
-        pending('ローカルでは通るがbitbucketで落ちる')
+        pending('ローカルでは通るがCIで落ちる')
         #業種がコスメのブランドによる投稿
         FactoryBot.create(:post, account_id: 1, brand_id: 1)
         FactoryBot.create(:post, account_id: 1, brand_id: 1)
@@ -426,7 +426,7 @@ feature '投稿一覧画面' do
         select "1時台", from: 'hour_end'
         click_on('絞り込み')
         expect(page).to have_content('開始時刻は終了時刻より前にしてください')
-        #FIXME 以下bitbucketで落ちる。pendingを入れてもbitbucketでerrorが出されるのでコメントアウトしている。
+        #FIXME 以下CIで落ちる。pendingを入れてもCIでerrorが出されるのでコメントアウトしている。
         # find("#modal_close").click
         # expect(page).to_not have_content('開始時刻は終了時刻より前にしてください')
         # expect(all('tbody tr').length).to eq 4

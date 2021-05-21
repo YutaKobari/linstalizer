@@ -181,7 +181,7 @@ feature "ブランド詳細画面" do
         select "1時台", from: 'hour_end'
         find("#post_form_button").click
         expect(page).to have_content('開始時刻は終了時刻より前にしてください')
-        #FIXME 以下bitbucketで落ちる。pendingを入れてもbitbucketでerrorが出されるのでコメントアウトしている。
+        #FIXME 以下CIで落ちる。pendingを入れてもCIでerrorが出されるのでコメントアウトしている。
         # find("#modal_close").click
         # expect(page).to_not have_content('開始時刻は終了時刻より前にしてください')
         # expect(all('tbody tr').length).to eq 4
