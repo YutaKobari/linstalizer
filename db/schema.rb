@@ -11,6 +11,18 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 0) do
+  create_table "access_logs", id: :integer, charset: "utf8mb4", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "env"
+    t.text     "url", limit: 65535
+    t.string   "controller"
+    t.string   "action"
+    t.text     "headers", limit: 65535
+    t.datetime "created_at", default: -> { "current_timestamp()" }
+    t.datetime "updated_at", default: -> { "current_timestamp()" }
+    t.index ["user_id"], name: "user_id", using: :btree
+    t.index ["created_at"], name: "created_at", using: :btree
+  end
 
   create_table "accounts", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.integer "brand_id", null: false
@@ -263,8 +275,11 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "contractor_id", null: false
     t.string "name", default: "", null: false
     t.string "email", default: "", null: false
+    t.boolean "is_admin", default: false, null: false
+    t.boolean "is_available", default: true, null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -275,4 +290,20 @@ ActiveRecord::Schema.define(version: 0) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "notifications", id: :integer, charset: "utf8mb4", force: :cascade do |t|
+    t.string "title", limit: 500, null: false
+    t.boolean "is_active", default: false, null: false
+    t.datetime "posted_at"
+    t.datetime "created_at", default: -> { "current_timestamp()" }, null: false
+    t.datetime "update_at", default: -> { "current_timestamp()" }
+  end
+
+  create_table "contractors", id: :integer, charset: "utf8mb4", force: :cascade do |t|
+    t.string   "name"
+    t.date     "contract_started_on"
+    t.date     "contract_finished_on"
+    t.boolean  "is_available", default: true
+    t.datetime "created_at", default: -> { "current_timestamp()" }, null: false
+    t.datetime "update_at", default: -> { "current_timestamp()" }
+  end
 end
